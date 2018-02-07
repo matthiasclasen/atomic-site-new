@@ -1,0 +1,9 @@
+- composing your own ostree
+  - from within a container?
+- installing OpenShift
+- installation/getting started guide for each media
+  - bare metal, qcow2 cloud image, AWS, Digital Ocean, etc
+- using containers + container tools
+  - buildah, docker, skopeo, atomic CLI
+- managing Atomic Hosts via Cockpit
+- using the Fedora/CentOS container registry
