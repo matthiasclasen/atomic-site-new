@@ -1,0 +1,14 @@
+anatomy of the system
+  filesytem: what is readonly, what isn't: /etc, /var, /home
+  packaging: ostree (base image), rpms (layering), flatpaks (desktop apps), containers (anything else)
+first steps: how do I...
+  - get my vpn connections back ?
+  - install app xyz ?
+  - get my browser to play youtube videos ?
+  - install gcc or gdb
+ using atomic ws for development
+   whats a 'pet' container anyway ?
+   buildah
+   walk-through example of building something
+   how to hook this up with OpenShift etc
+   buiding flatpaks with gnome-builder
