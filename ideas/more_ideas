@@ -1,14 +1,48 @@
-anatomy of the system
-  filesytem: what is readonly, what isn't: /etc, /var, /home
-  packaging: ostree (base image), rpms (layering), flatpaks (desktop apps), containers (anything else)
-first steps: how do I...
-  - get my vpn connections back ?
-  - install app xyz ?
-  - get my browser to play youtube videos ?
-  - install gcc or gdb
- using atomic ws for development
-   whats a 'pet' container anyway ?
-   buildah
-   walk-through example of building something
-   how to hook this up with OpenShift etc
-   buiding flatpaks with gnome-builder
+some ideas for the atomic workstation section
+
+* anatomy of the system
+
+  * filesytem: what is readonly, what isn't: /etc, /var, /home
+  * packaging: ostree (base image), rpms (layering), flatpaks (desktop apps), containers (anything else)
+
+* first steps: how do I...
+
+  * update my system ?
+
+  To get updates for the OS, you can run: rpm-ostree upgrade.
+  Starting with Fedora 28, gnome-software will also offer OS
+  updates on Atomic systems. Note that due to the atomic nature
+  of the OS, you will have to reboot into the new image to
+  have the updates take effect.
+ 
+  * update my applications ?
+
+  To update your flatpak applications, you can run: flatpak update.
+  gnome-software will also offer flatpak application updates.
+  Note that flatpaks are independent of the base system, so you
+  can install updates without a reboot, and just restart affected
+  applications afterwards to get the new version.
+
+  * get onto a new OS release ? Do I have to reinstall ?
+
+  No, you don't have to reinstall. You can run: rpm-ostree rebase,
+  and give it the name of the new OS (fixme: how to find that name).
+  The process is very similar to a system update: the new OS is
+  downloaded and installed in the background, and you just boot into
+  it when it is ready.
+
+  We plan to have gnome-software offer the same functionality in
+  Fedora 28 as well.
+
+  * get my vpn connections back ?
+  * install app xyz ?
+  * get my browser to play youtube videos ?
+  * install gcc or gdb
+
+* using atomic ws for development
+
+  * whats a 'pet' container anyway ?
+  * buildah
+  * walk-through example of building something
+  * how to hook this up with OpenShift etc
+  * buiding flatpaks with gnome-builder
