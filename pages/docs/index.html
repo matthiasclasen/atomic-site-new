@@ -1,0 +1,178 @@
+<!-- See structure.html for the template names used here and their position in the layout. -->
+{{define "title"}}Project Atomic{{end}}
+
+{{define "body"}}
+<article>
+<h1>Learning More</h1>
+<p>Read the <a href='/docs/introduction/'>Introduction to Project Atomic</a> for information about the goals and scope of the project.</p>
+<h2>Getting Started</h2>
+<p>The<a href="/docs/quickstart/">Quick Start Guide</a>.will help you get Atomic up and running quickly.</p>
+<p>When Atomic is up and running, read the <a href='/docs/gettingstarted/'>Getting Started Guide</a> to learn more about your new Atomic setup.</p>
+<p>
+For more information about Project Atomic's desktop version, check out our temporary documentation about <a href="/docs/fedora-atomic-workstation/">Fedora Atomic Workstation</a>.
+</p>
+<h2>More In-depth Documentation</h2>
+<div class='row'>
+<div class='col-md-4 col-sm-12'>
+<h3>Updating the Atomic Host</h3>
+<p>
+Atomic hosts are
+<a href='/docs/os-updates'>updated</a>
+using a tool called rpm-ostree. An easy way to think about
+rpm-ostree and its parent project
+<a href='https://ostree.readthedocs.io/en/latest/'>OSTree</a>
+is "git for operating systems."
+</p>
+<p>
+Using rpm-ostree we can easily update the system in one "atomic"
+transaction, and roll back to the prior system if an update has any
+issues.
+</p>
+</div>
+<div class='col-md-4 col-sm-12'>
+<h3>Managing Storage</h3>
+<p>
+To set up additional storage for /var/lib/docker see
+<a href='/docs/docker-storage-recommendation'>Setting Up Storage</a>
+and when considering alternative filesystems see
+<a href="/docs/filesystems">Supported Filesystems</a>.
+</p>
+</div>
+<div class='col-md-4 col-sm-12'>
+<h3>Atomic: /usr/bin/atomic</h3>
+<p>
+The Atomic
+<a href='/docs/usr-bin-atomic'>(/usr/bin/atomic) Documentation</a>
+explains how to use the atomic command on Atomic hosts. This command
+defines the entrypoint for Project Atomic hosts.
+</p>
+<p>
+The goal of
+<a href='https://github.com/projectatomic/atomic/'>/usr/bin/atomic</a>
+is to provide a high-level, coherent entrypoint to the system, and fill
+in gaps that are not filled by Linux container implementations.
+</p>
+</div>
+</div>
+<div class='row'>
+<div class='col-md-4 col-sm-12'>
+<h3>Containment and Security</h3>
+<p>
+Beyond the isolation provided by containers, Atomic relies on
+Security-Enhanced Linux to improve the security of the host and
+between containers, see
+<a href='/docs/docker-and-selinux'>Docker and SELinux</a>
+for details of the increased protection available.
+</p>
+</div>
+<div class='col-md-4 col-sm-12'>
+<h3>Networking</h3>
+<p>
+When an application is composed using multiple containers
+it can be a bit complex to provide for communication without
+losing flexibility. Learn about
+<a href='/docs/atomic-host-networking'>Atomic host networking</a>
+options for single and multi-host configurations.
+</p>
+</div>
+</div>
+<h2>
+<a name='contribute'></a>
+How to Contribute to the Documentation
+</h2>
+<p>
+Atomic is a work in progress, and documentation needs to follow the
+pace of the developments.
+</p>
+<p>
+To help achieve this, the documentation (as well as the whole
+web site) is available from the
+<a href='https://github.com/projectatomic/atomic-site/'>atomic-site</a>
+repository on GitHub as part of the
+<a href='https://github.com/projectatomic/'>projectatomic</a>
+framework.
+Most of the documents are simply written in the
+<a href='http://en.wikipedia.org/wiki/Markdown'>Markdown</a>
+plain text formatting syntax, they are as a result easy to edit and
+extend. To change a document, clone the atomic site and make your edits under the
+<code>sources/docs/</code>
+directory. If you add a new file please also register it in
+<code>data/docs.yml</code>
+. Then send us a pull request on GitHub or the resulting patch to the
+<a href='http://lists.projectatomic.io/mailman/listinfo/atomic-devel'>atomic-devel</a>
+mailing-list if you prefer. Thanks !
+</p>
+<p>
+The web site itself is available in the
+<a href='https://github.com/projectatomic/atomic-site/'>atomic-site</a>
+repository on GitHub, it is built using
+<a href='http://middlemanapp.com/'>Middleman</a>
+framework, see the
+<code>README.md</code>
+at the top of the git checkout for informations. It also uses
+<a href='http://haml.info/'>Haml</a>
+for more complex formatting of some pages, check the
+<a href='http://haml.info/tutorial.html'>Tutorial</a>
+to get started editing some of the haml pages.
+</p>
+
+</div>
+<div class='col-sm-3 hidden-print'>
+<h3>Documentation Index</h3>
+<nav role='navigation'>
+<ul class='docbrowser nav nav-vertical'>
+<li class='disabled'>
+<h4>First Steps</h4>
+</li>
+<li class='nav-link-introduction' role='menuitem'>
+<a href='/docs/introduction'>Introduction</a>
+</li>
+<li class='nav-link-quick-start-guide' role='menuitem'>
+<a href='/docs/quickstart'>Quick Start Guide</a>
+</li>
+<li class='nav-link-getting-started-guide' role='menuitem'>
+<a href='/docs/gettingstarted'>Getting Started Guide</a>
+</li>
+<li class='nav-link-bare-metal-installation-fedora' role='menuitem'>
+<a href='/docs/fedora_atomic_bare_metal_installation'>Bare Metal Installation (Fedora)</a>
+</li>
+<li class='disabled'>
+<h4>In Depth</h4>
+</li>
+<li class='nav-link-rpm-ostree-os-update-system' role='menuitem'>
+<a href='/docs/os-updates'>rpm-ostree OS Update System</a>
+</li>
+<li class='nav-link-setting-up-storage' role='menuitem'>
+<a href='/docs/docker-storage-recommendation'>Setting Up Storage</a>
+</li>
+<li class='nav-link-supported-filesystems' role='menuitem'>
+<a href='/docs/filesystems'>Supported Filesystems</a>
+</li>
+<li class='nav-link-building-images' role='menuitem'>
+<a href='/docs/docker-building-images'>Building Images</a>
+</li>
+<li class='nav-link-image-author-guidance' role='menuitem'>
+<a href='/docs/docker-image-author-guidance'>Image Author Guidance</a>
+</li>
+<li class='nav-link-about-selinux' role='menuitem'>
+<a href='/docs/docker-and-selinux'>About SELinux</a>
+</li>
+<li class='nav-link-managing-containers' role='menuitem'>
+<a href='/docs/kubernetes'>Managing Containers</a>
+</li>
+<li class='nav-link-atomic-host-networking' role='menuitem'>
+<a href='/docs/atomic-host-networking'>Atomic Host Networking</a>
+</li>
+<li class='disabled'>
+<h4>Contributing</h4>
+</li>
+<li class='nav-link-how-to-contribute' role='menuitem'>
+<a href='/docs/#contribute'>How to Contribute</a>
+</li>
+</ul>
+</nav>
+
+</div>
+</div>
+</article>
+{{end}}

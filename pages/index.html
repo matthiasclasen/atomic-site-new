@@ -1,16 +1,52 @@
 <!-- See structure.html for the template names used here and their position in the layout. -->
 {{define "title"}}Project Atomic{{end}}
 
-{{define "header"}}
-<img src="/public/images/atomic.png">
-
-<nav>
-
-</nav>
-
-
-{{end}}
-
 {{define "body"}}
+<article>
+  <h1>
+  Project Atomic:<br>
+  Deploy and Manage Your Containers<br>
+  in the Next Generation Container OS
+  </h1>
+  <p>Use immutable infrastructure to deploy and scale your containerized
+  applications. Project Atomic mainly comprises <strong>Atomic Host, Atomic Workstation,</strong> and various <strong>container tooling</strong>.</p>
+  <hr>
 
+<section class="boxes">
+
+<section>
+  <h2>Atomic Host</h2>
+  Atomic Host (AH) provides "immutable infrastructure" for deploying to hundreds or
+  thousands of servers in your private or public cloud. Available in <b>Fedora Atomic Host,</b><b>CentOS Atomic Host,</b> <b>and Red Hat Atomic Host</b> editions depending on your platform and support needs.</p>
+  <p>To balance the need between long-term stability and new features, we are providing different releases of Atomic Host for you to choose from.</p>
+  <p><a href='/download/'>Get Started</a></p>
+</section>
+
+<section>
+  <h2>Atomic Workstation</h2>
+  Fedora Atomic Workstation (FAW) provides "immutable infrastructure" for your desktop experience.
+</section>
+
+<section>
+  <h2>Container Tools</h2>
+  <p>Tools from our team help you create, deploy, manage, and secure containers.</p>
+  <p><a href='https://github.com/projectatomic/buildah'>Build containers with Buildah</a></p>
+  <p><a href='http://kompose.io/'>Compose applications with Kompose</a></p>
+  <p><a href='https://github.com/projectatomic/skopeo'>Pull and move images with Skopeo</a></p>
+  <p><a href='https://github.com/kubernetes-incubator/cri-o'>Deploy using Kubernetes and CRI-O</a></p>
+  <p><a href='http://cockpit-project.org/'>Manage container hosts with Cockpit</a></p>
+  <p><a href='https://github.com/projectatomic/atomic'>Install, run, and scan with Atomic CLI</a></p>
+  <p><a href='https://github.com/projectatomic/bubblewrap'>Sandbox apps with Bubblewrap</a></p>
+</section>
+
+<section>
+  <h2>Container Registries</h2>
+  <p>You can get your containerized applications from the
+  <b>CentOS Container Pipeline</b> and the <b>Fedora Layered Image Build Service</b></p>
+  <p>Trusted container content from the projects you already trust.</p>
+  <p><a href='https://fedoraproject.org/wiki/Atomic/FLIBS_Catalog'>Learn more about Fedora Layered Images</a></p>
+  <p><a href='https://wiki.centos.org/ContainerPipeline'>Learn more about CentOS Container Pipeline</a></p>
+</section>
+</section>
+</article>
 {{end}}

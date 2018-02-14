@@ -1,0 +1,66 @@
+<!-- See structure.html for the template names used here and their position in the layout. -->
+{{define "title"}}Project Atomic Download{{end}}
+
+{{define "body"}}
+<article>
+<h1>Get Started with Atomic</h1>
+<h2>Download an Atomic Host image</h2>
+<p>Atomic Host images are provided by the Fedora and the CentOS Projects.</p>
+<p></p>
+The <a href="http://wiki.centos.org/SpecialInterestGroup/Atomic">CentOS
+Atomic SIG</a> offers a rebuild of Red Hat Enterprise Linux Atomic
+Host, considered a stable target.
+The <a href="https://fedoraproject.org/wiki/Cloud_SIG">Fedora Cloud SIG</a> offers a new Fedora product Atomic Cloud Image.
+<p>
+The "QCOW2" image works on Linux KVM virtualization, for example it runs on
+<a href="http://openstack.redhat.com/">RDO</a> (OpenStack),
+<a href="http://ovirt.org">oVirt</a>,
+<a href="http://virt-manager.org/">virt-manager</a> and
+the "Boxes" virtual machine application available in
+<a href="http://fedoraproject.org/">Fedora</a> and <a href="http://centos.org/">CentOS 7</a>.
+</p>
+<p>
+Both the Fedora and CentOS Atomic Host images are also available in Vagrant format, for use with the VirtualBox and libvirt/KVM providers, as well as in AMI format for running in EC2, and as ISO images for bare-metal installations.
+</p>
+<p class='lead'></p>
+<div class='clearfix'></div>
+<p class='buttons hidden-xs'>
+<a class='btn btn-primary btn-lg' href='https://wiki.centos.org/SpecialInterestGroup/Atomic/Download/'>CentOS Atomic Host</a>
+</p>
+<p class='buttons hidden-xs'>
+<a class='btn btn-primary btn-lg' href='https://getfedora.org/atomic/download/'>Fedora Atomic Host</a>
+</p>
+<div class='clearfix'></div>
+<div class='row'>
+<div class='col-md-12 sm-12'>
+<h2>Set Up the Virtual Machine</h2>
+<p>
+Please follow the
+<a href='/docs/quickstart/'>Quick Start Guide</a>
+to create a new virtual machine with Atomic and set
+up more disk space for your containers.  This guide will set up a single host capable of running Docker containers.
+</p>
+<h2>Configure an Atomic cluster</h2>
+<p>
+Atomic hosts are either used in a standalone configuration to run Docker containers or in an orchestrated cluster to run Kubernetes pods.
+You can use the
+<a href='/docs/gettingstarted'>Getting Started Guide</a>
+to set up a cluster.  You can run a standalone configuration after completing the Quick Start guide.
+</p>
+</div>
+</div>
+<h2>
+<a name='documentation'></a>
+Documentation
+</h2>
+<p>
+Still have questions? Read an <a href="/docs/introduction">Introduction to Atomic</a> and the <a href="/docs/">documentation section</a>.
+</p>
+<h2>Done? Join the Community!</h2>
+<p>
+Time to jump to our
+<a href='/community'>community</a>
+page to share your experience, raise issues or propose improvements!
+</p>
+</article>
+{{end}}

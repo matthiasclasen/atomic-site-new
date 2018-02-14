@@ -10,9 +10,26 @@ import (
 // templateHandler assigns each URL to the corresponding template structure.
 func templateHandler(w http.ResponseWriter, r *http.Request) {
 	layout := "../templates/structure.html"
-	content := "../pages/" + r.URL.Path + ".html"
-	if r.URL.Path == "/" {
+  var content string
+
+	// TODO: don't hard code
+	switch r.URL.Path {
+	case "/":
 		content = "../pages/index.html"
+	case "/blog/":
+		content = "../pages/blog/index.html"
+	case "/community/":
+		content = "../pages/community/index.html"
+	case "/contribute/":
+		content = "../pages/contribute/index.html"
+	case "/docs/":
+		content = "../pages/docs/index.html"
+	case "/download/":
+		content = "../pages/download/index.html"
+	case "/talks/":
+		content ="../pages/talks/index.html"
+	default:
+		content = "../pages/" + r.URL.Path + ".html"
 	}
 
 	info, err := os.Stat(content)

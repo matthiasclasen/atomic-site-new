@@ -4,13 +4,39 @@
 <meta charset="utf-8">
 <meta name="description" content="{{template `title`}}" />
 <meta name="viewport" content="width=device-width, user-scalable=yes" />
+<link rel="shortcut icon" href="/public/images/favicon.ico">
+<link href="https://fonts.googleapis.com/css?family=Overpass|Overpass+Mono" rel="stylesheet">
 <link rel="stylesheet" href="/public/atomic-style.css">
 <title>{{template "title"}}</title>
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 </head>
 <body>
+<header id="baseheader">
+  <a href="/"><img alt="Project Atomic logo" src="/public/images/atomic.png"></a>
+  <nav>
+    <a href="/"><span class="fas fa-question fa-fw"></span>&nbsp;&nbsp;Project Atomic</a>
+    <a href="/download/"><span class="fas fa-download fa-fw"></span>&nbsp;&nbsp;Download</a>
+    <hr>
+    <a href="/blog/"><span class="fas fa-newspaper fa-fw"></span>&nbsp;&nbsp;Blog</a>
+    <a href="/docs/"><span class="fas fa-book fa-fw"></span>&nbsp;&nbsp;Documentation</a>
+    <a href="/talks/"><span class="fas fa-video fa-fw"></span>&nbsp;&nbsp;Talks</a>
+    <hr>
+    <a href="/community/"><span class="fas fa-users fa-fw"></span>&nbsp;&nbsp;Community</a>
+    <a href="/contribute/"><span class="fas fa-gift fa-fw"></span>&nbsp;&nbsp;Contribute</a>
+  </nav>
+</header>
 
-<header>{{template "header"}}</header>
 {{template "body" .}}
+
+<footer id="basefooter">
+<nav>
+  <a href="https://twitter.com/projectatomic"><span class="fab fa-twitter"></span> Twitter</a>
+  <a href="irc://irc.freenode.org:6667/#coreos"><span class="fas fa-comments"></span> IRC</a>
+  <a href="https://github.com/projectatomic/atomic-site"><span class="fab fa-github"></span> GitHub</a>
+  <a href="http://www.projectatomic.io/blog/feed.xml"><span class="fas fa-rss"></span> RSS</a>
+</nav>
+<p>&copy; 2014&ndash;2018 Project Atomic. Sponsored by Red Hat, Inc.<p>
+</footer>
 </body>
 </html>
 {{end}}
