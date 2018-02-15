@@ -3,9 +3,25 @@ some ideas for the atomic workstation section
 * anatomy of the system
 
   * filesytem: what is readonly, what isn't: /etc, /var, /home
+
+  TBD
+
   * packaging: ostree (base image), rpms (layering), flatpaks (desktop apps), containers (anything else)
 
+  TBD 
+
 * first steps: how do I...
+
+  * identify the right OS to boot in the bootloader ?
+
+  ostree adds a grub menu item for every commit, this includes updates installed
+  with rpm-ostree upgrade and package layering with rpm-ostree install. Updated
+  OS images generally get an incremented version number, like:
+
+  Fedora 27 (Workstation Edition) 27.72 (ostree)
+
+  Currently, layered packages are not easily identified identified in the grub
+  menu. A fix for this is being discussed.
 
   * update my system ?
 
@@ -35,9 +51,27 @@ some ideas for the atomic workstation section
   Fedora 28 as well.
 
   * get my vpn connections back ?
+
+  /etc is not part of the immutable OS image, so you can just copy
+  files into /etc/NetworkManager/system-connections (or let NetworkManager
+  store them there when you recreate your connections). Certificates
+  in /etc/pki need to be handled similarly.
+
   * install app xyz ?
+
+  gnome-software has excellent support for installing flatpaks. A convenient
+  place to find many popular desktop apps as flatpaks is flathub.org.
+
   * get my browser to play youtube videos ?
+
+  firefox is included in the Atomic Workstation image. Getting it to
+  play videos works the same way as it does for the regular Workstation:
+  find a package with the needed codecs, and install it. The one difference
+  is that you'll use rpm-ostree install instead of dnf install.
+
   * install gcc or gdb
+
+  See 'pet container'.
 
 * using atomic ws for development
 
