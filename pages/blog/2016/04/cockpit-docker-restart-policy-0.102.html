@@ -1,0 +1,94 @@
+{{define "title"}}Cockpit with Docker Restart Policy{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Cockpit with Docker Restart Policy
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/stef/">Stef Walter</a>
+</span>
+&ndash;
+<time class='published' datetime='2016-04-19T15:00:00Z'>
+Tuesday 19 April 2016
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Cockpit is the <a href="http://cockpit-project.org/">modern Linux admin interface</a>. There&rsquo;s a new release every week. Here are the highlights from this weeks 0.102 release.</p>
+
+<p></p>
+
+<h3>Docker Restart Policy</h3>
+
+<p>When running a Docker container in Cockpit, you can now set the restart policy, so when the docker daemon restarts the containers will be restarted too. Justin Robertson contributed this feature. Take a look.</p>
+
+<iframe width="853" height="480" src="https://www.youtube.com/embed/8YYHui-FQco?rel=0" frameborder="0" allowfullscreen></iframe>
+
+<h3>Single Dialog for Creating Logical Volumes</h3>
+
+<p>The storage interface in Cockpit now has a single combined dialog when creating logical volumes.
+This is a first tiny step towards advanced LVM2 features such as RAID layouts and caches. The dialog will get more fields and more interesting behavior as we implement more of the features offered by LVM2, such as the various RAID levels, as indicated by the hidden options for the <q>Purpose</q> and <q>Layout</q> fields.</p>
+
+<p><img alt="Single dialog for logical volumes" width="719" height="352" src="/images/cockpit-logical-volume-one-dialog.png?1518449858" /></p>
+
+<h3>Storage Interface Now Available on Debian</h3>
+
+<p>The storage interface in Cockpit has been enabled and built on Debian. The
+<a href="https://github.com/storaged-project/storaged/">storaged API</a> is now available on Debian too.</p>
+
+<h3>Don&rsquo;t Distribute jshint Due to License</h3>
+
+<p>We stopped distributing <a href="http://jshint.com/">jshint</a> or requiring it as a build dependency due
+to its <a href="https://github.com/jshint/jshint/issues/1234">controversial license</a>.</p>
+
+<h3>Try It Out</h3>
+
+<p>Cockpit 0.102 is available now:</p>
+
+<ul>
+<li><a href="http://cockpit-project.org/running.html">For your Linux system</a></li>
+<li><a href="https://github.com/cockpit-project/cockpit/releases/tag/0.102">Source Tarball</a></li>
+<li><a href="https://bodhi.fedoraproject.org/updates/cockpit-0.102-1.fc24">Fedora 24</a></li>
+<li><a href="https://copr.fedoraproject.org/coprs/g/cockpit/cockpit-preview/">COPR for Fedora 23, CentOS and RHEL</a></li>
+</ul>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/cockpit/">cockpit</a></li>
+<li><a href="/blog/tag/kubernetes/">kubernetes</a></li>
+<li><a href="/blog/tag/linux/">linux</a></li>
+<li><a href="/blog/tag/technical/">technical</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2016/04/cockpit-docker-restart-policy-0.102/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2016/04/cockpit-docker-restart-policy-0.102/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2016/04/cockpit-docker-restart-policy-0.102/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

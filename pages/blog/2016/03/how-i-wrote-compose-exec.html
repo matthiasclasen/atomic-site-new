@@ -1,0 +1,113 @@
+{{define "title"}}How I Wrote exec Support for docker-compose{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+How I Wrote exec Support for docker-compose
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/ttomecek/">Tomáš Tomeček</a>
+</span>
+&ndash;
+<time class='published' datetime='2016-03-29T00:00:00Z'>
+Tuesday 29 March 2016
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>If you are a <code>docker-compose</code> user, as I am, you may be missing one feature:
+<code>exec</code>&mdash;spawning arbitrary commands in already running containers.</p>
+
+<p></p>
+
+<p>Instead of doing this:</p>
+<pre class="highlight plaintext"><code>$ docker exec -ti $container bash&#x000A;</code></pre>
+
+<p>you should be able do the same with <code>docker-compose</code> itself:</p>
+<pre class="highlight plaintext"><code>$ docker-compose exec web bash&#x000A;</code></pre>
+
+<p>Usually when you wanted to do such thing, you had to:</p>
+
+<ol>
+<li>Type <code>docker exec -ti</code></li>
+<li>Now, the container name</li>
+<li><code>^c</code></li>
+<li><code>docker ps</code>, I forgot to name my container again!</li>
+<li><code>ba3f7099b709</code>, ugh</li>
+<li><code>docker exec -ti</code>, once again, copy-paste that ID, write <code>bash</code> and 30 seconds later:</li>
+</ol>
+<pre class="highlight plaintext"><code>[root@ba3f7099b709 /] # █&#x000A;</code></pre>
+
+<p>That workflow isn&rsquo;t very ideal. So I realized I wanted to implement the feature (especially when there already was <a href="https://github.com/docker/compose/issues/593">an
+issue open</a>, with tons of <code>+1</code> and not even a single promise of someone working on it).</p>
+
+<h3>Easy Start</h3>
+
+<p>In September, I cloned <code>compose</code> and started working on the code. I managed to have a working prototype very soon:</p>
+<pre class="highlight plaintext"><code>$ docker-compose exec web ls&#x000A;bin  boot  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var&#x000A;</code></pre>
+
+<h3>Time to Go Interactive</h3>
+
+<p>That&rsquo;s when all the fun started.</p>
+
+<p>Running simple, non-interactive commands is pretty trivial. Just <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.22/#exec-create">create an exec
+object</a> via engine&rsquo;s API,
+<a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.22/#exec-start">start</a> it, and collect results. Easy.</p>
+
+<p>When you want an interactive session, it&rsquo;s getting a bit more complex than a simple request/response over HTTP. That&rsquo;s when
+<a href="https://github.com/d11wtq/dockerpty">dockerpty</a> comes into the play. It is able to <em>attach</em> to the process via engine&rsquo;s
+API, send input, receive output and display it. Brief code-browsing revealed there&rsquo;s tons of work ahead:</p>
+
+<ul>
+<li>I had to <a href="https://github.com/d11wtq/dockerpty/pull/48/commits/df6ac1a49b99803c95233e51d0cd9b8f6aba9240">rewrite</a> big part of existing codebase.</li>
+<li>I had to change existing API and add a new one.</li>
+<li>Cherry on top: the tests didn&rsquo;t work and I had to <a href="https://github.com/d11wtq/dockerpty/pull/53/commits/555b525f49026271c9a291f014c3b7025b183d4a">fix</a> those.</li>
+</ul>
+
+<p>Even <code>dockerpty</code> didn&rsquo;t have all the bits to write proper <code>exec</code> support for interactive commands. I had to go deeper:
+improve python&rsquo;s API client&mdash;<code>docker-py</code>. Luckily that <a href="https://github.com/docker/docker-py/pull/858">patch</a> was pretty
+easy: just return socket directly, not a generator.</p>
+
+<p><a href="https://github.com/d11wtq/dockerpty/pull/48">The patch</a> for <code>dockerpty</code> turned out to be super-complex. In the end, it took me more than 5 months to get the former <code>compose</code> patch merged.</p>
+
+<p>Enjoy <code>docker-compose exec</code> once 1.7 is out! Happy <code>exec</code>ing!</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/docker/">docker</a></li>
+<li><a href="/blog/tag/docker-compose/">docker-compose</a></li>
+<li><a href="/blog/tag/orchestration/">orchestration</a></li>
+<li><a href="/blog/tag/patches/">patches</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2016/03/how-i-wrote-compose-exec/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2016/03/how-i-wrote-compose-exec/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2016/03/how-i-wrote-compose-exec/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

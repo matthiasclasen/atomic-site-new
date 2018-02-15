@@ -1,0 +1,165 @@
+{{define "title"}}Firewalld in Atomic Host{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Firewalld in Atomic Host
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/dustymabe/">Dusty Mabe</a>
+</span>
+&ndash;
+<time class='published' datetime='2018-02-01T18:00:00Z'>
+Thursday  1 February
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<h3>TL;DR</h3>
+
+<p>Fedora Atomic Host (and derivatives) will now include the <code>firewalld</code>
+package in the base OSTree that is tested, delivered, and released
+every two weeks. Existing users should observe no change as it won&rsquo;t
+be enabled by default.</p>
+
+<h3>Firewalld in Atomic Host</h3>
+
+<p>In the past we have had requests to have <code>firewalld</code> in Atomic Host
+to enable a better interface into firewall management for
+administrators and management software. It turns out that if you have
+lots of rules to manage, or even multiple pieces of software trying to
+manage different sets of rules on a single system, then <code>iptables</code>
+becomes a limitation pretty quickly.</p>
+
+<p>Atomic Host users do have the ability to package layer <code>firewalld</code>,
+but <a href="https://www.projectatomic.io/blog/2017/06/rpm-ostree-v2017.6-released/">live changes to the host</a>
+are currently experimental. Since rebooting during system provisioning
+in certain environments is not desirable, and <code>firewalld</code> is
+relatively small, the <a href="https://pagure.io/atomic-wg">Fedora Atomic Working Group</a>
+<a href="https://pagure.io/atomic-wg/issue/372">decided</a> to include <code>firewalld</code> in the 
+base OSTree. </p>
+
+<p>In order to not affect existing users the <code>firewalld</code> service will be
+disabled by default. Existing users should observe no change in behavior.
+Users who want to use <code>firewalld</code> can enable/start the service and start
+using it immediately.</p>
+
+<p></p>
+
+<h3>Scenarios</h3>
+
+<p>So you&rsquo;re an existing or new user of Atomic Host. What does this mean
+for you?</p>
+
+<h4>I have Atomic Host systems that are already running:</h4>
+
+<p>You can <code>rpm-ostree upgrade</code> like normal. The new <code>firewalld</code> package
+will be delivered as part of updates but won&rsquo;t be enabled so
+you should see no change in functionality.</p>
+
+<h4>I use the Atomic Host cloud/vagrant images to start new systems:</h4>
+
+<p>Nothing will change here. We 
+<a href="https://pagure.io/fedora-kickstarts/blob/master/f/fedora-atomic.ks#_28-30">explicitly disable</a>
+the firewall in the cloud image kickstarts since cloud environments
+typically have a higher level firewall mechanism, like security
+groups.</p>
+
+<h4>I install new systems interactively using the ISO:</h4>
+
+<p>You should be able to interactively install Atomic Host just fine.
+<code>firewalld</code> will not be enabled by default.</p>
+
+<h4>I install new systems using the ISO with a kickstart file:</h4>
+
+<p>In this case if you don&rsquo;t have a <code>firewall ...</code> line in the kickstart
+file then you <strong>need</strong> to add one to say what you want to do. You have
+three options:</p>
+
+<ol>
+<li><code>firewall --enable</code></li>
+<li><code>firewall --disable</code></li>
+<li><code>firewall --use-system-defaults</code></li>
+</ol>
+
+<p>The first two options are pretty clear. The last option is a little
+more unclear. This option was actually added to 
+<a href="https://github.com/rhinstaller/anaconda/pull/1271">anaconda</a>
+/
+<a href="https://github.com/rhinstaller/pykickstart/pull/203">pykickstart</a>
+to enable us to ask anaconda to <strong>leave the system defaults</strong> in place
+so that we could deliver a default 
+<a href="https://pagure.io/fedora-atomic/pull-request/103">in the OSTree</a>
+and have Anaconda respect that default.</p>
+
+<h3>Migrating a system to use firewalld</h3>
+
+<p>If you have booted a system and you want to configure it to use
+firewalld then you can simply enable/start it using <code>systemctl</code>.
+It&rsquo;s a good idea to also restart docker, which does some detection
+on startup to determine what firewall management tool is used.
+You can do this by either restarting the docker service or rebooting
+your system so all services restart. </p>
+<pre class="highlight plaintext"><code># systemctl enable firewalld&#x000A;# systemctl start firewalld&#x000A;# systemctl restart docker&#x000A;</code></pre>
+
+<h3>Using firewalld with OpenShift Origin</h3>
+
+<p>If you want to use firewalld with OpenShift and you use the 
+<a href="https://github.com/openshift/openshift-ansible">OpenShift Ansible</a>
+installer then you <a href="https://github.com/openshift/openshift-ansible/pull/6763">can now</a>
+set a few variables in your inventory file to tell the installer
+you want it to use <code>firewalld</code> to manage the firewall. Here are
+the few variables:</p>
+<pre class="highlight plaintext"><code>[OSEv3:vars]&#x000A;os_firewall_use_firewalld=true&#x000A;openshift_enable_unsupported_configurations=true&#x000A;</code></pre>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2018/02/firewalld-in-atomic-host/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2018/02/firewalld-in-atomic-host/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2018/02/firewalld-in-atomic-host/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Dusty Mabe
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/78c5dab261db4bc6ee0e038990fce2d8" /></div>
+<div class='author-blurb with-photo'>
+<p>Atomic OpenShift Engineer for Red Hat. Fedora Atomic WG member. Passionate about open source.</p>
+
+<div class='more-link'>
+<a href="/blog/author/dustymabe/">View all posts by Dusty Mabe &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

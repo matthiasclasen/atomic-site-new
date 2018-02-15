@@ -1,0 +1,89 @@
+{{define "title"}}{{end}}
+{{define "body"}}
+<article>
+  <h1>HowTo: Fedora Atomic Workstation</h1>
+
+  <p><em>Fedora Atomic Workstation</em> (FAW) is the desktop version of Fedora Atomic Host. It is still heavily in development with only few external users. This project is actively maintained and is ready for use by sophisticated and interested users, but not ready for widespread promotion.</p>
+
+  <p>More detailed documentation with cheat sheet is coming on 15 February 2018.</p>
+
+  <p>For a summary of the why and how, please read <a href="https://fedoraproject.org/wiki/Workstation/AtomicWorkstation">Atomic Workstation</a> and <a href="https://fedoraproject.org/wiki/Changes/WorkstationOstree">Workstation OSTree</a>.</p>
+
+  <h2>Quickstart</h2>
+
+  <p>Download the <a href="https://download.fedoraproject.org/pub/fedora/linux/releases/27/WorkstationOstree/x86_64/iso/">.iso</a> and use it to create installation media.</p>
+
+  <p>For example, if you run the GNOME desktop, you can use the <em>Write to disk</em> capability of the Nautilus file browser to create an installation DVD. Alternatively, you can write the installation ISO image to a USB device with the <code>dd</code> command or by using the application <code>ISO Image Writer</code> which comes pre-installed with Fedora. With dd, if you had a USB thumbdrive mounted as <code>/dev/sdb</code>, you might use this command (be careful to get the drive location right):</p>
+  <pre class="highlight plaintext"><code>dd if=yourisoname.iso of=/dev/sdb bs=4M&#x000A;</code></pre>
+
+  <p><strong>Installing inside an existing system</strong></p>
+
+  <p>If you rather want to install FAW inside an existing system, please follow the steps described on <a href="https://pagure.io/workstation-ostree-config/blob/master/f/README-install-inside.md">Pagure</a>.</p>
+
+  <h2>Support</h2>
+
+  <p>For now, you can ask us questions in the #atomic channel on IRC Freenode or via Twitter <a href="https://twitter.com/projectatomic">@projectatomic</a>. You can also use the <a href="https://lists.projectatomic.io/mailman/listinfo/atomic-devel">atomic-devel</a> mailing list. Contributions are welcome.</p>
+
+  <p>We are also in the process of creating a <a href="https://fedoraproject.org/wiki/Workstation/AtomicWorkstation/SIG">Special Interest Group</a> - if you are interested in joining, let us know via one of the mentioned channels and we can add you.</p>
+
+  <h2>Updating and Reverting Fedora Atomic Workstation</h2>
+
+  <p>For information on how to update and rollback your system, please read <a href="http://www.projectatomic.io/docs/os-updates/">Operating System Upgrades via rpm-ostree</a>.</p>
+
+  </div>
+  <div class='col-sm-3 hidden-print'>
+  <h3>Documentation Index</h3>
+  <nav role='navigation'>
+  <ul class='docbrowser nav nav-vertical'>
+  <li class='disabled'>
+  <h4>First Steps</h4>
+  </li>
+  <li class='nav-link-introduction' role='menuitem'>
+  <a href='/docs/introduction'>Introduction</a>
+  </li>
+  <li class='nav-link-quick-start-guide' role='menuitem'>
+  <a href='/docs/quickstart'>Quick Start Guide</a>
+  </li>
+  <li class='nav-link-getting-started-guide' role='menuitem'>
+  <a href='/docs/gettingstarted'>Getting Started Guide</a>
+  </li>
+  <li class='nav-link-bare-metal-installation-fedora' role='menuitem'>
+  <a href='/docs/fedora_atomic_bare_metal_installation'>Bare Metal Installation (Fedora)</a>
+  </li>
+  <li class='disabled'>
+  <h4>In Depth</h4>
+  </li>
+  <li class='nav-link-rpm-ostree-os-update-system' role='menuitem'>
+  <a href='/docs/os-updates'>rpm-ostree OS Update System</a>
+  </li>
+  <li class='nav-link-setting-up-storage' role='menuitem'>
+  <a href='/docs/docker-storage-recommendation'>Setting Up Storage</a>
+  </li>
+  <li class='nav-link-supported-filesystems' role='menuitem'>
+  <a href='/docs/filesystems'>Supported Filesystems</a>
+  </li>
+  <li class='nav-link-building-images' role='menuitem'>
+  <a href='/docs/docker-building-images'>Building Images</a>
+  </li>
+  <li class='nav-link-image-author-guidance' role='menuitem'>
+  <a href='/docs/docker-image-author-guidance'>Image Author Guidance</a>
+  </li>
+  <li class='nav-link-about-selinux' role='menuitem'>
+  <a href='/docs/docker-and-selinux'>About SELinux</a>
+  </li>
+  <li class='nav-link-managing-containers' role='menuitem'>
+  <a href='/docs/kubernetes'>Managing Containers</a>
+  </li>
+  <li class='nav-link-atomic-host-networking' role='menuitem'>
+  <a href='/docs/atomic-host-networking'>Atomic Host Networking</a>
+  </li>
+  <li class='disabled'>
+  <h4>Contributing</h4>
+  </li>
+  <li class='nav-link-how-to-contribute' role='menuitem'>
+  <a href='/docs/#contribute'>How to Contribute</a>
+  </li>
+  </ul>
+  </nav>
+</article>
+{{end}}

@@ -1,0 +1,73 @@
+{{define "title"}}CentOS Atomic Host 1705.1 Security Update{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+CentOS Atomic Host 1705.1 Security Update
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jbrooks/">Jason Brooks</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-06-21T18:00:00Z'>
+Wednesday 21 June 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>We&rsquo;ve upgraded the ostree repository for CentOS Atomic Host  (v7.1705.1) to
+include updates of the packages affected by <a href="https://access.redhat.com/security/vulnerabilities/stackguard">the <q>Stack Guard</q> vulnerability</a>.</p>
+
+<p>Please update your CentOS Atomic Host at the next opportunity, with the command:</p>
+<pre class="highlight plaintext"><code>atomic host upgrade --reboot&#x000A;</code></pre>
+
+<p></p>
+
+<p>Upgraded:</p>
+
+<ul>
+<li> ca-certificates 2017.2.11-70.1.el7_3 -&gt; 2017.2.14-70.1.el7_3</li>
+<li> glibc 2.17-157.el7_3.2 -&gt; 2.17-157.el7_3.4</li>
+<li> glibc-common 2.17-157.el7_3.2 -&gt; 2.17-157.el7_3.4</li>
+<li> kernel 3.10.0-514.21.1.el7 -&gt; 3.10.0-514.21.2.el7</li>
+<li> python-perf 3.10.0-514.21.1.el7 -&gt; 3.10.0-514.21.2.el7</li>
+<li> rpcbind 0.2.0-38.el7_3 -&gt; 0.2.0-38.el7_3.1</li>
+</ul>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic-host/">atomic host</a></li>
+<li><a href="/blog/tag/centos/">centos</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/06/centos-atomic-security-update-1705/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/06/centos-atomic-security-update-1705/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/06/centos-atomic-security-update-1705/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

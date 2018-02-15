@@ -1,0 +1,99 @@
+{{define "title"}}rpm-ostree v2017.5 released{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+rpm-ostree v2017.5 released
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jlebon/">Jonathan Lebon</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-04-29T18:00:00Z'>
+Saturday 29 April 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p><a href="https://rpm-ostree.readthedocs.org/">rpm-ostree</a> is the
+hybrid image/package system that provides transactional
+upgrades on Atomic Host. Here are some highlights from
+version
+<a href="https://github.com/projectatomic/rpm-ostree/releases/tag/v2017.5">v2017.5</a>.</p>
+
+<p></p>
+
+<p>This is a short release with mostly bugfixes, though there
+are some small visible changes. You can test it out by
+<a href="https://fedoraproject.org/wiki/QA:Updates_Testing#Using_it_with_Atomic_Host_.28Fedora_24_and_later.29">rebasing your Fedora Atomic Host</a>
+onto the testing branch. Feel free to also leave karma in
+the pending Bodhi updates:</p>
+
+<ul>
+<li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2017-2fa9ff86ba">Fedora 25 update</a></li>
+<li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2017-c5b64407b6">Fedora 26 update</a></li>
+</ul>
+
+<h3>More terse status output by default</h3>
+
+<p>In v2017.4, we slightly changed the output of the <code>status</code>
+command so that the <code>Commit</code> line was hidden when packages
+are layered:</p>
+<pre class="highlight plaintext"><code># rpm-ostree status&#x000A;State: idle&#x000A;Deployments:&#x000A;* fedora-atomic:fedora-atomic/25/x86_64/docker-host&#x000A;             Version: 25.113 (2017-04-25 01:47:29)&#x000A;          BaseCommit: 3492546bc1ef6bca1bc7801ed6bb0414f90cc96668e067996dba3dee0d83e6c3&#x000A;              OSName: fedora-atomic&#x000A;     LayeredPackages: ltrace&#x000A;</code></pre>
+
+<p>The rationale is that the <code>Commit</code> line in this context is
+specific to this host and has much less value than the
+<code>BaseCommit</code>, which is the actual ostree commit published by
+Fedora.</p>
+
+<p>In v2017.5, the <code>OSName</code> line is also no longer printed by
+default. Essentially, for the great majority of Atomic Host
+users, it is superfluous information. You can read more
+about this change
+<a href="https://github.com/projectatomic/rpm-ostree/pull/743">here</a>.</p>
+
+<p>However, the <code>status</code> command did learn a <code>--verbose</code> switch
+to force it to print both the <code>Commit</code> and the <code>OSName</code>
+(which was renamed to <code>StateRoot</code>):</p>
+<pre class="highlight plaintext"><code># rpm-ostree status&#x000A;State: idle&#x000A;Deployments:&#x000A;* jlebon:fedora-atomic/25/x86_64/docker-host&#x000A;             Version: 25.113.modified (2017-04-25 01:47:29)&#x000A;          BaseCommit: 3492546bc1ef6bca1bc7801ed6bb0414f90cc96668e067996dba3dee0d83e6c3&#x000A;     LayeredPackages: ltrace&#x000A;# rpm-ostree status --verbose&#x000A;State: idle&#x000A;Deployments:&#x000A;* jlebon:fedora-atomic/25/x86_64/docker-host&#x000A;             Version: 25.113.modified (2017-04-25 01:47:29)&#x000A;          BaseCommit: 3492546bc1ef6bca1bc7801ed6bb0414f90cc96668e067996dba3dee0d83e6c3&#x000A;              Commit: 4a926bfaa84b3307577b2ef6673cf2079f7373ebe2219cd7c2e30d75e7a2584b&#x000A;           StateRoot: fedora-atomic&#x000A;     LayeredPackages: ltrace&#x000A;</code></pre>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/atomic-host/">atomic host</a></li>
+<li><a href="/blog/tag/ostree/">ostree</a></li>
+<li><a href="/blog/tag/rpm/">rpm</a></li>
+<li><a href="/blog/tag/rpm-ostree/">rpm-ostree</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/04/rpm-ostree-v2017.5-released/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/04/rpm-ostree-v2017.5-released/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/04/rpm-ostree-v2017.5-released/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

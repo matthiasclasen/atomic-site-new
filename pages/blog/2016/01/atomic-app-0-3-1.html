@@ -1,0 +1,138 @@
+{{define "title"}}Atomic App 0.3.1 Release Features Persistent Storage, More OpenShift Support{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Atomic App 0.3.1 Release Features Persistent Storage, More OpenShift Support
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/cdrage/">Charlie Drage</a>
+</span>
+&ndash;
+<time class='published' datetime='2016-01-19T19:20:00Z'>
+Tuesday 19 January 2016
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Today we&rsquo;ve released <a href="https://github.com/projectatomic/atomicapp/releases">0.3.1</a> of <a href="http://www.projectatomic.io/docs/atomicapp/">Atomic App</a>!  This is our first release since the holiday break, as well as the first release since 0.3.0. We&rsquo;ve got quite a lot of new features added as well.</p>
+
+<p>The main features of this release are:
+  * Native persistent storage integration. (Kubernetes only support for now)
+  * HTTPS (TLS) verification and support for OpenShift
+  * OpenShift <code>stop</code> added
+  * Nested Nulecule application support for OpenShift</p>
+
+<p></p>
+
+<p>Bug fixes and changes:</p>
+
+<ul>
+<li>Refactor of our OpenShift provider</li>
+<li>Compatibility fixes with Atomic CLI and Atomic App integration</li>
+<li>Addition of several CLI parameters to allow for passing provider options on the command line</li>
+<li>Additional unit tests for OpenShift</li>
+</ul>
+
+<h3>Persistent Storage</h3>
+
+<p>The integration of native persistent storage support allows a persistent volume to be defined within the <code>Nulecule</code> file rather than the <code>/artifact</code> folder of the Nuleculized container. Atomic App will define and create the persistent storage volume claim before proceeding further in deploying the application.</p>
+
+<p>Currently, Kubernetes is the only provider with support for launching a persistent storage volume.</p>
+
+<p>For example, a persistent volume can be claimed within the Nulecule file as follows:</p>
+<pre class="highlight plaintext"><code>yaml&#x000A;graph:&#x000A;    ...&#x000A;    requirements:&#x000A;      - persistentVolume:&#x000A;          name: "var-log-httpd"&#x000A;          accessMode: "ReadWrite"&#x000A;          size: 4&#x000A;</code></pre>
+
+<p>A full example would be:</p>
+<pre class="highlight plaintext"><code>yaml&#x000A;---&#x000A;specversion: 0.0.2&#x000A;id: helloapache-app&#x000A;&#x000A;metadata:&#x000A;  name: Hello Apache App&#x000A;  appversion: 0.0.1&#x000A;  description: Atomic app for deploying a really basic Apache HTTP server&#x000A;graph:&#x000A;  - name: helloapache-app&#x000A;    params:&#x000A;      - name: image&#x000A;        description: The webserver image&#x000A;        default: centos/httpd&#x000A;      - name: hostport&#x000A;        description: The host TCP port as the external endpoint&#x000A;        default: 80&#x000A;    artifacts:&#x000A;      docker:&#x000A;        - file://artifacts/docker/hello-apache-pod_run&#x000A;      kubernetes:&#x000A;        - file://artifacts/kubernetes/hello-apache-pod.json&#x000A;    requirements:&#x000A;      - persistentVolume:&#x000A;          name: "var-log-httpd"&#x000A;          accessMode: "ReadWrite"&#x000A;          size: 4&#x000A;</code></pre>
+
+<p>And running it:</p>
+<pre class="highlight plaintext"><code>bash&#x000A;docker build -t projectatomic/helloapache-ps&#x000A;atomic run projectatomic/helloapache-ps --provider=docker&#x000A;</code></pre>
+
+<p>When you deploy your application, Atomic App will automatically take the <code>persistentVolume</code> claim under requirements and deploy it to it&rsquo;s respective provider. In the case of Kubernetes, a <a href="https://github.com/kubernetes/kubernetes/blob/master/docs/design/persistent-storage.md">persistent volume claim</a> will be defined before proceeding in launching a <a href="https://github.com/kubernetes/kubernetes/blob/master/docs/user-guide/replication-controller.md">replication controller</a> or <a href="https://github.com/kubernetes/kubernetes/blob/master/docs/user-guide/pods.md">pod</a>.</p>
+
+<h3>OpenShift Stop</h3>
+
+<p>Compatibility for stopping deployed Atomic App containers on OpenShift has now been added.</p>
+<pre class="highlight plaintext"><code>atomic stop projectatomic/helloapache /var/lib/atomicapp/yournuleculedir&#x000A;</code></pre>
+
+<h3>HTTPS (TLS) Support for OpenShift</h3>
+
+<p>With version 0.3.1 of Atomic App, we enable https/tls support by default.</p>
+
+<p>Certificates are validated against the Mozilla CA Certificate List using the <a href="https://certifi.io/en/latest/">certifi</a> project.</p>
+
+<p>Both options can be set using <code>answers.conf</code> file or via command line options.</p>
+
+<ul>
+<li><code>providercafile</code> - If your https API endpoint isn&rsquo;t signed by trusted CA. You can use this option to provide path to your CA certificate.</li>
+<li><code>providertlsverify</code> - By setting this to False you can disable TLS/SSL verification. (default is True)</li>
+</ul>
+
+<p>Example answers.conf:</p>
+<pre class="highlight plaintext"><code>[general]&#x000A;provider = openshift&#x000A;providerapi = https://127.0.0.1:8443&#x000A;accesstoken = sadfasdfasfasfdasfasfasdfsafasfd&#x000A;namespace = mynamespace&#x000A;providertlsverify = True&#x000A;providercafile = /etc/myca/ca.pem&#x000A;</code></pre>
+
+<p>An example of disabling verification using command line argument:</p>
+<pre class="highlight plaintext"><code>atomic run myapp --provider=openshift --providertlsverify=False&#x000A;</code></pre>
+
+<p>When using <a href="https://github.com/kadel/atomicapp/blob/master/docs/providers/openshift/overview_native.md">native execution</a> (<code>oc new-app</code>) to run Nulecule application on OpenShift you can pass command line arguments via environment variables <code>ATOMICAPP_APPEND_ARGS</code>.</p>
+<pre class="highlight plaintext"><code>oc new-app myapp --grant-install-rights -e ATOMICAPP_APPEND_ARGS='--providertlsverify=False'&#x000A;</code></pre>
+
+<h3>Nested Nulecule Support for OpenShift</h3>
+
+<p>Native support for launching Nulecules within OpenShift has been added. You can now pull from a library of Atomic App&rsquo;s (Nuleculized applications) that exist in the Docker hub and launch them into OpenShift.</p>
+
+<p>Using the <a href="https://github.com/projectatomic/nulecule-library/tree/master/guestbookgo-atomicapp">guestbookgo-atomicapp</a> example you can now start the container via the <code>oc new-app</code> command.</p>
+<pre class="highlight plaintext"><code>oc new-app projectatomic/guestbookgo-atomicapp --grant-install-rights&#x000A;</code></pre>
+
+<p>Atomic App will now evaluate what environment the container is being ran from and communicate with OpenShift in order to bring up the Nuleculized application.</p>
+
+<p>To see a more complete example of running a Nulecule via <code>oc new-app</code> see Dusty Mabe&rsquo;s <a href="http://dustymabe.com/2016/01/18/running-nulecules-in-openshift-via-oc-new-app/">post</a> on the subject.</p>
+
+<h3>Atomic App</h3>
+
+<p>Many thanks for everyone who committed to this large release!</p>
+
+<p>As we continue to push towards a 1.0.0 release, we highly appreciate any comments or contributions to the Atomic App <a href="https://github.com/projectatomic/atomicapp">repo</a>. If you have any questions about Atomic App or Nulecule, visit the #nulecule channel on Freenode or ask on the <a href="https://www.redhat.com/mailman/listinfo/container-tools">container-tools</a> mailing list.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/alm/">alm</a></li>
+<li><a href="/blog/tag/application-lifecycle/">application lifecycle</a></li>
+<li><a href="/blog/tag/atomic-app/">atomic app</a></li>
+<li><a href="/blog/tag/composite-apps/">composite apps</a></li>
+<li><a href="/blog/tag/developers/">developers</a></li>
+<li><a href="/blog/tag/nulecule/">nulecule</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2016/01/atomic-app-0-3-1/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2016/01/atomic-app-0-3-1/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2016/01/atomic-app-0-3-1/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

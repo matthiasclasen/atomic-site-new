@@ -1,0 +1,80 @@
+{{define "title"}}Project Atomic Docker Hub Namespace Changes{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Project Atomic Docker Hub Namespace Changes
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/smilner/">Stephen Milner</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-12-20T10:00:00Z'>
+Wednesday 20 December 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>As many people are aware the Project Atomic team has provided container images via its <a href="https://hub.docker.com/u/projectatomic/">Docker Hub namespace</a>. As more and more image registries come online it has become apparent that it is time to refocus how our Docker Hub namespace is used. Read on for a rundown of upcoming changes!</p>
+
+<p></p>
+
+<h3>Pruning</h3>
+
+<p>The first change to the namespace will be image pruning. Today there are 18 images that are available in the namespace. Images which are not being actively built and pulled will be removed from the Project Atomic namespace. By removing older and no longer used images from the registry it should be easier to follow what images are in development.</p>
+
+<h3>Automated Building</h3>
+
+<p>New images, as well as images which are currently active, will start to be built upon source code changes. This means that images provided in the Project Atomic namespace will represent the master branch in source control. This change will allow users to pull the latest images to test and play with without the need to rebuild locally. It also means that the images available in the Project Atomic Docker Hub namespace will be <strong>bleeding edge</strong> and should be considered similar to rpm packages in Rawhide. If you are wanting to use a supported image you should use an official image.</p>
+
+<h3>System Container Inclusion</h3>
+
+<p>Bleeding edge <a href="https://github.com/projectatomic/atomic-system-containers/">System Containers</a> will be moved from their respective authors namespaces in to the Project Atomic namespace. As an example, Giuseppe Scrivano&rsquo;s <a href="https://hub.docker.com/r/gscrivano/etcd/">etcd System Container</a> will be moved to <a href="https://hub.docker.com/u/projectatomic/">Project Atomic&rsquo;s Namespace</a>. Not only does this widen the ability for other members of Project Atomic to update the image in the namespace but it also firmly cements it as an image developed by the team.</p>
+
+<h3>Official Images</h3>
+
+<p>Officially released images will be available in their respective registries. As an example, the <code>etcd</code> system container built on Fedora and supported by said community will be available through the Fedora Layered Image Builds System (FLIBS).</p>
+
+<h3>Conclusion</h3>
+
+<p>Hopefully these changes will make using images which are in development and fast moving easier to test, play with, and develop. As always, if there are questions drop in to the #atomic on Freenode or send an email to our mailing list!</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/docker/">docker</a></li>
+<li><a href="/blog/tag/image/">image</a></li>
+<li><a href="/blog/tag/registry/">registry</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/12/project-atomic-docker-hub-namespace-changes/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/12/project-atomic-docker-hub-namespace-changes/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/12/project-atomic-docker-hub-namespace-changes/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

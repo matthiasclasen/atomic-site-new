@@ -1,0 +1,98 @@
+{{define "title"}}Atomic App 0.4.3 Release with New Logging UI{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Atomic App 0.4.3 Release with New Logging UI
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/cdrage/">Charlie Drage</a>
+</span>
+&ndash;
+<time class='published' datetime='2016-03-02T23:00:00Z'>
+Wednesday  2 March 2016
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>We&rsquo;ve now released <a href="https://github.com/projectatomic/atomicapp/releases">0.4.3</a> of <a href="http://www.projectatomic.io/docs/atomicapp/">Atomic App</a>!</p>
+
+<p>This will probably be our last release before 1.0.0.</p>
+
+<p>With this release, we&rsquo;ve re-factored our logging formatter making it easier to decipher between information, debug, warnings, and errors.</p>
+
+<p></p>
+
+<p><img alt="logger" width="2417" height="620" src="/images/atomicapp-logger.png?1518449858" /></p>
+
+<p>You are also able to now specify the logging format you&rsquo;d like to output via the command line:</p>
+<pre class="highlight plaintext"><code>  --logtype {cockpit,color,nocolor,none}&#x000A;                        Override the default logging output. The options are:&#x000A;                        nocolor: we will only log to stdout; color: log to&#x000A;                        stdout with color; cockpit: used with cockpit&#x000A;                        integration; none: atomicapp will disable any logging.&#x000A;                        If nothing is set and logging to file then 'nocolor'&#x000A;                        by default. If nothing is set and logging to tty then&#x000A;                        'color' by default.&#x000A;</code></pre>
+
+<p>The main changes to <code>atomicapp</code> in this week&rsquo;s release are:</p>
+
+<h3>Features</h3>
+
+<ul>
+<li>A new logging mechanism that outputs color-coordinated logging messages</li>
+<li>Added CLI commands for color, nocolor, cockpit and &lsquo;none&rsquo; output</li>
+</ul>
+
+<h3>UI</h3>
+
+<ul>
+<li>Failure on finding no artifacts</li>
+</ul>
+
+<h3>Other</h3>
+
+<ul>
+<li>README.md / doc updates</li>
+</ul>
+
+<h3>Atomic App</h3>
+
+<p>Many thanks for everyone who committed to this release!</p>
+
+<p>As we continue to push towards a 1.0.0 release, we highly appreciate any comments or contributions to the Atomic App <a href="https://github.com/projectatomic/atomicapp">repo</a>. If you have any questions about Atomic App or Nulecule, visit the #nulecule channel on Freenode or ask on the <a href="https://www.redhat.com/mailman/listinfo/container-tools">container-tools</a> mailing list.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/alm/">alm</a></li>
+<li><a href="/blog/tag/application-lifecycle/">application lifecycle</a></li>
+<li><a href="/blog/tag/atomic-app/">atomic app</a></li>
+<li><a href="/blog/tag/composite-apps/">composite apps</a></li>
+<li><a href="/blog/tag/developers/">developers</a></li>
+<li><a href="/blog/tag/nulecule/">nulecule</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2016/03/atomic-app-0-4-3/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2016/03/atomic-app-0-4-3/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2016/03/atomic-app-0-4-3/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

@@ -1,0 +1,152 @@
+{{define "title"}}Fedora Layered Image Release May 2017{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Fedora Layered Image Release May 2017
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/amiller/">Adam Miller</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-05-24T18:00:00Z'>
+Wednesday 24 May 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>On behalf of the <a href="https://pagure.io/atomic-wg">Fedora Atomic WG</a> and
+<a href="https://docs.pagure.org/releng/">Fedora Release Engineering</a>,
+I am pleased to announce the latest Fedora Layered
+Image Release.  This release includes many new images, especially a complete set of images for running Kubernetes in containers.</p>
+
+<p></p>
+
+<p>At this time the following Container Images are available in the
+Fedora Registry:</p>
+
+<h3>Base Images</h3>
+
+<p>(Note that the <q>latest</q> tag currently points to <q>25</q> and the <q>rawhide</q>
+tag currently points to <q>27</q>, if no tag is provided in your pull
+command then it will always default to <q>latest</q>)</p>
+
+<ul>
+<li>registry.fedoraproject.org/fedora:latest</li>
+<li>registry.fedoraproject.org/fedora:rawhide</li>
+<li>registry.fedoraproject.org/fedora:27</li>
+<li>registry.fedoraproject.org/fedora:26</li>
+<li>registry.fedoraproject.org/fedora:25</li>
+</ul>
+
+<h3>Layered Images</h3>
+
+<p><em>Note: Layered Images are namespaced in the registry and at this time
+we are only releasing for the f25 namespace.</em></p>
+
+<ul>
+<li>registry.fedoraproject.org/f25/kubernetes-master:0.1-12.f25container</li>
+<li>registry.fedoraproject.org/f25/kubernetes-master:0.1</li>
+<li>registry.fedoraproject.org/f25/kubernetes-master</li>
+<li>registry.fedoraproject.org/f25/kubernetes-kubelet:0-11.f25container</li>
+<li>registry.fedoraproject.org/f25/kubernetes-kubelet:0</li>
+<li>registry.fedoraproject.org/f25/kubernetes-kubelet</li>
+<li>registry.fedoraproject.org/f25/redis:0-2.f25container</li>
+<li>registry.fedoraproject.org/f25/redis:0</li>
+<li>registry.fedoraproject.org/f25/redis</li>
+<li>registry.fedoraproject.org/f25/etcd:0.1-11.f25container</li>
+<li>registry.fedoraproject.org/f25/etcd:0.1</li>
+<li>registry.fedoraproject.org/f25/etcd</li>
+<li>registry.fedoraproject.org/f25/cockpit:135-7.f25container</li>
+<li>registry.fedoraproject.org/f25/cockpit:135</li>
+<li>registry.fedoraproject.org/f25/cockpit</li>
+<li>registry.fedoraproject.org/f25/mongodb:0-2.f25container</li>
+<li>registry.fedoraproject.org/f25/mongodb:0</li>
+<li>registry.fedoraproject.org/f25/mongodb</li>
+<li>registry.fedoraproject.org/f25/s2i-base:1-10.f25container</li>
+<li>registry.fedoraproject.org/f25/s2i-base:1</li>
+<li>registry.fedoraproject.org/f25/s2i-base</li>
+<li>registry.fedoraproject.org/f25/nodejs:0-2.f25container</li>
+<li>registry.fedoraproject.org/f25/nodejs:0</li>
+<li>registry.fedoraproject.org/f25/nodejs</li>
+<li>registry.fedoraproject.org/f25/kubernetes-controller-manager:0.1-13.f25container</li>
+<li>registry.fedoraproject.org/f25/kubernetes-controller-manager:0.1</li>
+<li>registry.fedoraproject.org/f25/kubernetes-controller-manager</li>
+<li>registry.fedoraproject.org/f25/mariadb:10.1-10.f25container</li>
+<li>registry.fedoraproject.org/f25/mariadb:10.1</li>
+<li>registry.fedoraproject.org/f25/mariadb</li>
+<li>registry.fedoraproject.org/f25/kubernetes-scheduler:0.1-12.f25container</li>
+<li>registry.fedoraproject.org/f25/kubernetes-scheduler:0.1</li>
+<li>registry.fedoraproject.org/f25/kubernetes-scheduler</li>
+<li>registry.fedoraproject.org/f25/kubernetes-node:0.1-11.f25container</li>
+<li>registry.fedoraproject.org/f25/kubernetes-node:0.1</li>
+<li>registry.fedoraproject.org/f25/kubernetes-node</li>
+<li>registry.fedoraproject.org/f25/kubernetes-proxy:0-12.f25container</li>
+<li>registry.fedoraproject.org/f25/kubernetes-proxy:0</li>
+<li>registry.fedoraproject.org/f25/kubernetes-proxy</li>
+<li>registry.fedoraproject.org/f25/httpd:0-4.f25container</li>
+<li>registry.fedoraproject.org/f25/httpd:0</li>
+<li>registry.fedoraproject.org/f25/httpd</li>
+<li>registry.fedoraproject.org/f25/toolchain:1-8.f25container</li>
+<li>registry.fedoraproject.org/f25/toolchain:1</li>
+<li>registry.fedoraproject.org/f25/toolchain</li>
+<li>registry.fedoraproject.org/f25/kubernetes-apiserver:0.1-12.f25container</li>
+<li>registry.fedoraproject.org/f25/kubernetes-apiserver:0.1</li>
+<li>registry.fedoraproject.org/f25/kubernetes-apiserver</li>
+<li>registry.fedoraproject.org/f25/mirrormanager2-mirrorlist:0.7.3-4.f25container</li>
+<li>registry.fedoraproject.org/f25/mirrormanager2-mirrorlist:0.7.3</li>
+<li>registry.fedoraproject.org/f25/mirrormanager2-mirrorlist</li>
+<li>registry.fedoraproject.org/f25/flannel:0.1-9.f25container</li>
+<li>registry.fedoraproject.org/f25/flannel:0.1</li>
+<li>registry.fedoraproject.org/f25/flannel</li>
+</ul>
+
+<p>The source of this content is provided in DistGit which can easily be
+searched via the <a href="https://admin.fedoraproject.org/pkgdb/packages/container/%2A/">container pkgdb namespace</a>.</p>
+
+<p>As always, we welcome feedback and would encourage anyone interested
+to come join the Fedora Atomic WG as we continue to iterate on
+integrating the Project Atomic family of technologies into Fedora.
+Anyone interested in contributing Container Images, please feel free
+to join in and <a href="https://fedoraproject.org/wiki/Container:Review_Process">submit one for Review</a>.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic-host/">atomic host</a></li>
+<li><a href="/blog/tag/containers/">containers</a></li>
+<li><a href="/blog/tag/docker/">docker</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+<li><a href="/blog/tag/oci/">OCI</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/05/fedora-layered-image-may2017/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/05/fedora-layered-image-may2017/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/05/fedora-layered-image-may2017/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

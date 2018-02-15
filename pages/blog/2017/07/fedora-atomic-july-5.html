@@ -1,0 +1,138 @@
+{{define "title"}}Fedora Atomic July 5 Release{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Fedora Atomic July 5 Release
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jberkus/">Josh Berkus</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-07-06T17:00:00Z'>
+Thursday  6 July 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>A new Fedora Atomic Host update is available via an OSTree commit:</p>
+<pre class="highlight plaintext"><code>Commit: ce555fa89da934e6eef23764fb40e8333234b8b60b6f688222247c958e5ebd5b&#x000A;Version: 25.154&#x000A;</code></pre>
+
+<p>IMPORTANT: <em>This release of Fedora 25 Atomic Host will be our final release based on Fedora 25. We will start releasing Fedora 26-based Atomic Hosts from this point forward.</em></p>
+
+<p>Information about <a href="https://fedoramagazine.org/upcoming-fedora-atomic-lifecycle-changes/">Fedora Atomic Host upgrade policy</a> can be found in Fedora Magazine.</p>
+
+<p></p>
+
+<p>This update contains the following changes:</p>
+
+<ul>
+<li> ostree diff commit old: f136ff5370c0f77d9c1f4fd3ecb8e1815650d8aaf834e41a5e995a13494407e9</li>
+<li>ostree diff commit new: ce555fa89da934e6eef23764fb40e8333234b8b60b6f688222247c958e5ebd5b</li>
+</ul>
+
+<p>Upgraded:</p>
+
+<ul>
+<li>dbus 1:1.11.12-1.fc25.x86_64 -&gt; 1:1.11.14-1.fc25.x86_64</li>
+<li>dbus-libs 1:1.11.12-1.fc25.x86_64 -&gt; 1:1.11.14-1.fc25.x86_64</li>
+<li>hostname 3.15-7.fc24.x86_64 -&gt; 3.15-8.fc25.x86_64</li>
+<li>kernel 4.11.6-201.fc25.x86_64 -&gt; 4.11.8-200.fc25.x86_64</li>
+<li>kernel-core 4.11.6-201.fc25.x86_64 -&gt; 4.11.8-200.fc25.x86_64</li>
+<li>kernel-modules 4.11.6-201.fc25.x86_64 -&gt; 4.11.8-200.fc25.x86_64</li>
+<li>libgcrypt 1.6.6-1.fc25.x86_64 -&gt; 1.7.8-1.fc25.x86_64</li>
+<li>nfs-utils 1:2.1.1-5.rc3.fc25.x86_64 -&gt; 1:2.1.1-5.rc4.fc25.x86_64</li>
+<li>rsync 3.1.2-3.fc25.x86_64 -&gt; 3.1.2-4.fc25.x86_64</li>
+<li>skopeo 0.1.19-1.dev.git0224d8c.fc25.x86_64 -&gt; 0.1.22-1.git5d24b67.fc25.x86_64</li>
+<li>skopeo-containers 0.1.19-1.dev.git0224d8c.fc25.x86_64 -&gt; 0.1.22-1.git5d24b67.fc25.x86_64</li>
+<li>systemd 231-15.fc25.x86_64 -&gt; 231-17.fc25.x86_64</li>
+<li>systemd-container 231-15.fc25.x86_64 -&gt; 231-17.fc25.x86_64</li>
+<li>systemd-libs 231-15.fc25.x86_64 -&gt; 231-17.fc25.x86_64</li>
+<li>systemd-pam 231-15.fc25.x86_64 -&gt; 231-17.fc25.x86_64</li>
+<li>systemd-udev 231-15.fc25.x86_64 -&gt; 231-17.fc25.x86_64</li>
+<li>vim-minimal 2:8.0.642-1.fc25.x86_64 -&gt; 2:8.0.679-1.fc25.x86_64</li>
+</ul>
+
+<p>Existing systems can be upgraded in place via e.g. <code>atomic host upgrade</code> or
+<code>atomic host deploy</code>.</p>
+
+<p>Corresponding image media for new installations can be <a href="https://getfedora.org/en/atomic/download/">downloaded from GetFedora.org</a>.</p>
+
+<p>Respective signed CHECKSUM files can be found here:</p>
+
+<ul>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-25-20170705.0/CloudImages/x86_64/images/Fedora-CloudImages-25-20170705.0-x86_64-CHECKSUM">Cloud image checksum</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-25-20170705.0/Atomic/x86_64/iso/Fedora-Atomic-25-20170705.0-x86_64-CHECKSUM">ISO Checksum</a></li>
+</ul>
+
+<p>For direct download, the <q>latest</q> targets are always available at the following URLs:</p>
+
+<ul>
+<li><a href="https://getfedora.org/atomic_iso_latest">Latest ISO</a></li>
+<li><a href="https://getfedora.org/atomic_qcow2_latest">Latest QCOW</a></li>
+<li><a href="https://getfedora.org/atomic_raw_latest">Latest raw image</a></li>
+<li><a href="https://getfedora.org/atomic_vagrant_libvirt_latest">Latest LibVirt VM</a></li>
+<li><a href="https://getfedora.org/atomic_vagrant_virtualbox_latest">Latest VirtualBox VM</a></li>
+</ul>
+
+<p>Filename fetching URLs for downloading to remote systems are available by querying the following links:</p>
+
+<ul>
+<li><a href="https://getfedora.org/atomic_iso_latest_filename">ISO</a></li>
+<li><a href="https://getfedora.org/atomic_qcow2_latest_filename">QCOW</a></li>
+<li><a href="https://getfedora.org/atomic_raw_latest_filename">raw</a></li>
+<li><a href="https://getfedora.org/atomic_vagrant_libvirt_latest_filename">LibVirt</a></li>
+<li><a href="https://getfedora.org/atomic_vagrant_virtualbox_latest_filename">VirtualBox</a></li>
+</ul>
+
+<p>For more information about the latest targets, please reference <a href="https://fedoraproject.org/wiki/Cloud#Quick_Links">the Fedora
+Cloud Wiki space</a>.</p>
+
+<p>The Vagrant Atlas page with the new atomic host:</p>
+
+<ul>
+<li><a href="https://atlas.hashicorp.com/fedora/boxes/">All Fedora boxes</a></li>
+<li><a href="https://atlas.hashicorp.com/fedora/boxes/25-atomic-host/versions/20170418">Fedora Atomic 25</a></li>
+</ul>
+<pre class="highlight plaintext"><code>vagrant init fedora/25-atomic-host; vagrant up&#x000A;</code></pre>
+
+<p>or, if you already have the box, to get the new one:</p>
+<pre class="highlight plaintext"><code>vagrant box update --box fedora/25-atomic-host&#x000A;</code></pre>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/07/fedora-atomic-july-5/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/07/fedora-atomic-july-5/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/07/fedora-atomic-july-5/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

@@ -1,0 +1,88 @@
+{{define "title"}}ADB-Atomic Developer Bundle 1.7.1 Released{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+ADB-Atomic Developer Bundle 1.7.1 Released
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/lala/">Lalatendu Mohanty</a>
+</span>
+&ndash;
+<time class='published' datetime='2016-03-11T10:00:00Z'>
+Friday 11 March 2016
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Project Atomic is pleased to announce the release of the Atomic Developer Bundle (ADB) 1.7.1, a Vagrant box that provides a ready-to-use development environment for container based applications. With the ADB, developers can dive right into producing complex, multi-container applications. The ADB is available for Microsoft Windows, Apple OS X, and Linux distributions.</p>
+
+<p>The 1.7.1 release is primarily a bug fix and enhancement release.</p>
+
+<p></p>
+
+<ul>
+<li><p>The OpenShift experience in ADB has been enhanced to be more streamlined and to make version selection easier.</p></li>
+<li><p><code>sccli openshift</code> will download OpenShift images and setup a single-node OpenShift instance.  <a href="https://github.com/projectatomic/adb-utils/blob/master/README.rst">Documentation</a> is available online.</p></li>
+<li><p><code>sccli</code> defaults to OpenShift Origin version 1.1.1.  This can be changed using environment variables as seen below.  For details, please see the <a href="https://github.com/projectatomic/adb-utils/blob/master/README.rst">Documentation</a>.</p></li>
+</ul>
+<pre class="highlight plaintext"><code># Use the latest version of OpenShift Origin&#x000A;$ sudo IMAGE_TAG="latest" sccli openshift&#x000A;</code></pre>
+
+<ul>
+<li>This release also includes many smaller changes and bug fixes, which are detailed in the release comments from  <a href="https://github.com/projectatomic/adb-utils/releases/tag/v1.1">adb-utils</a> and <a href="https://github.com/projectatomic/adb-atomic-developer-bundle/releases/tag/v1.7.1">ADB</a>.</li>
+</ul>
+
+<h3>Learn More and Download</h3>
+
+<p>The ADB provides a container development ecosystem that ensures developers are able to work with Linux containers even if their base operating system does not support it. It also offers a quick and easy way to setup multi-container applications that take advantage of management and/or orchestration  solutions, such as OpenShift or Kubernetes. The ADB supports <a href="http://www.projectatomic.io/docs/nulecule/">Nulecule</a> and <a href="http://www.projectatomic.io/docs/atomicapp/">Atomic App</a>. These projects provide a structure for packaging, distributing, and deploying multi-container applications.</p>
+
+<p>The ADB is built as part of Project Atomic, which integrates the tools and patterns of container-based application and service deployment with trusted operating system platforms to deliver an end-to-end hosting architecture that&rsquo;s modern, reliable, and secure.</p>
+
+<ul>
+<li>Read more about the Atomic Developer Bundle (ADB) at the project&rsquo;s <a href="https://github.com/projectatomic/adb-atomic-developer-bundle">github.com page</a>, including a quick start guide.</li>
+<li>The ADB can be <a href="https://github.com/projectatomic/adb-atomic-developer-bundle/blob/master/docs/installing.rst#3-download-the-adb">downloaded in multiple ways</a></li>
+<li><a href="https://github.com/projectatomic/adb-atomic-developer-bundle#documentation">Project Documentation</a> and <a href="https://github.com/projectatomic/adb-atomic-developer-bundle/blob/master/docs/installing.rst">Installation Guide</a></li>
+<li>Get more Project Atomic updates on Twitter <a href="https://twitter.com/projectatomic">@ProjectAtomic</a></li>
+</ul>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/centos/">CentOS</a></li>
+<li><a href="/blog/tag/developer-tools/">Developer tools</a></li>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+<li><a href="/blog/tag/kubernetes/">Kubernetes</a></li>
+<li><a href="/blog/tag/openshift/">OpenShift</a></li>
+<li><a href="/blog/tag/vagrant/">vagrant</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2016/03/ADB-1-7-1/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2016/03/ADB-1-7-1/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2016/03/ADB-1-7-1/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

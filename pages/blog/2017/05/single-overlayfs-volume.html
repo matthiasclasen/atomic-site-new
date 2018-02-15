@@ -1,0 +1,74 @@
+{{define "title"}}Installing One Big Volume with Overlay2{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Installing One Big Volume with Overlay2
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jberkus/">Josh Berkus</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-05-15T16:00:00Z'>
+Monday 15 May 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>One of the major benefits of the overlay2 filesystem for Docker is that you no longer need to have a separate storage volume for your Docker containers, images and volumes.  This means that you don&rsquo;t need to try to decide how much free space you need in the root FS as opposed to how much you need for containers; you can just create one big volume to fill up the disk.</p>
+
+<p>Since overlay2 is fairly new, though, we&rsquo;ve chosen to install a separate Docker volume by default on Fedora 26 Atomic Host.  This lets users switch back to devicemapper if they run into some kind of issue with overlay2.  However, if you&rsquo;re installing a new dev system, you might want the ease-of-management of having one big volume.</p>
+
+<p></p>
+
+<p>The best way to do this is via your kickstart or cloud-init files, so that you can have the one big volume.  I&rsquo;m going to give examples for a kickstart file because that&rsquo;s what I have for my microcluster.  First, modify the storage setup in your kickstart file so that the root volume takes up all the disk space not needed for the boot partition or swap.</p>
+<pre class="highlight plaintext"><code>part pv.01 --grow --ondisk=sda&#x000A;volgroup atomicos pv.01&#x000A;logvol / --size=57000 --fstype="xfs" --name=root --vgname=atomicos&#x000A;logvol swap --fstype swap --name=lv_swap --vgname=atomicos --size=2048&#x000A;</code></pre>
+
+<p>Second, add a script to your kickstarter file which changes the configuration for docker-storage-setup:</p>
+<pre class="highlight plaintext"><code>%post --erroronfail&#x000A;rm -f /etc/ostree/remotes.d/fedora-atomic.conf&#x000A;ostree remote add --set=gpg-verify=false fedora-atomic 'http://dl.fedoraproject.org/pub/fedora/linux/atomic/25/'&#x000A;echo -e "\nSTORAGE_DRIVER='overlay2'\nCONTAINER_ROOT_LV_MOUNT_PATH=''\n" &gt;&gt; /etc/sysconfig/docker-storage-setup&#x000A;%end&#x000A;</code></pre>
+
+<p>It&rsquo;s the last line of the script which is doing the work.  Specifically, you need to change the defaults for <code>docker-storage-setup</code>.   <code>STORAGE_DRIVER</code> needs to be set to <code>overlay2</code> and <code>CONTAINER_ROOT_LV_MOUNT_PATH</code> needs to be set to an empty string.  This tells <code>docker-storage-setup</code> to use overlay2, but not to create a separate volume for it (which would fail anyway, since we&rsquo;ve left it no space).</p>
+
+<p>The result is what you&rsquo;d expect: one big volume for files and containers:</p>
+<pre class="highlight plaintext"><code> -bash-4.3# lsblk&#x000A;NAME                 MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT&#x000A;sdb                    8:16   1   7.2G  0 disk&#x000A;├─sdb2                 8:18   1   5.2M  0 part&#x000A;└─sdb1                 8:17   1     1G  0 part&#x000A;sda                    8:0    0  59.2G  0 disk&#x000A;├─sda2                 8:2    0     1G  0 part /boot&#x000A;├─sda3                 8:3    0  56.2G  0 part&#x000A;│ ├─atomicos-lv_swap 253:1    0     2G  0 lvm  [SWAP]&#x000A;│ └─atomicos-root    253:0    0  55.7G  0 lvm  /sysroot&#x000A;└─sda1                 8:1    0   200M  0 part /boot/efi&#x000A;</code></pre>
+
+<p>At some point in the future, we may switch to this behavior by default.  Or not; tell us what you think through the Atomic community if you have an opinion.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+<li><a href="/blog/tag/overlayfs/">overlayfs</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/05/single-overlayfs-volume/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/05/single-overlayfs-volume/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/05/single-overlayfs-volume/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

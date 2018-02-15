@@ -1,0 +1,89 @@
+{{define "title"}}Tightening Up SELinux Policy for Containers{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Tightening Up SELinux Policy for Containers
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/dwalsh/">Dan Walsh</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-02-16T14:00:00Z'>
+Thursday 16 February 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>I wrote a blog post a couple of weeks ago <a href="http://rhelblog.redhat.com/2017/01/13/selinux-mitigates-container-vulnerability/">explaining how SELinux can block breakout</a> of processes in containers using when exploiting a vulnerability in the <code>/usr/bin/docker-runc</code> or <code>/usr/bin/runc</code> executable.  At the time, I explained that the policy for <code>container_t</code> was blocked from writing to most parts of the OS other the container content labeled <code>container_file_t</code>. Despite blocking writes, though, it still allowed reads of some files.</p>
+
+<p>A few people were alarmed when they realized that SELinux would block the breakout on writes but there is a chance for information leakage into the container. The usual example was the ability to read /etc/passwd from the host. But this isn&rsquo;t unlimited access to the host. If the same container processes tried to read /etc/shadow on the hosts, or content in users home directories, or database data in /var, they would be blocked.</p>
+
+<p></p>
+
+<h3>Why is that allowed?</h3>
+
+<p>When writing SELinux policy for a general purpose process type, you always have a battle between security and usability.  If you make the policy too tight, no one will use it. If you make it too loose, then it provides little additional security. Finding the sweet spot in the middle is difficult. The default SELinux policy allows this access for two main reasons.</p>
+
+<p>The original policy for containers was written before docker for virt-sandbox. virt-sandbox was an effort to use libvirt-lxc tooling for splitting up the host OS Into several containers. Our idea at the time was to allow you to run multiple containers with a shared /usr and perhaps a shared /etc, but have each container have its own /var.  The thinking was read only content in /etc is shared with unprivileged users, and an admin should control the data available in /etc. Think of having hundreds of containers each running the same apache services off of the host OS.  Each one having their own private writable directories under /var.
+When docker came along, we decided to use the same policy mainly to allow people do things like:</p>
+<pre class="highlight plaintext"><code>docker run -v /etc/passwd:/etc/passwd rhel7 sh&#x000A;</code></pre>
+
+<p>Or</p>
+<pre class="highlight plaintext"><code>docker run -d -v /usr:/usr rhel7 /usr/bin/foobar&#x000A;</code></pre>
+
+<p>Also we saw people volume mounting in things like /etc/resolv.conf, /etc/hosts, /etc/localtime &hellip;</p>
+
+<p>This allowed us flexibility on labeling, with limited exposure to information leak. Upstream docker now has the ability to relabel content on the host when running inside of a container.</p>
+
+<p>Executing a command like the following:</p>
+<pre class="highlight plaintext"><code>docker run -d -v /var/lib/mariadb:/var/lib/madiadb:Z mariadb&#x000A;</code></pre>
+
+<p>Will cause the docker daemon to relabel the /var/lib/mariadb on the host to match the label of the container.  But you would not want to do this with shared content in /etc.</p>
+
+<p>Using the ‘:Z’ on /etc/passwd would be a bad idea.</p>
+<pre class="highlight plaintext"><code>docker run -v /etc/passwd:/etc/passwd:Z rhel7 sh&#x000A;</code></pre>
+
+<p>This command relabels /etc/passwd to a label that blocks access to other confined applications, potentially breaking those applications.</p>
+
+<p>Since these issues have been pointed out I have decided to tighten the default policy by eliminating the container process types&rsquo; ability to read default labels in /etc.  This will prevent a container process from being able to read /etc/passwd and other default files, but may cause certain issues when people want to volume mount in content from the hosts /etc directory.  We will try this out in Rawhide and Fedora 26, and see if it does not cause issues, eventually back port it to RHEL.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/docker/">docker</a></li>
+<li><a href="/blog/tag/security/">security</a></li>
+<li><a href="/blog/tag/selinux/">selinux</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/02/selinux-policy-containers/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/02/selinux-policy-containers/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/02/selinux-policy-containers/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

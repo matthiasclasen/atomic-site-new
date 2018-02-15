@@ -1,0 +1,825 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Project Atomic</title>
+  <subtitle/>
+  <id>http://www.projectatomic.io/blog/</id>
+  <link href="http://www.projectatomic.io/blog/"/>
+  <link href="http://www.projectatomic.io/public/feed.xml" rel="self"/>
+  <updated>2018-02-06T00:00:00+00:00</updated>
+  <author>
+    <name>Project Atomic. Sponsored by Red Hat, Inc.</name>
+  </author>
+  <entry>
+    <title>An Introduction to Fedora Atomic Workstation</title>
+    <link rel="alternate" href="http://www.projectatomic.io/blog/2018/02/fedora-atomic-workstation/"/>
+    <id>http://www.projectatomic.io/blog/2018/02/fedora-atomic-workstation/</id>
+    <published>2018-02-06T00:00:00+00:00</published>
+    <updated>2018-02-12T15:35:45+00:00</updated>
+    <author>
+      <name>Jonathan Lebon</name>
+    </author>
+    <content type="html">&lt;p&gt;For the last few Fedora releases, the Workstation WG has been working on
+combining the best of the Project Atomic pattern with the Fedora Workstation
+Edition into a deliverable dubbed &amp;ldquo;Fedora Atomic Workstation&amp;rdquo;. In
+Fedora 27, we have reached a point where we feel comfortable inviting other
+developers and enthusiasts to try it out and even make it their daily driver.&lt;/p&gt;
+
+&lt;p&gt;Read on to discover what Fedora Atomic Workstation is, what its benefits are,
+and how you can get started today!&lt;/p&gt;
+
+&lt;p&gt;Note: this blog post is based on a talk I gave at
+&lt;a href="https://devconf.cz/cz/2018"&gt;DevConf.cz 2018&lt;/a&gt;. Head over to
+&lt;a href="https://www.youtube.com/watch?v=7c3GdfhWzcc"&gt;YouTube&lt;/a&gt; if you&amp;rsquo;d prefer listening
+to it.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h3&gt;What is Atomic Workstation?&lt;/h3&gt;
+
+&lt;p&gt;Just like Atomic Host, Atomic Workstation uses RPM-OSTree as its update manager.
+However, Atomic Workstation is geared towards all the same use cases that the
+regular Workstation Edition is meant to fulfill. Though there are some
+differences between the two beyond the update model.&lt;/p&gt;
+
+&lt;p&gt;In an Atomic Workstation, desktop applications are shipped and run as
+&lt;a href="https://flatpak.org/"&gt;flatpaks&lt;/a&gt;, and development mostly happens inside
+containers. For example, you may have a pet container with your development
+environment set up as well as an &lt;code&gt;oc cluster up&lt;/code&gt; OpenShift cluster to develop
+server applications.&lt;/p&gt;
+
+&lt;h3&gt;Why should I use Atomic Workstation?&lt;/h3&gt;
+
+&lt;p&gt;So what are the advantages of this strategy? Many of the reasons below are
+shared with Atomic Host. Though I will try to give a more Workstation-centric
+point-of-view.&lt;/p&gt;
+
+&lt;h4&gt;1. Transactional Updates&lt;/h4&gt;
+
+&lt;p&gt;The main reason to use Atomic Workstation of course is transactional updates.
+This is as relevant in the server case as it is for desktops. Most people would
+consider their workstations to be the stereotypical pet system: set up and
+customized just the way they want them, and a huge hindrance to productivity if
+anything should happen to them. Using an update model which greatly reduces
+&lt;a href="https://www.happyassassin.net/2016/10/04/x-crash-during-fedora-update-when-system-has-hybrid-graphics-and-systemd-udev-is-in-update/"&gt;risks&lt;/a&gt;
+of
+&lt;a href="https://bugzilla.redhat.com/show_bug.cgi?id=1398698"&gt;failures&lt;/a&gt; is thus well
+justified.&lt;/p&gt;
+
+&lt;p&gt;I will not stay on this subject any longer since I assume readers of this blog
+are familiar with the benefits there and what pitfalls the Atomic model helps us
+avoid. If you are not familiar with these ideas, definitely check out the
+&lt;a href="http://ostree.readthedocs.io/en/latest/manual/introduction/"&gt;OSTree docs&lt;/a&gt;
+and the
+&lt;a href="http://www.projectatomic.io/docs/os-updates/"&gt;Project Atomic update docs&lt;/a&gt; if
+you&amp;rsquo;d like more information.&lt;/p&gt;
+
+&lt;h4&gt;2. Immutability and Isolation&lt;/h4&gt;
+
+&lt;p&gt;As discussed in
+&lt;a href="../../../2016/07/hacking-and-extending-atomic-host/"&gt;a previous blog entry&lt;/a&gt;,
+all the great features of an OSTree-based system require immutability of the
+base OS. For example, &lt;code&gt;/usr&lt;/code&gt; is &lt;em&gt;not&lt;/em&gt; writable by default. This is equally true
+in Atomic Workstation as it is in Atomic Host. This is a &lt;em&gt;good&lt;/em&gt; thing, because
+(1) it protects you from
+&lt;a href="https://github.com/MrMEEE/bumblebee-Old-and-abbandoned/issues/123"&gt;accidental damage&lt;/a&gt;,
+and (2) it encourages a healthier workflow.&lt;/p&gt;
+
+&lt;p&gt;For example, on &lt;code&gt;yum/dnf&lt;/code&gt;-managed systems, RPM scriptlets run unconfined
+&lt;em&gt;as root&lt;/em&gt; during update transactions, which opens the door for accidental (or
+intentional) corruption. On &lt;code&gt;rpm-ostree&lt;/code&gt;-managed systems, all scriptlets are run
+on the server when composing the update. (As mentioned lower down, we do also
+support layering additional RPMs; their scriptlets are run in a locked down
+container and cannot affect the running system).&lt;/p&gt;
+
+&lt;p&gt;By running your applications in flatpaks and doing your development in
+containers, you not only help protect your base OS from harm but also minimize
+the number of packages standing between you and a successful boot.&lt;/p&gt;
+
+&lt;p&gt;Basing your development workflow around pet containers could warrant a blog post
+of its own. There have been some great talks around that area at DevConf.cz this
+year (linked below).&lt;/p&gt;
+
+&lt;h4&gt;3. Effortless Change Tracking&lt;/h4&gt;
+
+&lt;p&gt;Now, part of customizing your workstation will undoubtedly require installing
+packages that are not part of the base OSTree and aren&amp;rsquo;t quite fit for
+containerization (e.g. drivers, virtualization stacks, &lt;code&gt;$FAVOURITE_EDITOR&lt;/code&gt;).
+Because RPM-OSTree is a &lt;em&gt;hybrid&lt;/em&gt; model, it understands both RPMs and OSTrees.
+We can, for example, do &lt;code&gt;rpm-ostree install vim-enhanced libvirt-client&lt;/code&gt; to
+layer additional packages. &lt;code&gt;rpm-ostree status&lt;/code&gt; will then show:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;$ rpm-ostree status
+State: idle
+Deployments:
+● faw27:fedora/27/x86_64/workstation
+                   Version: 27.62 (2018-01-31 21:39:54)
+                BaseCommit: a052d7482a186f1979f8bba90cfe1a1d0c13e75a43a416b580d2f2a83c18fe5a
+              GPGSignature: Valid signature by 860E19B0AFA800A1751881A6F55E7430F5282EE4
+           LayeredPackages: libvirt-client vim-enhanced
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In contrast to &lt;code&gt;dnf/yum&lt;/code&gt;-managed systems, which provide a &amp;ldquo;bag of
+packages&amp;rdquo; approach, &lt;code&gt;rpm-ostree status&lt;/code&gt; allows to know &lt;em&gt;exactly&lt;/em&gt; what we
+changed from the base OSTree commit, and how to go back to the initial state (in
+this case, &lt;code&gt;rpm-ostree uninstall libvirt-client vim-enhanced&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;For completeness, I will mention that RPM-OSTree not only supports pure
+additions, but also &lt;em&gt;replacing&lt;/em&gt; and &lt;em&gt;removing&lt;/em&gt; base packages. All these changes
+can equally be tracked in &lt;code&gt;rpm-ostree status&lt;/code&gt; and easily reverted.&lt;/p&gt;
+
+&lt;p&gt;Additionally, because in the OSTree model configuration defaults are stored in
+&lt;code&gt;/usr/etc&lt;/code&gt;, one can also perform a simple diff to figure out which defaults were
+changed (e.g. &lt;code&gt;diff /usr/etc /etc | less&lt;/code&gt;).&lt;/p&gt;
+
+&lt;h4&gt;4. Upstream Testing&lt;/h4&gt;
+
+&lt;p&gt;Having updates delivered as concrete units allows the content provider to more
+easily test them, which translates into a more stable operating system for end
+users. In contrast, it&amp;rsquo;s effectively impossible in the &amp;ldquo;bag of
+packages&amp;rdquo; approach to sanely test all permutations. This mostly means that
+testing is limited to the package-level.&lt;/p&gt;
+
+&lt;p&gt;In an OSTree model however, it&amp;rsquo;s possible to gate updates on higher-level
+integration tests such as what we&amp;rsquo;ve been doing in the two-week releases of
+Fedora Atomic Host. Note though that Atomic Workstation updates are not
+currently being gated on tests; we are still at the onset of these discussions.&lt;/p&gt;
+
+&lt;h4&gt;5. Automatic Updates&lt;/h4&gt;
+
+&lt;p&gt;In RPM-OSTree, we are currently working on adding an
+&lt;a href="https://github.com/projectatomic/rpm-ostree/issues/247"&gt;automatic update feature&lt;/a&gt;.
+Similar functionality on &lt;code&gt;dnf&lt;/code&gt;-managed systems does
+&lt;a href="https://fedoraproject.org/wiki/AutoUpdates"&gt;exist&lt;/a&gt;. The difference is that the
+OSTree model allows us to eliminate or minimize
+&lt;a href="https://fedoraproject.org/wiki/AutoUpdates#Reasons_AGAINST_using_automatic_updates"&gt;many of the issues&lt;/a&gt;
+involved in such a scheme. For example, the ability to roll back updates is
+critical here, and this is something that RPM-OSTree does with ease.&lt;/p&gt;
+
+&lt;p&gt;In the future, we&amp;rsquo;d like to get to a point where (if enabled) the system
+automatically prepares updates in the background and &lt;q&gt;upgrading&lt;/q&gt; simply involves
+rebooting your computer for minimal downtime.&lt;/p&gt;
+
+&lt;h3&gt;How can I get started with Atomic Workstation?&lt;/h3&gt;
+
+&lt;p&gt;You can either
+&lt;a href="https://download.fedoraproject.org/pub/fedora/linux/releases/27/WorkstationOstree/x86_64/iso/"&gt;download the ISO&lt;/a&gt;
+and re-install from scratch, or you can convert your existing &lt;code&gt;dnf&lt;/code&gt;-based system
+using the steps from
+&lt;a href="https://pagure.io/workstation-ostree-config/blob/master/f/README-install-inside.md"&gt;this&lt;/a&gt;
+document. The latter also allows you to switch back and forth between the two
+models if you&amp;rsquo;re not yet ready to dive in.&lt;/p&gt;
+
+&lt;p&gt;Once booted into Atomic Workstation, check out the &amp;ldquo;Using the system&amp;rdquo;
+section &lt;a href="https://pagure.io/workstation-ostree-config"&gt;here&lt;/a&gt;. To learn more about
+how to manage upgrades, check out the Project Atomic
+&lt;a href="http://www.projectatomic.io/docs/os-updates/"&gt;docs&lt;/a&gt; and the RPM-OSTree
+&lt;a href="http://rpm-ostree.readthedocs.io/en/latest/manual/administrator-handbook/"&gt;docs&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you need any help, you can pop into the &lt;code&gt;freenode/#atomic&lt;/code&gt; channel, or send
+an email to the
+&lt;a href="http://lists.projectatomic.io/mailman/listinfo/atomic-devel"&gt;atomic-devel&lt;/a&gt;
+mailing list.&lt;/p&gt;
+
+&lt;h3&gt;More information&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://fedoraproject.org/wiki/Changes/WorkstationOstree"&gt;Fedora Change Proposal&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://pagure.io/workstation-ostree-config"&gt;workstation-ostree-config&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=Yc7lvkl5atE"&gt;Kalev Lember: Atomic Workstation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=a4IPWlf"&gt;Sanja Bonic and Colin Walters: You want a Clean Desktop OS? Containerize it.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=eWoFpOoA-tE"&gt;Jan Pazdziora: Minimizing workstation installation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Fedora 27 Atomic Host February 2nd Release</title>
+    <link rel="alternate" href="http://www.projectatomic.io/blog/2018/02/fedora-atomic-2-feb-18/"/>
+    <id>http://www.projectatomic.io/blog/2018/02/fedora-atomic-2-feb-18/</id>
+    <published>2018-02-02T00:00:00+00:00</published>
+    <updated>2018-02-12T15:35:45+00:00</updated>
+    <author>
+      <name>Dusty Mabe</name>
+    </author>
+    <content type="html">&lt;p&gt;In this week&amp;rsquo;s release of Fedora Atomic Host we have a new kernel,
+ostree/rpm-ostree, glibc, and cloud-utils-growpart (fixes for aarch64
+&lt;a href="https://pagure.io/atomic-wg/issue/382"&gt;partition resize issues&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;The new Fedora Atomic Host update is available via an OSTree update:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Version: 27.72&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Commit(x86_64): 39848372585a65dc63fb3052f997139b8b30d6b55ce378337db3664177489d28&lt;/li&gt;
+&lt;li&gt;Commit(aarch64): 8048d384f231f90a7479cf94bfe94053970fb9a0f196ba4485d779696db81fa1&lt;/li&gt;
+&lt;li&gt;Commit(ppc64le): 3fce2908406e41e2ffe533908e840f44311576befe7e49396d1894407341aef9&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We are releasing images from multiple architectures but please note that x86_64 architecture is the only one that undergoes automated testing at this time.&lt;/p&gt;
+
+&lt;p&gt;Existing systems can be upgraded in place via e.g. &lt;code&gt;atomic host upgrade&lt;/code&gt; or &lt;code&gt;atomic host deploy&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;An example of the diff between this and the previous released version (for x86_64) is:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ostree diff commit old: 772ab185b0752b0d6bc8b2096d08955660d80ed95579e13e136e6a54e3559ca9&lt;/li&gt;
+&lt;li&gt;ostree diff commit new: 39848372585a65dc63fb3052f997139b8b30d6b55ce378337db3664177489d28&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Upgraded:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;NetworkManager 1:1.8.4-7.fc27.x86_64 -&amp;gt; 1:1.8.6-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;NetworkManager-libnm 1:1.8.4-7.fc27.x86_64 -&amp;gt; 1:1.8.6-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;NetworkManager-team 1:1.8.4-7.fc27.x86_64 -&amp;gt; 1:1.8.6-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;cloud-utils-growpart 0.27-18.fc27.noarch -&amp;gt; 0.30-1.fc27.noarch&lt;/li&gt;
+&lt;li&gt;cockpit-bridge 159-1.fc27.x86_64 -&amp;gt; 160-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;cockpit-docker 159-1.fc27.x86_64 -&amp;gt; 160-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;cockpit-networkmanager 159-1.fc27.noarch -&amp;gt; 160-1.fc27.noarch&lt;/li&gt;
+&lt;li&gt;cockpit-ostree 159-1.fc27.x86_64 -&amp;gt; 160-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;cockpit-system 159-1.fc27.noarch -&amp;gt; 160-1.fc27.noarch&lt;/li&gt;
+&lt;li&gt;container-selinux 2:2.38-1.fc27.noarch -&amp;gt; 2:2.42-1.fc27.noarch&lt;/li&gt;
+&lt;li&gt;coreutils 8.27-17.fc27.x86_64 -&amp;gt; 8.27-19.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;coreutils-common 8.27-17.fc27.x86_64 -&amp;gt; 8.27-19.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;curl 7.55.1-8.fc27.x86_64 -&amp;gt; 7.55.1-9.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;dnsmasq 2.78-1.fc27.x86_64 -&amp;gt; 2.78-2.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;gdbm 1.14-1.fc27.x86_64 -&amp;gt; 1:1.13-6.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;glib2 2.54.2-1.fc27.x86_64 -&amp;gt; 2.54.3-2.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;glibc 2.26-21.fc27.x86_64 -&amp;gt; 2.26-24.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;glibc-all-langpacks 2.26-21.fc27.x86_64 -&amp;gt; 2.26-24.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;glibc-common 2.26-21.fc27.x86_64 -&amp;gt; 2.26-24.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;gnutls 3.5.16-4.fc27.x86_64 -&amp;gt; 3.5.17-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;kernel 4.14.13-300.fc27.x86_64 -&amp;gt; 4.14.14-300.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;kernel-core 4.14.13-300.fc27.x86_64 -&amp;gt; 4.14.14-300.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;kernel-modules 4.14.13-300.fc27.x86_64 -&amp;gt; 4.14.14-300.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;libassuan 2.4.3-6.fc27.x86_64 -&amp;gt; 2.5.1-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;libcrypt-nss 2.26-21.fc27.x86_64 -&amp;gt; 2.26-24.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;libcurl 7.55.1-8.fc27.x86_64 -&amp;gt; 7.55.1-9.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;libgcrypt 1.8.1-3.fc27.x86_64 -&amp;gt; 1.8.2-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;libnfsidmap 1:2.2.1-3.rc2.fc27.x86_64 -&amp;gt; 1:2.2.1-4.rc2.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;libtasn1 4.12-3.fc27.x86_64 -&amp;gt; 4.13-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;libxml2 2.9.5-2.fc27.x86_64 -&amp;gt; 2.9.7-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;nfs-utils 1:2.2.1-3.rc2.fc27.x86_64 -&amp;gt; 1:2.2.1-4.rc2.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;ostree 2017.15-1.fc27.x86_64 -&amp;gt; 2018.1-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;ostree-grub2 2017.15-1.fc27.x86_64 -&amp;gt; 2018.1-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;ostree-libs 2017.15-1.fc27.x86_64 -&amp;gt; 2018.1-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;python2 2.7.14-5.fc27.x86_64 -&amp;gt; 2.7.14-6.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;python2-libs 2.7.14-5.fc27.x86_64 -&amp;gt; 2.7.14-6.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;python3 3.6.3-2.fc27.x86_64 -&amp;gt; 3.6.4-6.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;python3-libs 3.6.3-2.fc27.x86_64 -&amp;gt; 3.6.4-6.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;python3-libxml2 2.9.5-2.fc27.x86_64 -&amp;gt; 2.9.7-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;rpm-ostree 2017.11-1.fc27.x86_64 -&amp;gt; 2018.1-2.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;rpm-ostree-libs 2017.11-1.fc27.x86_64 -&amp;gt; 2018.1-2.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;sed 4.4-3.fc27.x86_64 -&amp;gt; 4.4-4.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;timedatex 0.4-5.fc27.x86_64 -&amp;gt; 0.5-2.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;vim-minimal 2:8.0.1427-1.fc27.x86_64 -&amp;gt; 2:8.0.1438-1.fc27.x86_64&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Removed:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;python-rhsm-certificates-1.20.1-3.fc27.x86_64&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Added:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;subscription-manager-rhsm-certificates-1.21.1-1.fc27.x86_64&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Corresponding image media for new installations can be downloaded from: &lt;a href="https://getfedora.org/en/atomic/download/"&gt;Fedora Downloads&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Alternatively, image artifacts can be found at the following links:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/Atomic/aarch64/iso/Fedora-Atomic-ostree-aarch64-27-20180201.0.iso"&gt;aarch64 ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/Atomic/ppc64le/iso/Fedora-Atomic-ostree-ppc64le-27-20180201.0.iso"&gt;ppc64le ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/Atomic/x86_64/iso/Fedora-Atomic-ostree-x86_64-27-20180201.0.iso"&gt;x86_64 ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/CloudImages/aarch64/images/Fedora-Atomic-27-20180201.0.aarch64.qcow2"&gt;aarch64 Cloud Image QCOW&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/CloudImages/aarch64/images/Fedora-Atomic-27-20180201.0.aarch64.raw.xz"&gt;aarch64 Cloud Image raw&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/CloudImages/ppc64le/images/Fedora-Atomic-27-20180201.0.ppc64le.qcow2"&gt;ppc64le Cloud Image QCOW&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/CloudImages/ppc64le/images/Fedora-Atomic-27-20180201.0.ppc64le.raw.xz"&gt;ppc64le Cloud Image raw&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/CloudImages/x86_64/images/Fedora-Atomic-27-20180201.0.x86_64.qcow2"&gt;x86_64 Cloud Image QCOW&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/CloudImages/x86_64/images/Fedora-Atomic-27-20180201.0.x86_64.raw.xz"&gt;x86_64 Cloud Image raw&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/CloudImages/x86_64/images/Fedora-Atomic-Vagrant-27-20180201.0.x86_64.vagrant-libvirt.box"&gt;x86_64 Cloud Image LibVirt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/CloudImages/x86_64/images/Fedora-Atomic-Vagrant-27-20180201.0.x86_64.vagrant-virtualbox.box"&gt;x86_64 Cloud Image VirtualBox&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Respective signed CHECKSUM files can be found here:
+* &lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/Atomic/aarch64/iso/Fedora-Atomic-27-20180201.0-aarch64-CHECKSUM"&gt;aarch64 ISO&lt;/a&gt;
+* &lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/Atomic/ppc64le/iso/Fedora-Atomic-27-20180201.0-ppc64le-CHECKSUM"&gt;ppc64le ISO&lt;/a&gt;
+* &lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/Atomic/x86_64/iso/Fedora-Atomic-27-20180201.0-x86_64-CHECKSUM"&gt;x86_64 ISO&lt;/a&gt;
+* &lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/CloudImages/aarch64/images/Fedora-CloudImages-27-20180201.0-aarch64-CHECKSUM"&gt;aarch64 Cloud Image&lt;/a&gt;
+* &lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/CloudImages/ppc64le/images/Fedora-CloudImages-27-20180201.0-ppc64le-CHECKSUM"&gt;ppc64le Cloud Image&lt;/a&gt;
+* &lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180201.0/CloudImages/x86_64/images/Fedora-CloudImages-27-20180201.0-x86_64-CHECKSUM"&gt;x86_64 Cloud Image&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;For direct download, the &lt;q&gt;latest&lt;/q&gt; targets are always available here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_iso_latest"&gt;ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_qcow2_latest"&gt;QCOW&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_raw_latest"&gt;raw&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_vagrant_libvirt_latest"&gt;LibVirt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_vagrant_virtualbox_latest"&gt;VirtualBox&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Filename fetching URLs are available here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_iso_latest_filename"&gt;ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_qcow2_latest_filename"&gt;QCOW&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_raw_latest_filename"&gt;raw&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_vagrant_libvirt_latest_filename"&gt;LibVirt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_vagrant_virtualbox_latest_filename"&gt;VirtualBox&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For more information about the latest targets, please reference the &lt;a href="https://fedoraproject.org/wiki/Atomic_WG#Fedora_Atomic_Image_Download_Links"&gt;Fedora Atomic Wiki&lt;/a&gt; space.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Do note that it can take some of the mirrors up to 12 hours to &lt;q&gt;check-in&lt;/q&gt; at
+their own discretion.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The Vagrant Cloud page with the new Atomic Host:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://app.vagrantup.com/fedora/boxes/27-atomic-host"&gt;https://app.vagrantup.com/fedora/boxes/27-atomic-host&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://app.vagrantup.com/fedora/boxes/27-atomic-host/versions/27.20180201.0"&gt;https://app.vagrantup.com/fedora/boxes/27-atomic-host/versions/27.20180201.0&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For posterity the AMIs for this release are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (ap-northeast-1) ami-234e2545    hvm  standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (ap-southeast-1) ami-cd7236b1    hvm  standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (ap-southeast-2) ami-46827a24    hvm  standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (eu-central-1)   ami-e0b9238f    hvm  standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (eu-west-1)      ami-32b4d94b    hvm  standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (sa-east-1)      ami-035b146f    hvm  standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (us-east-1)      ami-97ebeced    hvm  standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (us-west-1)      ami-854b44e5    hvm  standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (us-west-2)      ami-d075cea8    hvm  standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (ap-northeast-1) ami-e24c2784    hvm  gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (ap-southeast-1) ami-d27236ae    hvm  gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (ap-southeast-2) ami-47827a25    hvm  gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (eu-central-1)   ami-adb822c2    hvm  gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (eu-west-1)      ami-fdb0dd84    hvm  gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (sa-east-1)      ami-325c135e    hvm  gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (us-east-1)      ami-56e2e52c    hvm  gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (us-west-1)      ami-f84c4398    hvm  gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180201.0.x86_64  EC2 (us-west-2)      ami-b66ad1ce    hvm  gp2&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Firewalld in Atomic Host</title>
+    <link rel="alternate" href="http://www.projectatomic.io/blog/2018/02/firewalld-in-atomic-host/"/>
+    <id>http://www.projectatomic.io/blog/2018/02/firewalld-in-atomic-host/</id>
+    <published>2018-02-01T18:00:00+00:00</published>
+    <updated>2018-02-12T15:35:45+00:00</updated>
+    <author>
+      <name>Dusty Mabe</name>
+    </author>
+    <content type="html">&lt;h3&gt;TL;DR&lt;/h3&gt;
+
+&lt;p&gt;Fedora Atomic Host (and derivatives) will now include the &lt;code&gt;firewalld&lt;/code&gt;
+package in the base OSTree that is tested, delivered, and released
+every two weeks. Existing users should observe no change as it won&amp;rsquo;t
+be enabled by default.&lt;/p&gt;
+
+&lt;h3&gt;Firewalld in Atomic Host&lt;/h3&gt;
+
+&lt;p&gt;In the past we have had requests to have &lt;code&gt;firewalld&lt;/code&gt; in Atomic Host
+to enable a better interface into firewall management for
+administrators and management software. It turns out that if you have
+lots of rules to manage, or even multiple pieces of software trying to
+manage different sets of rules on a single system, then &lt;code&gt;iptables&lt;/code&gt;
+becomes a limitation pretty quickly.&lt;/p&gt;
+
+&lt;p&gt;Atomic Host users do have the ability to package layer &lt;code&gt;firewalld&lt;/code&gt;,
+but &lt;a href="https://www.projectatomic.io/blog/2017/06/rpm-ostree-v2017.6-released/"&gt;live changes to the host&lt;/a&gt;
+are currently experimental. Since rebooting during system provisioning
+in certain environments is not desirable, and &lt;code&gt;firewalld&lt;/code&gt; is
+relatively small, the &lt;a href="https://pagure.io/atomic-wg"&gt;Fedora Atomic Working Group&lt;/a&gt;
+&lt;a href="https://pagure.io/atomic-wg/issue/372"&gt;decided&lt;/a&gt; to include &lt;code&gt;firewalld&lt;/code&gt; in the
+base OSTree. &lt;/p&gt;
+
+&lt;p&gt;In order to not affect existing users the &lt;code&gt;firewalld&lt;/code&gt; service will be
+disabled by default. Existing users should observe no change in behavior.
+Users who want to use &lt;code&gt;firewalld&lt;/code&gt; can enable/start the service and start
+using it immediately.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h3&gt;Scenarios&lt;/h3&gt;
+
+&lt;p&gt;So you&amp;rsquo;re an existing or new user of Atomic Host. What does this mean
+for you?&lt;/p&gt;
+
+&lt;h4&gt;I have Atomic Host systems that are already running:&lt;/h4&gt;
+
+&lt;p&gt;You can &lt;code&gt;rpm-ostree upgrade&lt;/code&gt; like normal. The new &lt;code&gt;firewalld&lt;/code&gt; package
+will be delivered as part of updates but won&amp;rsquo;t be enabled so
+you should see no change in functionality.&lt;/p&gt;
+
+&lt;h4&gt;I use the Atomic Host cloud/vagrant images to start new systems:&lt;/h4&gt;
+
+&lt;p&gt;Nothing will change here. We
+&lt;a href="https://pagure.io/fedora-kickstarts/blob/master/f/fedora-atomic.ks#_28-30"&gt;explicitly disable&lt;/a&gt;
+the firewall in the cloud image kickstarts since cloud environments
+typically have a higher level firewall mechanism, like security
+groups.&lt;/p&gt;
+
+&lt;h4&gt;I install new systems interactively using the ISO:&lt;/h4&gt;
+
+&lt;p&gt;You should be able to interactively install Atomic Host just fine.
+&lt;code&gt;firewalld&lt;/code&gt; will not be enabled by default.&lt;/p&gt;
+
+&lt;h4&gt;I install new systems using the ISO with a kickstart file:&lt;/h4&gt;
+
+&lt;p&gt;In this case if you don&amp;rsquo;t have a &lt;code&gt;firewall ...&lt;/code&gt; line in the kickstart
+file then you &lt;strong&gt;need&lt;/strong&gt; to add one to say what you want to do. You have
+three options:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;firewall --enable&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;firewall --disable&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;firewall --use-system-defaults&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The first two options are pretty clear. The last option is a little
+more unclear. This option was actually added to
+&lt;a href="https://github.com/rhinstaller/anaconda/pull/1271"&gt;anaconda&lt;/a&gt;
+/
+&lt;a href="https://github.com/rhinstaller/pykickstart/pull/203"&gt;pykickstart&lt;/a&gt;
+to enable us to ask anaconda to &lt;strong&gt;leave the system defaults&lt;/strong&gt; in place
+so that we could deliver a default
+&lt;a href="https://pagure.io/fedora-atomic/pull-request/103"&gt;in the OSTree&lt;/a&gt;
+and have Anaconda respect that default.&lt;/p&gt;
+
+&lt;h3&gt;Migrating a system to use firewalld&lt;/h3&gt;
+
+&lt;p&gt;If you have booted a system and you want to configure it to use
+firewalld then you can simply enable/start it using &lt;code&gt;systemctl&lt;/code&gt;.
+It&amp;rsquo;s a good idea to also restart docker, which does some detection
+on startup to determine what firewall management tool is used.
+You can do this by either restarting the docker service or rebooting
+your system so all services restart. &lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# systemctl enable firewalld
+# systemctl start firewalld
+# systemctl restart docker
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;Using firewalld with OpenShift Origin&lt;/h3&gt;
+
+&lt;p&gt;If you want to use firewalld with OpenShift and you use the
+&lt;a href="https://github.com/openshift/openshift-ansible"&gt;OpenShift Ansible&lt;/a&gt;
+installer then you &lt;a href="https://github.com/openshift/openshift-ansible/pull/6763"&gt;can now&lt;/a&gt;
+set a few variables in your inventory file to tell the installer
+you want it to use &lt;code&gt;firewalld&lt;/code&gt; to manage the firewall. Here are
+the few variables:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;[OSEv3:vars]
+os_firewall_use_firewalld=true
+openshift_enable_unsupported_configurations=true
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Using OCI Image Registries with Buildah</title>
+    <link rel="alternate" href="http://www.projectatomic.io/blog/2018/01/using-image-registries-with-buildah/"/>
+    <id>http://www.projectatomic.io/blog/2018/01/using-image-registries-with-buildah/</id>
+    <published>2018-01-26T00:00:00+00:00</published>
+    <updated>2018-02-12T15:35:45+00:00</updated>
+    <author>
+      <name>ipbabble</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;img alt="Buildah" src="/images/buildah-logo.png?1517062481" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Using Buildah with container registries&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;Prerequisite: Buildah version 0.9 or greater.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;First some terminology. In the container image space, Docker popularized two terms: &lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Container image registry&lt;/li&gt;
+&lt;li&gt;Container image repository&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The container image registry, or registry, is a shared data store for pushing and pulling container images. It has a well-known API for such requests. Docker Hub is an example of a public registry. Various vendors and developers store their images on Docker Hub. Most organizations I&amp;rsquo;ve dealt with don&amp;rsquo;t wish to pull images from a public registry for reasons such as security or network bandwidth usage. Instead they would prefer to use a local private registry.  &lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;The second term is a container image repository, A repository is a local storage area on a host. Images are often pulled from a registry to the host&amp;rsquo;s repository and run on the host. Sometimes they are modified, tagged and pushed back into a registry as a new image or a new version of an image. On a host that is using Buildah, and its underlying OCI-based technology, this repository is located in &lt;code&gt;/var/lib/containers/storage&lt;/code&gt;.  This is used by, but not to be confused with, the containers/storage and containers/image library projects. These projects use the &lt;code&gt;/var/lib/containers/storage&lt;/code&gt; directory by default. &lt;/p&gt;
+
+&lt;p&gt;When you develop a useful container image using Buildah you may wish to share it with others either in a local container image registry or a remote or public container image registry. The purpose of this tutorial is to demonstrate how Buildah can be used to move OCI-compliant images in and out of private or public registries.&lt;/p&gt;
+
+&lt;p&gt;In the &lt;a href="http://www.projectatomic.io/blog/2017/11/getting-started-with-buildah/"&gt;first tutorial&lt;/a&gt; we built an image from scratch that we called &lt;code&gt;fedora-bashecho&lt;/code&gt; and we pushed it to a local Docker repository using the &lt;code&gt;docker-daemon&lt;/code&gt; protocol. We are going to use the same image to push to a private Docker registry. If you have not performed the first tutorial it is important that you do that now, before you proceed.&lt;/p&gt;
+
+&lt;h4&gt;Starting a local Image Registry&lt;/h4&gt;
+
+&lt;p&gt;First we must pull down a registry image. We are going to use the registry image from Docker Hub. As a shortcut we will save the container name that is returned from the &lt;code&gt;buildah from&lt;/code&gt; command, into a bash shell variable called &lt;code&gt;registry&lt;/code&gt;. This is just like we did in Tutorial 1:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# registry=$(buildah from registry)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It is worth pointing out that the &lt;code&gt;from&lt;/code&gt; command can also use other protocols beyond the default (and implicity assumed) order that first looks in local containers-storage (containers-storage:) and then looks in the Docker hub (docker:). For example, if you already had a registry container image in a local Docker registry then you could use the following:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# registry=$(buildah from docker-daemon:registry:latest)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then we need to start the registry. You should start the registry in a separate shell and leave it running there:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# buildah run $registry
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you would like to see more details as to what is going on inside the registry, especially if you are having problems with the registry, you can run the registry container in debug mode as follows:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# buildah --debug run $registry
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can use &lt;code&gt;--debug&lt;/code&gt; on any Buildah command.&lt;/p&gt;
+
+&lt;p&gt;The registry is running and is waiting for requests to process. Notice that this registry is a Docker registry that we pulled from Docker hub and we are running it for this example using &lt;code&gt;buildah run&lt;/code&gt;. There is no Docker daemon running at this time.&lt;/p&gt;
+
+&lt;h4&gt;Pushing an image to a private registry&lt;/h4&gt;
+
+&lt;p&gt;Let&amp;rsquo;s push our image to the private registry. By default, Buildah is set up to expect secure connections to a registry. Therefore we will need to turn the TLS verification off using the &lt;code&gt;--tls-verify&lt;/code&gt; flag. We also need to tell Buildah that the registry is on this local host ( i.e. localhost) and listening on port 5000. Similar to  what you&amp;rsquo;d expect to do on multi-tenant Docker hub, we will explicitly specify that the registry is to store the image under the &lt;code&gt;ipbabble&lt;/code&gt; repository - so as not to clash with other users&amp;rsquo; similarly named images.&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# buildah push --tls-verify=false fedora-bashecho docker://localhost:5000/ipbabble/fedora-bashecho:latest
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4&gt;Inspecting an image with Skopeo&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/projectatomic/skopeo"&gt;Skopeo&lt;/a&gt; is a Project Atomic tool that was created to inspect images in registries without having to pull the image from the registry. It has grown to have many other uses. We will verify that the image has been stored by using Skopeo to inspect the image in the registry:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# skopeo inspect --tls-verify=false docker://localhost:5000/ipbabble/fedora-bashecho:latest
+{
+    "Name": "localhost:5000/ipbabble/fedora-bashecho",
+    "Digest": "sha256:6806f9385f97bc09f54b5c0ef583e58c3bc906c8c0b3e693d8782d0a0acf2137",
+    "RepoTags": [
+        "latest"
+    ],
+    "Created": "2017-12-05T21:38:12.311901938Z",
+    "DockerVersion": "",
+    "Labels": {
+        "name": "fedora-bashecho"
+    },
+    "Architecture": "amd64",
+    "Os": "linux",
+    "Layers": [
+        "sha256:0cb7556c714767b8da6e0299cbeab765abaddede84769475c023785ae66d10ca"
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4&gt;Testing portability&lt;/h4&gt;
+
+&lt;p&gt;We can verify that it is still portable with Docker by starting Docker again, as we did in the first tutorial. Then we can pull down the image and starting the container using Docker:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# systemctl start docker
+# docker pull localhost:5000/ipbabble/fedora-bashecho
+Using default tag: latest
+Trying to pull repository localhost:5000/ipbabble/fedora-bashecho ...
+sha256:6806f9385f97bc09f54b5c0ef583e58c3bc906c8c0b3e693d8782d0a0acf2137: Pulling from localhost:5000/ipbabble/fedora-bashecho
+0cb7556c7147: Pull complete
+Digest: sha256:6806f9385f97bc09f54b5c0ef583e58c3bc906c8c0b3e693d8782d0a0acf2137
+Status: Downloaded newer image for localhost:5000/ipbabble/fedora-bashecho:latest
+
+# docker run localhost:5000/ipbabble/fedora-bashecho
+This is a new container named ipbabble [ 0 ]
+This is a new container named ipbabble [ 1 ]
+This is a new container named ipbabble [ 2 ]
+This is a new container named ipbabble [ 3 ]
+This is a new container named ipbabble [ 4 ]
+This is a new container named ipbabble [ 5 ]
+This is a new container named ipbabble [ 6 ]
+This is a new container named ipbabble [ 7 ]
+This is a new container named ipbabble [ 8 ]
+This is a new container named ipbabble [ 9 ]
+# systemctl stop docker
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4&gt;Pushing to and pulling from a public registry&lt;/h4&gt;
+
+&lt;p&gt;Pushing to Docker Hub is just as easy. Of course you must have an account with credentials. In this example I&amp;rsquo;m using a Docker Hub API key, which has the form &lt;q&gt;username:password&lt;/q&gt; (example password has been edited for privacy), that I created with my Docker Hub account. I use the &lt;code&gt;--creds&lt;/code&gt; flag to use my API key. I also specify my local image name &lt;code&gt;fedora-bashecho&lt;/code&gt; as my image source and I use the &lt;code&gt;docker&lt;/code&gt; protocol with no host or port so that it will look at the default Docker Hub registry:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;#  buildah push --creds ipbabble:5bbb9990-6eeb-1234-af1a-aaa80066887c fedora-bashecho docker://ipbabble/fedora-bashecho:latest
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And let&amp;rsquo;s inspect that with Skopeo:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# skopeo inspect --creds ipbabble:5bbb9990-6eeb-1234-af1a-aaa80066887c docker://ipbabble/fedora-bashecho:latest
+{
+    "Name": "docker.io/ipbabble/fedora-bashecho",
+    "Digest": "sha256:6806f9385f97bc09f54b5c0ef583e58c3bc906c8c0b3e693d8782d0a0acf2137",
+    "RepoTags": [
+        "latest"
+    ],
+    "Created": "2017-12-05T21:38:12.311901938Z",
+    "DockerVersion": "",
+    "Labels": {
+        "name": "fedora-bashecho"
+    },
+    "Architecture": "amd64",
+    "Os": "linux",
+    "Layers": [
+        "sha256:0cb7556c714767b8da6e0299cbeab765abaddede84769475c023785ae66d10ca"
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can use Buildah to pull down the image using the &lt;code&gt;buildah from&lt;/code&gt; command. But before we do that, let&amp;rsquo;s clean up our local containers-storage so that we don&amp;rsquo;t have an existing fedora-bashecho - otherwise Buildah will know it already exists and not bother pulling it down.&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;#  buildah images
+IMAGE ID             IMAGE NAME                                               CREATED AT             SIZE
+d4cd7d73ee42         docker.io/library/registry:latest                        Dec 1, 2017 22:15      31.74 MB
+e31b0f0b0a63         docker.io/library/fedora-bashecho:latest                 Dec 5, 2017 21:38      772 B
+# buildah rmi fedora-bashecho
+untagged: docker.io/library/fedora-bashecho:latest
+e31b0f0b0a63e94c5a558d438d7490fab930a282a4736364360ab9b92cb25f3a
+#  buildah images
+IMAGE ID             IMAGE NAME                                               CREATED AT             SIZE
+d4cd7d73ee42         docker.io/library/registry:latest                        Dec 1, 2017 22:15      31.74 MB
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Okay, so we don&amp;rsquo;t have a fedora-bashecho anymore. Let&amp;rsquo;s pull the image from Docker Hub:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# buildah from ipbabble/fedora-bashecho
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you don&amp;rsquo;t want to bother doing the remove image step (&lt;code&gt;rmi&lt;/code&gt;) you can use the flag &lt;code&gt;--pull-always&lt;/code&gt; to force the image to be pulled again and overwrite any corresponding local image.&lt;/p&gt;
+
+&lt;p&gt;Now check that image is in the local containers-storage:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# buildah images
+IMAGE ID             IMAGE NAME                                               CREATED AT             SIZE
+d4cd7d73ee42         docker.io/library/registry:latest                        Dec 1, 2017 22:15      31.74 MB
+864871ac1c45         docker.io/ipbabble/fedora-bashecho:latest                Dec 5, 2017 21:38      315.4 MB
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Success!&lt;/p&gt;
+
+&lt;p&gt;If you have any suggestions or issues please post them at the &lt;a href="https://github.com/projectatomic/buildah/issues"&gt;ProjectAtomic Buildah Issues page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;For more information on Buildah and how you might contribute please visit the &lt;a href="https://github.com/projectatomic/buildah"&gt;Buildah home page on Github&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Fedora 27 Atomic Host January 18th Release</title>
+    <link rel="alternate" href="http://www.projectatomic.io/blog/2018/01/fedora-atomic-18-jan-18/"/>
+    <id>http://www.projectatomic.io/blog/2018/01/fedora-atomic-18-jan-18/</id>
+    <published>2018-01-18T16:00:00+00:00</published>
+    <updated>2018-02-12T15:35:45+00:00</updated>
+    <author>
+      <name>Dusty Mabe</name>
+    </author>
+    <content type="html">&lt;p&gt;In this week&amp;rsquo;s release of Fedora Atomic Host we have an updated kernel (the &lt;a href="https://fedoramagazine.org/update-ongoing-meltdown-spectre-work/"&gt;spectre patches&lt;/a&gt; are slowly working their way out), and an &lt;a href="https://bugzilla.redhat.com/show_bug.cgi?id=1510351"&gt;updated docker with a security fix&lt;/a&gt;. We also are &lt;em&gt;including&lt;/em&gt; &lt;a href="https://pagure.io/atomic-wg/issue/372"&gt;firewalld in the ostree&lt;/a&gt; now, but we are &lt;em&gt;not&lt;/em&gt; enabling it by default. I&amp;rsquo;ll post a follow up blog post on this topic in the next day or two.&lt;/p&gt;
+
+&lt;p&gt;The new Fedora Atomic Host update is available via an OSTree update:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Version: 27.61&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Commit(x86_64): 772ab185b0752b0d6bc8b2096d08955660d80ed95579e13e136e6a54e3559ca9&lt;/li&gt;
+&lt;li&gt;Commit(aarch64): 598626fd61dc6ed4b702159e50b6029ee70a527e855fce7d8e61a870b141f893&lt;/li&gt;
+&lt;li&gt;Commit(ppc64le): 16ce78ee689066f582dbfc0672dab1706051fefab496fcebd8109d58738eb8fe&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We are releasing images from multiple architectures but please note that x86_64 architecture is the only one that undergoes automated testing at this time.&lt;/p&gt;
+
+&lt;p&gt;Existing systems can be upgraded in place via e.g. &lt;code&gt;atomic host upgrade&lt;/code&gt; or &lt;code&gt;atomic host deploy&lt;/code&gt;. Systems on Fedora Atomic 26 can be upgraded using &lt;code&gt;rpm-ostree rebase&lt;/code&gt;. Refer to the &lt;a href="/blog/2017/11/fedora-atomic-26-to-27-upgrade/"&gt;upgrade guide&lt;/a&gt; for more details.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;Upgraded:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;GeoIP-GeoLite-data 2017.10-1.fc27.noarch -&amp;gt; 2018.01-1.fc27.noarch&lt;/li&gt;
+&lt;li&gt;bash 4.4.12-12.fc27.x86_64 -&amp;gt; 4.4.12-13.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;cockpit-bridge 158-1.fc27.x86_64 -&amp;gt; 159-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;cockpit-docker 158-1.fc27.x86_64 -&amp;gt; 159-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;cockpit-networkmanager 158-1.fc27.noarch -&amp;gt; 159-1.fc27.noarch&lt;/li&gt;
+&lt;li&gt;cockpit-ostree 158-1.fc27.x86_64 -&amp;gt; 159-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;cockpit-system 158-1.fc27.noarch -&amp;gt; 159-1.fc27.noarch&lt;/li&gt;
+&lt;li&gt;container-selinux 2:2.37-1.fc27.noarch -&amp;gt; 2:2.38-1.fc27.noarch&lt;/li&gt;
+&lt;li&gt;dhcp-client 12:4.3.6-7.fc27.x86_64 -&amp;gt; 12:4.3.6-8.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;dhcp-common 12:4.3.6-7.fc27.noarch -&amp;gt; 12:4.3.6-8.fc27.noarch&lt;/li&gt;
+&lt;li&gt;dhcp-libs 12:4.3.6-7.fc27.x86_64 -&amp;gt; 12:4.3.6-8.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;docker 2:1.13.1-42.git4402c09.fc27.x86_64 -&amp;gt; 2:1.13.1-44.git584d391.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;docker-common 2:1.13.1-42.git4402c09.fc27.x86_64 -&amp;gt; 2:1.13.1-44.git584d391.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;docker-rhel-push-plugin 2:1.13.1-42.git4402c09.fc27.x86_64 -&amp;gt; 2:1.13.1-44.git584d391.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;dracut 046-5.fc27.x86_64 -&amp;gt; 046-8.git20180105.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;dracut-config-generic 046-5.fc27.x86_64 -&amp;gt; 046-8.git20180105.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;dracut-network 046-5.fc27.x86_64 -&amp;gt; 046-8.git20180105.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;gdbm 1.13-3.fc27.x86_64 -&amp;gt; 1.14-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;gettext 0.19.8.1-11.fc27.x86_64 -&amp;gt; 0.19.8.1-12.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;gettext-libs 0.19.8.1-11.fc27.x86_64 -&amp;gt; 0.19.8.1-12.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;glusterfs 3.12.4-1.fc27.x86_64 -&amp;gt; 3.12.5-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;glusterfs-client-xlators 3.12.4-1.fc27.x86_64 -&amp;gt; 3.12.5-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;glusterfs-fuse 3.12.4-1.fc27.x86_64 -&amp;gt; 3.12.5-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;glusterfs-libs 3.12.4-1.fc27.x86_64 -&amp;gt; 3.12.5-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;initscripts 9.78-1.fc27.x86_64 -&amp;gt; 9.79-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;iproute 4.13.0-1.fc27.x86_64 -&amp;gt; 4.14.1-4.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;iproute-tc 4.13.0-1.fc27.x86_64 -&amp;gt; 4.14.1-4.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;kernel 4.14.11-300.fc27.x86_64 -&amp;gt; 4.14.13-300.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;kernel-core 4.14.11-300.fc27.x86_64 -&amp;gt; 4.14.13-300.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;kernel-modules 4.14.11-300.fc27.x86_64 -&amp;gt; 4.14.13-300.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;kmod 24-3.fc27.x86_64 -&amp;gt; 25-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;kmod-libs 24-3.fc27.x86_64 -&amp;gt; 25-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;libpkgconf 1.3.12-1.fc27.x86_64 -&amp;gt; 1.3.12-2.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;libseccomp 2.3.2-5.fc27.x86_64 -&amp;gt; 2.3.3-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;linux-firmware 20171215-81.git2451bb22.fc27.noarch -&amp;gt; 20171215-82.git2451bb22.fc27.noarch&lt;/li&gt;
+&lt;li&gt;microcode_ctl 2:2.1-19.fc27.x86_64 -&amp;gt; 2:2.1-20.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;pcre 8.41-3.fc27.x86_64 -&amp;gt; 8.41-4.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;pcre2 10.30-3.fc27.x86_64 -&amp;gt; 10.30-5.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;pigz 2.3.4-3.fc27.x86_64 -&amp;gt; 2.4-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;pkgconf 1.3.12-1.fc27.x86_64 -&amp;gt; 1.3.12-2.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;pkgconf-m4 1.3.12-1.fc27.noarch -&amp;gt; 1.3.12-2.fc27.noarch&lt;/li&gt;
+&lt;li&gt;pkgconf-pkg-config 1.3.12-1.fc27.x86_64 -&amp;gt; 1.3.12-2.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;publicsuffix-list-dafsa 20171028-1.fc27.noarch -&amp;gt; 20171228-1.fc27.noarch&lt;/li&gt;
+&lt;li&gt;python2 2.7.14-4.fc27.x86_64 -&amp;gt; 2.7.14-5.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;python2-libs 2.7.14-4.fc27.x86_64 -&amp;gt; 2.7.14-5.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;runc 2:1.0.0-12.rc4.gitaea4f21.fc27.x86_64 -&amp;gt; 2:1.0.0-15.rc4.gite6516b3.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;selinux-policy 3.13.1-283.19.fc27.noarch -&amp;gt; 3.13.1-283.21.fc27.noarch&lt;/li&gt;
+&lt;li&gt;selinux-policy-targeted 3.13.1-283.19.fc27.noarch -&amp;gt; 3.13.1-283.21.fc27.noarch&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Added:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ebtables-2.0.10-24.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;firewalld-0.4.4.5-3.fc27.noarch&lt;/li&gt;
+&lt;li&gt;firewalld-filesystem-0.4.4.5-3.fc27.noarch&lt;/li&gt;
+&lt;li&gt;ipset-6.32-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;ipset-libs-6.32-1.fc27.x86_64&lt;/li&gt;
+&lt;li&gt;python3-firewall-0.4.4.5-3.fc27.noarch&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Corresponding image media for new installations can be downloaded from &lt;a href="https://getfedora.org/en/atomic/download/"&gt;Fedora Downloads&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Alternatively, image artifacts can be found at the following links:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/Atomic/aarch64/iso/Fedora-Atomic-ostree-aarch64-27-20180117.1.iso"&gt;aarch64 ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/Atomic/ppc64le/iso/Fedora-Atomic-ostree-ppc64le-27-20180117.1.iso"&gt;ppc64le ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/Atomic/x86_64/iso/Fedora-Atomic-ostree-x86_64-27-20180117.1.iso"&gt;x86_64 ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/CloudImages/aarch64/images/Fedora-Atomic-27-20180117.1.aarch64.qcow2"&gt;aarch64 Cloud Image QCOW&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/CloudImages/aarch64/images/Fedora-Atomic-27-20180117.1.aarch64.raw.xz"&gt;aarch64 Cloud Image raw&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/CloudImages/ppc64le/images/Fedora-Atomic-27-20180117.1.ppc64le.qcow2"&gt;ppc64le Cloud Image QCOW&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/CloudImages/ppc64le/images/Fedora-Atomic-27-20180117.1.ppc64le.raw.xz"&gt;ppc64le Cloud Image raw&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/CloudImages/x86_64/images/Fedora-Atomic-27-20180117.1.x86_64.qcow2"&gt;x86_64 Cloud Image QCOW&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/CloudImages/x86_64/images/Fedora-Atomic-27-20180117.1.x86_64.raw.xz"&gt;x86_64 Cloud Image raw&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/CloudImages/x86_64/images/Fedora-Atomic-Vagrant-27-20180117.1.x86_64.vagrant-libvirt.box"&gt;x86_64 Cloud Image LibVirt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/CloudImages/x86_64/images/Fedora-Atomic-Vagrant-27-20180117.1.x86_64.vagrant-virtualbox.box"&gt;x86_64 Cloud Image VirtualBox&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Respective signed CHECKSUM files can be found here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/Atomic/aarch64/iso/Fedora-Atomic-27-20180117.1-aarch64-CHECKSUM"&gt;aarch64 ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/Atomic/ppc64le/iso/Fedora-Atomic-27-20180117.1-ppc64le-CHECKSUM"&gt;ppc64le ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/Atomic/x86_64/iso/Fedora-Atomic-27-20180117.1-x86_64-CHECKSUM"&gt;x86_64 ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/CloudImages/aarch64/images/Fedora-CloudImages-27-20180117.1-aarch64-CHECKSUM"&gt;aarch64 Cloud Image&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/CloudImages/ppc64le/images/Fedora-CloudImages-27-20180117.1-ppc64le-CHECKSUM"&gt;ppc64le Cloud Image&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20180117.1/CloudImages/x86_64/images/Fedora-CloudImages-27-20180117.1-x86_64-CHECKSUM"&gt;x86_64 Cloud Image&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For direct download, the &lt;q&gt;latest&lt;/q&gt; targets are always available here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_iso_latest"&gt;ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_qcow2_latest"&gt;QCOW&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_raw_latest"&gt;raw&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_vagrant_libvirt_latest"&gt;LibVirt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_vagrant_virtualbox_latest"&gt;VirtualBox&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Filename fetching URLs are available here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_iso_latest_filename"&gt;ISO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_qcow2_latest_filename"&gt;QCOW&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_raw_latest_filename"&gt;raw&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_vagrant_libvirt_latest_filename"&gt;LibVirt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://getfedora.org/atomic_vagrant_virtualbox_latest_filename"&gt;VirtualBox&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For more information about the latest targets, please reference the &lt;a href="https://fedoraproject.org/wiki/Atomic_WG#Fedora_Atomic_Image_Download_Links"&gt;Fedora Atomic Wiki&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Do note that it can take some of the mirrors up to 12 hours to &lt;q&gt;check-in&lt;/q&gt; at
+their own discretion.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Vagrant Cloud page: &lt;a href="https://app.vagrantup.com/fedora/boxes/27-atomic-host/versions/27.20180117.1"&gt;new Atomic Host&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;For posterity the AMIs for this release are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (ap-northeast-1) ami-047b1d62    hvm   standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (ap-southeast-1) ami-df6a15a3    hvm   standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (ap-southeast-2) ami-a6b34cc4    hvm   standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (eu-central-1)   ami-88b926e7    hvm   standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (eu-west-1)      ami-9b0a93e2    hvm   standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (sa-east-1)      ami-0e6b2662    hvm   standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (us-east-1)      ami-6a98b410    hvm   standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (us-west-1)      ami-27313347    hvm   standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (us-west-2)      ami-ee952696    hvm   standard&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (ap-northeast-1) ami-1846207e    hvm   gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (ap-southeast-1) ami-6666191a    hvm   gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (ap-southeast-2) ami-bab14ed8    hvm   gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (eu-central-1)   ami-76b62919    hvm   gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (eu-west-1)      ami-a8069fd1    hvm   gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (sa-east-1)      ami-006a276c    hvm   gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (us-east-1)      ami-6593bf1f    hvm   gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (us-west-1)      ami-29323049    hvm   gp2&lt;/li&gt;
+&lt;li&gt;Fedora-Atomic-27-20180117.1.x86_64  EC2 (us-west-2)      ami-7c9f2c04    hvm   gp2&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+</feed>

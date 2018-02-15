@@ -1,0 +1,112 @@
+{{define "title"}}Migrating Kubernetes on Fedora Atomic Host 27{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Migrating Kubernetes on Fedora Atomic Host 27
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jbrooks/">Jason Brooks</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-11-15T18:00:00Z'>
+Wednesday 15 November 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Starting with Fedora 27 Atomic Host, the RPMs for Kubernetes, Flannel and Etcd are no longer included in the host&rsquo;s image, but are installable instead either as <a href="http://www.projectatomic.io/blog/2016/09/intro-to-system-containers/">system containers</a> or via <a href="https://rpm-ostree.readthedocs.io/en/latest/manual/administrator-handbook/#hybrid-imagepackaging-via-package-layering">package layering</a>.</p>
+
+<p></p>
+
+<p>System containers can serve as drop-in replacements for components that had been included in the Fedora Atomic image. Once installed, these components will be manageable using the same <code>systemctl</code> commands that apply to regular RPM-installed components. System containers are very flexible; you can easily run system container images based on CentOS, or on older (or newer) versions of Fedora on a Fedora 27 Atomic  host.</p>
+
+<p>Package layering makes it possible to install regular RPM packages from configured repositories. These additional <q>layered</q> packages are persistent across upgrades, rebases, and deploys. You must typically reboot after layering on packages, and not all packages may be installed in this way. For instance, RPMs that install content to <code>/opt</code> <a href="https://github.com/projectatomic/rpm-ostree/issues/233">aren&rsquo;t currently installable</a> via package layering. Unlike with system containers, the packages you layer onto your host must be compatible with the version of Fedora the host is running.</p>
+
+<p>If you&rsquo;re running a Kubernetes cluster on Fedora Atomic Host that depends on the baked-in versions of these components, such as a cluster installed via the Ansible scripts in the <a href="https://github.com/kubernetes/contrib/tree/master/ansible">kubernetes/contrib repo</a>, you&rsquo;ll need to choose one of these methods to migrate your cluster when <a href="http://www.projectatomic.io/blog/2017/11/fedora-atomic-26-to-27-upgrade/">upgrading to Fedora Atomic 27</a>.</p>
+
+<h3>Migrating Kubernetes and related components using System Containers</h3>
+
+<p>To replace Kubernetes, Flannel, and Etcd with system containers, you would run the following commands. You could run these commands on a Fedora 26 Atomic Host, and then <a href="http://www.projectatomic.io/blog/2017/11/fedora-atomic-26-to-27-upgrade/">upgrade to 27</a>. Upon rebooting, your components and any cluster based on them should be up and running.</p>
+
+<h4>System containers for master nodes</h4>
+<pre class="highlight plaintext"><code># atomic install --system --system-package=no --name kube-apiserver registry.fedoraproject.org/f27/kubernetes-apiserver&#x000A;&#x000A;# atomic install --system --system-package=no --name kube-controller-manager registry.fedoraproject.org/f27/kubernetes-controller-manager&#x000A;&#x000A;# atomic install --system --system-package=no --name kube-scheduler registry.fedoraproject.org/f27/kubernetes-scheduler&#x000A;</code></pre>
+
+<p>Note: the <code>kube-apiserver</code> system container provides the <code>kubectl</code> client.</p>
+
+<h4>System containers for worker nodes</h4>
+<pre class="highlight plaintext"><code># atomic install --system --system-package=no --name kubelet registry.fedoraproject.org/f27/kubernetes-kubelet&#x000A;&#x000A;# atomic install --system --system-package=no --name kube-proxy registry.fedoraproject.org/f27/kubernetes-proxy&#x000A;</code></pre>
+
+<h4>System container for etcd</h4>
+<pre class="highlight plaintext"><code># atomic install --system --system-package=no --storage=ostree --name etcd registry.fedoraproject.org/f27/etcd&#x000A;</code></pre>
+
+<p>When installed with the name <strong>etcd</strong>, the etcd system container expects to find stores etcd data in <code>/var/lib/etcd/etcd.etcd</code>. The etcd RPM is configured by default to store data in <code>/var/lib/etcd/default.etcd</code>, and the ansible scripts in <a href="https://github.com/kubernetes/contrib/tree/master/ansible">kubernetes/contrib</a> use <code>/var/lib/etcd</code>. On a system running etcd as configured by the kubernetes/contrib ansible scripts, you&rsquo;d move your data as follows:</p>
+<pre class="highlight plaintext"><code># systemctl stop etcd&#x000A;&#x000A;# cp -r /var/lib/etcd/member /var/lib/etcd/etcd.etcd/&#x000A;</code></pre>
+
+<p>Note: the etcd container provides the <code>etcdctl</code> client.  There will be more about the etcd container on this blog on Friday.</p>
+
+<h4>System container for flannel</h4>
+<pre class="highlight plaintext"><code># atomic install --system --system-package=no --name flanneld registry.fedoraproject.org/f27/flannel&#x000A;</code></pre>
+
+<h4>Updating system containers</h4>
+
+<p>System container updates are independent of host updates. You can update a system container by pulling an updated version of the image, and then running the <code>atomic containers update</code> command.</p>
+<pre class="highlight plaintext"><code># atomic pull registry.fedoraproject.org/f27/etcd&#x000A;# atomic containers update etcd&#x000A;</code></pre>
+
+<p>You can then roll back to the previous system container version by running <code>atomic containers rollback</code>.</p>
+<pre class="highlight plaintext"><code> # atomic containers rollback etcd&#x000A;</code></pre>
+
+<h3>Migrating Kubernetes and related components using RPM Package Layering</h3>
+
+<p>During the <a href="http://www.projectatomic.io/blog/2017/11/fedora-atomic-26-to-27-upgrade/">upgrade to 27</a>, you can opt to layer on particular packages by appending <code>--install PACKAGE</code> to the <code>rpm-ostree rebase</code> commands. Upon rebooting into 27, your components and any cluster based on them should be up and running.</p>
+
+<p>To layer packages on master and etcd nodes, run the following command:</p>
+<pre class="highlight plaintext"><code># rpm-ostree rebase fedora-atomic-27:fedora/27/x86_64/atomic-host --install kubernetes-master --install flannel --install etcd -r&#x000A;</code></pre>
+
+<p>To layer packages on worker nodes, run the following command:</p>
+<pre class="highlight plaintext"><code># rpm-ostree rebase fedora-atomic-27:fedora/27/x86_64/atomic-host --install kubernetes-node --install flannel -r&#x000A;</code></pre>
+
+<h3>Updating package layers</h3>
+
+<p>During regular rpm-ostree upgrades (with <code>rpm-ostree upgrade</code> or <code>atomic host upgrade</code>), your host will fetch updated package versions from your configured repositories.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+<li><a href="/blog/tag/kubernetes/">kubernetes</a></li>
+<li><a href="/blog/tag/rpm-ostree/">rpm-ostree</a></li>
+<li><a href="/blog/tag/system-containers/">system containers</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/11/migrating-kubernetes-on-fedora-atomic-host-27/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/11/migrating-kubernetes-on-fedora-atomic-host-27/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/11/migrating-kubernetes-on-fedora-atomic-host-27/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

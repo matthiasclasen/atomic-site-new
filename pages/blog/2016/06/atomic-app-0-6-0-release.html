@@ -1,0 +1,77 @@
+{{define "title"}}Atomic App 0.6.0 Released&mdash;Native Kubernetes API Integration{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Atomic App 0.6.0 Released&mdash;Native Kubernetes API Integration
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/cdrage/">Charlie Drage</a>
+</span>
+&ndash;
+<time class='published' datetime='2016-06-15T16:55:00Z'>
+Wednesday 15 June 2016
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>This release of Atomic App introduces a large code-base change related to our Kubernetes provider.</p>
+
+<p>We incorporate major changes to the Kubernetes provider. With this release, we replace the usage of <code>kubectl</code> with the <em>requests</em> Python library and the Kubernetes HTTP API end-point. This change results in faster deployment, smaller image sizes, and increased detail in logging messages.</p>
+
+<p>The main features of this release are:</p>
+
+<ul>
+<li>Kubectl to API conversion</li>
+<li>Removal of ASCII art</li>
+</ul>
+
+<p></p>
+
+<h3>Kubernetes <code>kubectl</code> to API Conversion</h3>
+
+<p>Changes to the Kubernetes provider introduces cleaner and more detailed logging messages for application deployment.</p>
+<pre class="highlight plaintext"><code>▶ sudo atomicapp run projectatomic/helloapache --destination helloapache&#x000A;INFO   :: Atomic App: 0.6.0 - Mode: Run&#x000A;INFO   :: Unpacking image projectatomic/helloapache to helloapache&#x000A;INFO   :: Skipping pulling docker image: projectatomic/helloapache&#x000A;INFO   :: Extracting Nulecule data from image projectatomic/helloapache to helloapache&#x000A;INFO   :: App exists locally and no update requested&#x000A;INFO   :: Using namespace default&#x000A;INFO   :: Deploying to Kubernetes&#x000A;INFO   :: Pods 'helloapache' successfully created&#x000A;&#x000A;Your application resides in helloapache&#x000A;Please use this directory for managing your application&#x000A;</code></pre>
+
+<p>Want to get started using Atomic App? Have a look at our extensive <a href="https://github.com/projectatomic/atomicapp/blob/master/docs/start_guide.md">start guide</a>, or use Atomic App as part of the Atomic CLI on an <a href="http://www.projectatomic.io/download/">Atomic Host</a>.</p>
+
+<p>For a full list of changes between 0.5.2 and the 0.6.0 please see <a href="https://github.com/projectatomic/atomicapp/commits/0.6.0">the commit log</a>.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomicapp/">atomicapp</a></li>
+<li><a href="/blog/tag/nulecule/">Nulecule</a></li>
+<li><a href="/blog/tag/releases/">releases</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2016/06/atomic-app-0-6-0-release/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2016/06/atomic-app-0-6-0-release/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2016/06/atomic-app-0-6-0-release/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

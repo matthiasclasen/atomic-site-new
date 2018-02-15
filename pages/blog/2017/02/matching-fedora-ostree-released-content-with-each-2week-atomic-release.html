@@ -1,0 +1,135 @@
+{{define "title"}}Matching Fedora OSTree Released Content With Each 2 Week Atomic Release{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Matching Fedora OSTree Released Content With Each 2 Week Atomic Release
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/dustymabe/">Dusty Mabe</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-02-13T12:00:00Z'>
+Monday 13 February 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p><strong><em>TL;DR</em></strong>: The default Fedora cadence for updates in the RPM streams is once a
+             day. Until now, the OSTree-based updates cadence has matched this, but
+             we&rsquo;re changing the default OSTree update stream to match the
+             Fedora Atomic Host image release cadence (once every two weeks).</p>
+
+<p></p>
+
+<hr>
+
+<p>In Fedora we release a new Atomic Host approximately every two weeks. In the
+past this has meant that we bless and ship new ISO, QCOW, and Vagrant images that
+can then be used to install and or start a new Atomic Host server. But
+what if you already have an Atomic Host server up and running?</p>
+
+<p>Servers that are already running are configured to get their updates
+directly from the OSTree repo that is sitting on Fedora Infrastructure
+servers. The client will ask <strong><em>What is the newest commit for my
+branch/ref?</em></strong> and the server will kindly reply with the most recent commit.
+If the client is at an older version then it will start to pull the
+newer commit and will apply the update.</p>
+
+<p>This is exactly how the client is supposed to behave, but one problem
+with the way we have been doing things in the past is that we have
+been updating everyone&rsquo;s branch/ref every night when we do
+our updates runs in Fedora.</p>
+
+<p>This has the side effect of meaning that users can get content as soon
+as it has been created, but it also means that the two week release
+process where we perform testing and validation really means nothing
+for these users, as they will get something before we ever did testing
+on it.</p>
+
+<p>We have decided to slow down the cadence of the
+<code>fedora-atomic/25/x86_64/docker-host</code> ref within the OSTree
+repo to match the exact releases that we do for the two week release
+process. Users will be able to track this ref like they always have,
+but it will only update when we do a release, approximately every
+two weeks.</p>
+
+<p>We have also decided to create a new ref that will get updated every
+night, so that we can still do our testing. This <strong><em>ref</em></strong> will be called
+<code>fedora-atomic/25/x86_64/updates/docker-host</code>. If you want to keep
+following the content as soon as it is created you can rebase to this
+branch/ref at any time using:</p>
+<pre class="highlight plaintext"><code># rpm-ostree rebase fedora-atomic/25/x86_64/updates/docker-host&#x000A;</code></pre>
+
+<p>As an example, let&rsquo;s say that we have a Fedora Atomic host which is on
+the default ref. That ostree will now be updated every two weeks, and only
+every two weeks:</p>
+<pre class="highlight plaintext"><code>-bash-4.3# date&#x000A;Fri Feb 10 21:05:27 UTC 2017&#x000A;&#x000A;-bash-4.3# rpm-ostree status&#x000A;State: idle&#x000A;Deployments:&#x000A;● fedora-atomic:fedora-atomic/25/x86_64/docker-host&#x000A;       Version: 25.51 (2017-01-30 20:09:59)&#x000A;        Commit: f294635a1dc62d9ae52151a5fa897085cac8eaa601c52e9a4bc376e9ecee11dd&#x000A;        OSName: fedora-atomic&#x000A;&#x000A;-bash-4.3# rpm-ostree upgrade&#x000A;Updating from: fedora-atomic:fedora-atomic/25/x86_64/docker-host&#x000A;1 metadata, 0 content objects fetched; 569 B transferred in 1 seconds&#x000A;No upgrade available.&#x000A;</code></pre>
+
+<p>If you want the daily ostree update instead, as you previously had, you need
+to switch to the <em>updates</em> ref:</p>
+<pre class="highlight plaintext"><code>-bash-4.3# rpm-ostree rebase --reboot fedora-atomic/25/x86_64/updates/docker-host&#x000A;&#x000A;812 metadata, 3580 content objects fetched; 205114 KiB transferred in 151 seconds                                                                                                                                                           &#x000A;Copying /etc changes: 24 modified, 0 removed, 54 added&#x000A;Connection to 192.168.121.128 closed by remote host.&#x000A;Connection to 192.168.121.128 closed.&#x000A;&#x000A;[laptop]$ ssh fedora@192.168.121.128&#x000A;[fedora@cloudhost ~]$ sudo su -&#x000A;-bash-4.3# rpm-ostree status&#x000A;State: idle&#x000A;Deployments:&#x000A;● fedora-atomic:fedora-atomic/25/x86_64/updates/docker-host&#x000A;       Version: 25.55 (2017-02-10 13:59:37)&#x000A;        Commit: 38934958d9654721238947458adf3e44ea1ac1384a5f208b26e37e18b28ec7cf&#x000A;        OSName: fedora-atomic&#x000A;&#x000A;  fedora-atomic:fedora-atomic/25/x86_64/docker-host&#x000A;       Version: 25.51 (2017-01-30 20:09:59)&#x000A;        Commit: f294635a1dc62d9ae52151a5fa897085cac8eaa601c52e9a4bc376e9ecee11dd&#x000A;        OSName: fedora-atomic&#x000A;&#x000A;</code></pre>
+
+<p>We hope you are enjoying using Fedora Atomic Host. Please share your
+success or horror stories with us on the
+<a href="https://lists.projectatomic.io/mailman/listinfo/atomic-devel">mailing</a>
+<a href="https://lists.fedoraproject.org/admin/lists/cloud.lists.fedoraproject.org/">lists</a>
+or in IRC: <code>#atomic</code> or <code>#fedora-cloud</code> on
+<a href="https://freenode.net/">Freenode</a>.</p>
+
+<p>Cheers!</p>
+
+<p>The Fedora Atomic Team</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+<li><a href="/blog/tag/ostree/">ostree</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/02/matching-fedora-ostree-released-content-with-each-2week-atomic-release/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/02/matching-fedora-ostree-released-content-with-each-2week-atomic-release/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/02/matching-fedora-ostree-released-content-with-each-2week-atomic-release/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Dusty Mabe
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/78c5dab261db4bc6ee0e038990fce2d8" /></div>
+<div class='author-blurb with-photo'>
+<p>Atomic OpenShift Engineer for Red Hat. Fedora Atomic WG member. Passionate about open source.</p>
+
+<div class='more-link'>
+<a href="/blog/author/dustymabe/">View all posts by Dusty Mabe &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

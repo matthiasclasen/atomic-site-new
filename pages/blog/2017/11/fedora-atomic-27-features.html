@@ -1,0 +1,152 @@
+{{define "title"}}Fedora 27 Atomic Released{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Fedora 27 Atomic Released
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jberkus/">Josh Berkus</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-11-14T16:00:00Z'>
+Tuesday 14 November 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p><a href="https://getfedora.org/en/atomic/download/">Fedora 27 Atomic Host</a> is now available.  Highlights of this version include multi-architecture support, containerized Kubernetes, a single OverlayFS volume by default, and new OSTree layering capabilities.</p>
+
+<p>Over the next week or so, we will have additional posts on each of these features, giving technical details and use-cases.  But today, for the release, we&rsquo;ll have quick summary of the major changes.</p>
+
+<p></p>
+
+<h3>Features</h3>
+
+<ul>
+<li><strong>Multi-Architecture Support</strong>: Fedora 27 Atomic Host is available for <a href="#">64-bit ARM</a> and <a href="#">Power8</a> processor architectures as well as 64-bit Intel (i.e. AArch64, ppc64le and x86_64).  Not only are we distributing ISOs and cloud images for all three architectures, we will also be providing two-week OSTree updates for them as well.</li>
+<li><strong>Containerized Kubernetes</strong>: As planned, the Kubernetes binaries have been removed from the base image for Atomic Host.  This change both shrinks the base image size, and allows users to install the container orchestration platform and version of their choice, whether it&rsquo;s Kubernetes, OpenShift, or something else.  Look for a blog post tommorrow on how to migrate your Kubernetes install.</li>
+<li><strong>Atomic Workstation Updates</strong>: For over a year, Fedora contributors have been experimenting with an RPM-OStree build of Fedora Workstation, with all of their applications running in containers or Flatpaks. This build, now called <q>Atomic Workstation</q>, will be receiving regular updates starting with this release.</li>
+<li><strong>One Big OverlayFS2 Volume</strong>: New Atomic Host systems will now get a single filesystem volume by default, which will share binaries, system containers, and OCI/docker containers using OverlayFS2.  Users who need to partition container images and storage onto a separate volume can still do so using kickstart options and <code>container-storage-setup</code> configuration.</li>
+<li><strong>OSTree Package Layering Improvements</strong>: RPM-OStree has added two capabilities supporting modifying individula systems: <a href="/blog/2017/07/rpm-ostree-v2017.7-released/">remove and replace overrides</a>, and <a href="/blog/2017/06/rpm-ostree-v2017.6-released/">LiveFS layering</a>.</li>
+</ul>
+
+<p>With the release of Fedora 27 Atomic Host, updates to the Fedora 26 Atomic Host will be strictly on a best-effort basis.  As such, we strongly encourage users to upgrade to the new release soon. Our upgrade guide begins with <a href="/blog/2017/11/fedora-atomic-26-to-27-upgrade/">this post</a>.</p>
+
+<h3>Release Details</h3>
+
+<p>The OSTree update hash for Fedora 27 Atomic is:</p>
+
+<p>Version: 27.1</p>
+
+<ul>
+<li>Commit(x86_64): d428d3ad8ecf44e53d138042bad56a10308883a0c5d64b9c51eff27fdc9da82c</li>
+<li>Commit(aarch64): da1bd08012699a0aacaa11481d3ed617477858aab0f2ea7300168ce106202255</li>
+<li>Commit(ppc64le): 362888edfac04f8848072ae4fb8193b3da2f4fd226bef450326faff4be290abd</li>
+</ul>
+
+<p>We are releasing images from multiple architectures but please note
+that x86_64 architecture is the only one that undergoes automated
+testing at this time.</p>
+
+<p>Existing systems can be upgraded in place via <code>atomic host rebase</code>, <code>atomic host upgrade</code> or
+<code>atomic host deploy</code>.  However, see the Upgrading post in this blog for <a href="/blog/2017/11/fedora-atomic-26-to-27-upgrade/">more information
+about upgrading from Fedora 26</a>.</p>
+
+<p>Corresponding image media for new installations can be <a href="https://getfedora.org/en/atomic/download/">downloaded from Fedora</a>.</p>
+
+<p>Respective signed CHECKSUM files can be found here:</p>
+
+<ul>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/Atomic/aarch64/iso/Fedora-Atomic-27-20171110.1-aarch64-CHECKSUM">Aarch64  ISO</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/Atomic/ppc64le/iso/Fedora-Atomic-27-20171110.1-ppc64le-CHECKSUM">ppc64le ISO</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/Atomic/x86_64/iso/Fedora-Atomic-27-20171110.1-x86_64-CHECKSUM">x86_64 ISO</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/CloudImages/aarch64/images/Fedora-CloudImages-27-20171110.1-aarch64-CHECKSUM">Aarch64 CloudImage</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/CloudImages/ppc64le/images/Fedora-CloudImages-27-20171110.1-ppc64le-CHECKSUM">ppc64le CloudImage</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/CloudImages/x86_64/images/Fedora-CloudImages-27-20171110.1-x86_64-CHECKSUM">x86_64 CloudImage</a></li>
+</ul>
+
+<p>For direct download, the <q>latest</q> targets are always available here:</p>
+
+<ul>
+<li><a href="https://getfedora.org/atomic_iso_latest">ISO</a></li>
+<li><a href="https://getfedora.org/atomic_qcow2_latest">QCOW2</a></li>
+<li><a href="https://getfedora.org/atomic_raw_latest">Raw</a></li>
+<li><a href="https://getfedora.org/atomic_vagrant_libvirt_latest">Libvirt</a></li>
+<li><a href="https://getfedora.org/atomic_vagrant_virtualbox_latest">VirtualBox</a></li>
+</ul>
+
+<p>Filename fetching URLs are available here:</p>
+
+<ul>
+<li><a href="https://getfedora.org/atomic_iso_latest_filename">ISO</a></li>
+<li><a href="https://getfedora.org/atomic_qcow2_latest_filename">QCOW2</a></li>
+<li><a href="https://getfedora.org/atomic_raw_latest_filename">Raw</a></li>
+<li><a href="https://getfedora.org/atomic_vagrant_libvirt_latest_filename">Libvirt</a></li>
+<li><a href="https://getfedora.org/atomic_vagrant_virtualbox_latest_filename">VirtualBox</a></li>
+</ul>
+
+<p>Alternatively, image artifacts can be found at the following links:</p>
+
+<ul>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/Atomic/aarch64/iso/Fedora-Atomic-ostree-aarch64-27-20171110.1.iso">Fedora-Atomic-ostree-aarch64-27-20171110.1.iso</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/Atomic/ppc64le/iso/Fedora-Atomic-ostree-ppc64le-27-20171110.1.iso">Fedora-Atomic-ostree-ppc64le-27-20171110.1.iso</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/Atomic/x86_64/iso/Fedora-Atomic-ostree-x86_64-27-20171110.1.iso">Fedora-Atomic-ostree-x86_64-27-20171110.1.iso</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/CloudImages/aarch64/images/Fedora-Atomic-27-20171110.1.aarch64.qcow2">Fedora-Atomic-27-20171110.1.aarch64.qcow2</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/CloudImages/aarch64/images/Fedora-Atomic-27-20171110.1.aarch64.raw.xz">Fedora-Atomic-27-20171110.1.aarch64.raw.xz</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/CloudImages/ppc64le/images/Fedora-Atomic-27-20171110.1.ppc64le.qcow2">Fedora-Atomic-27-20171110.1.ppc64le.qcow2</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/CloudImages/ppc64le/images/Fedora-Atomic-27-20171110.1.ppc64le.raw.xz">Fedora-Atomic-27-20171110.1.ppc64le.raw.xz</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/CloudImages/x86_64/images/Fedora-Atomic-27-20171110.1.x86_64.qcow2">Fedora-Atomic-27-20171110.1.x86_64.qcow2</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/CloudImages/x86_64/images/Fedora-Atomic-27-20171110.1.x86_64.raw.xz">Fedora-Atomic-27-20171110.1.x86_64.raw.xz</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/CloudImages/x86_64/images/Fedora-Atomic-Vagrant-27-20171110.1.x86_64.vagrant-libvirt.box">Fedora-Atomic-Vagrant-27-20171110.1.x86_64.vagrant-libvirt.box</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-27-20171110.1/CloudImages/x86_64/images/Fedora-Atomic-Vagrant-27-20171110.1.x86_64.vagrant-virtualbox.box">Fedora-Atomic-Vagrant-27-20171110.1.x86_64.vagrant-virtualbox.box</a></li>
+</ul>
+
+<p>For more information about the latest targets, please reference the <a href="https://fedoraproject.org/wiki/Atomic_WG#Fedora_Atomic_Image_Download_Links">Fedora
+Atomic Wiki space</a>.</p>
+
+<p>Do note that it can take some of the mirrors up to 12 hours to <q>check-in</q> at
+their own discretion.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/arm/">ARM</a></li>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+<li><a href="/blog/tag/kubernetes/">kubernetes</a></li>
+<li><a href="/blog/tag/ostree/">ostree</a></li>
+<li><a href="/blog/tag/ppc/">PPC</a></li>
+<li><a href="/blog/tag/workstation/">workstation</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/11/fedora-atomic-27-features/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/11/fedora-atomic-27-features/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/11/fedora-atomic-27-features/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

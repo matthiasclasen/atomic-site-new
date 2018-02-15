@@ -1,0 +1,93 @@
+{{define "title"}}{{end}}
+{{define "body"}}
+<article>
+  <p>Cockpit also makes it easy to monitor and administer Docker containers running on Cockpit-managed servers such as Project Atomic hosts.</p>
+
+  <ul>
+  <li>Monitor resources consumed by containers</li>
+  <li>Adjust resources available to containers
+
+  <ul>
+  <li>Resource limits enforced by the CGroup subsystem in the Linux kernel</li>
+  <li>Adjust CPU shares</li>
+  <li>Assign memory limits</li>
+  <li>More CGroup policy controls to come</li>
+  </ul></li>
+  <li>Stop, Start, Delete and Commit container instances</li>
+  <li>Run and Delete container images</li>
+  </ul>
+
+  <h2>Starting and Using Cockpit</h2>
+
+  <ol>
+  <li>After starting your atomic host, you need to run the <code>cockpit</code> container:
+
+  <ul>
+  <li><code>$ sudo atomic run cockpit/ws</code></li>
+  </ul></li>
+  <li>You can now use the <code>cockpit</code> management interface at <code>http://yourhost:9090</code></li>
+  </ol>
+
+  <p>For information on adding a systemd service file to ensure that the cockpit/ws container runs on system startup, see <a href="/blog/2015/06/running-cockpit-as-a-service/">this blog post</a>, and see <a href="/blog/2015/08/running-a-containerized-cockpit-ui-from-cloud-init/">this post</a> to learn how to run cockpit via cloud-init. </p>
+
+  <h2>Learn More About Cockpit</h2>
+
+  <p>For more information, check out the <a href="http://cockpit-project.org/guide/latest/">Cockpit documentation</a> at the <a href="http://cockpit-project.org/">project site</a>.</p>
+
+  </div>
+  <div class='col-sm-3 hidden-print'>
+  <h3>Documentation Index</h3>
+  <nav role='navigation'>
+  <ul class='docbrowser nav nav-vertical'>
+  <li class='disabled'>
+  <h4>First Steps</h4>
+  </li>
+  <li class='nav-link-introduction' role='menuitem'>
+  <a href='/docs/introduction'>Introduction</a>
+  </li>
+  <li class='nav-link-quick-start-guide' role='menuitem'>
+  <a href='/docs/quickstart'>Quick Start Guide</a>
+  </li>
+  <li class='nav-link-getting-started-guide' role='menuitem'>
+  <a href='/docs/gettingstarted'>Getting Started Guide</a>
+  </li>
+  <li class='nav-link-bare-metal-installation-fedora' role='menuitem'>
+  <a href='/docs/fedora_atomic_bare_metal_installation'>Bare Metal Installation (Fedora)</a>
+  </li>
+  <li class='disabled'>
+  <h4>In Depth</h4>
+  </li>
+  <li class='nav-link-rpm-ostree-os-update-system' role='menuitem'>
+  <a href='/docs/os-updates'>rpm-ostree OS Update System</a>
+  </li>
+  <li class='nav-link-setting-up-storage' role='menuitem'>
+  <a href='/docs/docker-storage-recommendation'>Setting Up Storage</a>
+  </li>
+  <li class='nav-link-supported-filesystems' role='menuitem'>
+  <a href='/docs/filesystems'>Supported Filesystems</a>
+  </li>
+  <li class='nav-link-building-images' role='menuitem'>
+  <a href='/docs/docker-building-images'>Building Images</a>
+  </li>
+  <li class='nav-link-image-author-guidance' role='menuitem'>
+  <a href='/docs/docker-image-author-guidance'>Image Author Guidance</a>
+  </li>
+  <li class='nav-link-about-selinux' role='menuitem'>
+  <a href='/docs/docker-and-selinux'>About SELinux</a>
+  </li>
+  <li class='nav-link-managing-containers' role='menuitem'>
+  <a href='/docs/kubernetes'>Managing Containers</a>
+  </li>
+  <li class='nav-link-atomic-host-networking' role='menuitem'>
+  <a href='/docs/atomic-host-networking'>Atomic Host Networking</a>
+  </li>
+  <li class='disabled'>
+  <h4>Contributing</h4>
+  </li>
+  <li class='nav-link-how-to-contribute' role='menuitem'>
+  <a href='/docs/#contribute'>How to Contribute</a>
+  </li>
+  </ul>
+  </nav>
+</article>
+{{end}}

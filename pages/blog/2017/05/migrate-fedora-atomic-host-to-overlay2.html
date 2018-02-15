@@ -1,0 +1,73 @@
+{{define "title"}}Migrating the Docker Storage Driver to overlay2{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Migrating the Docker Storage Driver to overlay2
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/miabbott/">Micah Abbott</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-05-08T14:00:00Z'>
+Monday  8 May 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>On the <a href="https://lists.projectatomic.io/projectatomic-archives/atomic/2017-March/msg00015.html">Project Atomic mailing list</a>, <a href="https://twitter.com/cgwalters">Colin Walters</a> posted
+a quick set of instructions on how to migrate the Docker storage driver from <code>devicemapper</code> to <code>overlay2</code> on Fedora Atomic Host.</p>
+
+<p>The <code>overlay2</code> driver will be the <a href="https://fedoraproject.org/wiki/Changes/DockerOverlay2">default storage driver in Fedora 26</a>, but you can use it on Fedora 25 Atomic now.  To switch storage drivers on an installed system, either before or after you <code>rpm-ostree rebase</code> to Fedora 26, you can use the following procedure.</p>
+
+<p></p>
+
+<p>Colin noted that the folks working on the <code>atomic</code> CLI are developing a way to <a href="https://trello.com/c/vAunYr5K/310-docker-storage-migrate-images-containers-when-switching-drivers">migrate all of your images and containers</a> when you want to switch storage drivers.  Until that work is complete, the only way to switch drivers is destructive and results in a loss of your images and containers.</p>
+
+<p>Instead of using the raw commands noted in the email, we can do much of the same thing using the <code>atomic</code> CLI.  You&rsquo;ll need to have <code>atomic-1.17.1-2</code> or later for the the following <code>atomic</code> commands to work successfully.</p>
+
+<p><strong>WARNING</strong> These steps should only be performed if you understand that this will destroy all of your containers, images, and volumes.</p>
+<pre class="highlight plaintext"><code>$ systemctl stop docker&#x000A;$ atomic storage reset&#x000A;  # Reallocate space to the root VG - tweak how much to your liking&#x000A;$ lvm lvextend -r -l +50%FREE atomicos/root&#x000A;$ atomic storage modify --driver overlay2&#x000A;$ systemctl start docker&#x000A;</code></pre>
+
+<p>If you want to perform the migration without using the <code>atomic</code> CLI, you can use the raw commands.</p>
+<pre class="highlight plaintext"><code>$ systemctl stop docker&#x000A;$ rm /var/lib/docker/* -rf&#x000A;$ lvm lvremove atomicos/docker-pool&#x000A;  # Reallocate space to the root - tweak how much to your liking&#x000A;$ lvm lvextend -r -l +50%FREE atomicos/root&#x000A;$ echo STORAGE_DRIVER=overlay2 &gt;&gt; /etc/sysconfig/docker-storage-setup&#x000A;$ rm /etc/sysconfig/docker-storage&#x000A;$ systemctl start docker&#x000A;</code></pre>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/docker/">docker</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+<li><a href="/blog/tag/overlay2/">overlay2</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/05/migrate-fedora-atomic-host-to-overlay2/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/05/migrate-fedora-atomic-host-to-overlay2/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/05/migrate-fedora-atomic-host-to-overlay2/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

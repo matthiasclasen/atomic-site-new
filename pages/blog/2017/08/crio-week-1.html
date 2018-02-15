@@ -1,0 +1,67 @@
+{{define "title"}}This Week in CRI-O{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+This Week in CRI-O
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jberkus/">Josh Berkus</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-08-04T18:00:00Z'>
+Friday  4 August 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>There&rsquo;s been a lot of activity on the CRI-O container runtime project, as well as on their <a href="https://medium.com/cri-o/introducing-the-cri-o-blog-site-afe603ac5248">new blog</a>.  The big news is the release of <a href="https://medium.com/cri-o/announcing-cri-o-1-0-0-beta-0-f593637343b2">the CRI-O 1.0 beta</a>, of course.</p>
+
+<p>Let me summarize the rest for the sake of those catching up with the project.</p>
+
+<p></p>
+
+<p>Dan Walsh&rsquo;s team is hard at work <a href="https://medium.com/cri-o/making-packages-available-for-other-distributions-33bc8818b44e">packaging CRI-O and skopeo for multiple platforms</a>.  This includes RPMs and containers for Fedora, CentOS, Ubuntu, Debian, and SuSE.  Mrunal Patel summarized <a href="https://medium.com/cri-o/cri-o-198c84185c94">the goals of the CRI-O project</a>.</p>
+
+<p>Walsh then announced <a href="https://medium.com/cri-o/support-for-signed-images-d7d6a0721f8b">support for signed container images</a> in CRI-O.  Three days later, Patel announced that <a href="https://medium.com/cri-o/cri-o-configurable-image-volume-support-dda7b54f4bda">CRI-O now supports configuring Docker storage volumes</a>, and Antonio Murdaca explained <a href="https://medium.com/cri-o/default-container-registry-revisited-50b32dd808fe">how CRI-O handles default registries</a>.</p>
+
+<p>It&rsquo;s been a super-busy week in the CRI-O project, and we can expect the activity to continue through the eventual 1.0 release.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/containers/">containers</a></li>
+<li><a href="/blog/tag/cri-o/">cri-o</a></li>
+<li><a href="/blog/tag/kubernetes/">kubernetes</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/08/crio-week-1/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/08/crio-week-1/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/08/crio-week-1/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

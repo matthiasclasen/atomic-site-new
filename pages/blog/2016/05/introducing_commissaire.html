@@ -1,0 +1,108 @@
+{{define "title"}}Introducing Commissaire{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Introducing Commissaire
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/smilner/">Stephen Milner</a>
+</span>
+&ndash;
+<time class='published' datetime='2016-05-19T10:20:00Z'>
+Thursday 19 May 2016
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>What the heck is commissaire? I&rsquo;m glad you asked! Commissaire is a new
+component of Project Atomic that aims to simplify life for cluster
+administrators.  It provides a simple, script-friendly REST interface
+for cluster-wide maintenance operations like system upgrades and
+rolling restarts.</p>
+
+<p>Instead of starting from scratch, Commissaire utilizes common
+technologies such as Ansible for communicating with cluster nodes, and
+interfaces with OpenShift and Kubernetes.</p>
+
+<p></p>
+
+<p><img alt="Architecture" src="http://commissaire.readthedocs.io/en/latest/_images/commissaire-flow-diagram.png" /></p>
+
+<h3>Current Features</h3>
+
+<ul>
+<li><a href="http://commissaire.readthedocs.io/en/latest/endpoints.html">Simple REST interface</a></li>
+<li><a href="http://commissaire.readthedocs.io/en/latest/authentication_devel.html">Plug-in based authentication
+framework</a></li>
+<li><a href="http://commissaire.readthedocs.io/en/latest/operations.html#restart">Restart hosts in a container
+cluster</a></li>
+<li><a href="http://commissaire.readthedocs.io/en/latest/operations.html#upgrade">Upgrade hosts in a container
+cluster</a></li>
+<li><a href="http://commissaire.readthedocs.io/en/latest/operations.html#bootstrapping">Bootstrap new hosts into an existing
+cluster</a></li>
+<li><a href="https://github.com/projectatomic/commctl">Command line interface</a></li>
+</ul>
+
+<h3>Running The Service</h3>
+
+<p>If you are curious to give the current development source a try check
+out the <a href="http://commissaire.readthedocs.io/en/latest/gettingstarted.html">Manual
+Installation</a>
+instructions.</p>
+
+<h3>Getting Involved</h3>
+
+<p>The project is still young, making it a great time to get involved and
+help shape the service. Everyone is welcome to give ideas, feedback,
+patches, or just come say hi! For more information on contributing code
+see <a href="http://commissaire.readthedocs.io/en/latest/development.html#development-setup">Development
+Setup</a></p>
+
+<ul>
+<li><strong>Freenode IRC</strong>: #atomic</li>
+<li><strong>Email List</strong>: <a href="mailto:atomic-devel@projectatomic.io">atomic-devel@projectatomic.io</a></li>
+<li><a href="https://github.com/projectatomic/commissaire">Commissaire Source</a></li>
+<li><a href="https://github.com/projectatomic/commctl">Commctl Source</a></li>
+<li><a href="http://commissaire.readthedocs.io/en/latest/index.html">Documentation</a></li>
+</ul>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/commissaire/">commissaire</a></li>
+<li><a href="/blog/tag/kubernetes/">kubernetes</a></li>
+<li><a href="/blog/tag/management/">management</a></li>
+<li><a href="/blog/tag/openshift/">openshift</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2016/05/introducing_commissaire/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2016/05/introducing_commissaire/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2016/05/introducing_commissaire/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

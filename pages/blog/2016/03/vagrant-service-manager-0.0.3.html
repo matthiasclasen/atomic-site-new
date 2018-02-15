@@ -1,0 +1,128 @@
+{{define "title"}}vagrant-service-manager Plugin Version 0.0.3 Released{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+vagrant-service-manager Plugin Version 0.0.3 Released
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/bexelbie/">Brian (bex) Exelbierd</a>
+</span>
+&ndash;
+<time class='published' datetime='2016-03-01T17:35:00Z'>
+Tuesday  1 March 2016
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Version 0.0.3 of the <a href="https://github.com/projectatomic/vagrant-service-manager">vagrant-service-manager
+plugin</a> has
+been released by Project Atomic.</p>
+
+<p>The vagrant-service-manager plugin works
+in conjunction with the <a href="https://github.com/projectatomic/adb-atomic-developer-bundle/">Atomic Developer Bundle
+(ADB)</a>
+to provide a Linux container development environment. The plugin is used
+to display the configuration information of services present in ADB.
+This plugin replaces the previously released vagrant-adbinfo plugin.</p>
+
+<p>The plugin displays the configuration details for the Docker and other
+container-related services running inside of the ADB. This information can
+be used by a CLI client, such as <code>docker</code> or <code>oc</code>, or by an IDE, such as
+<a href="http://www.eclipse.org/community/eclipse_newsletter/2015/june/article3.php">Eclipse</a>,
+to interact with the ADB.</p>
+
+<p></p>
+
+<p>Notable changes in this release include:</p>
+
+<ul>
+<li><p>New sub-command for displaying OpenShift provider information</p>
+
+<p><code>$ vagrant service-manager env openshift</code></p></li>
+<li><p>New sub-command for displaying the version information of the ADB box
+and services</p>
+
+<p><code>$ vagrant service-manager box version</code></p></li>
+<li><p>New option to display the version information in <code>--script-readable</code> form</p></li>
+<li><p>Adds exit codes as per status of the executed command for better
+integration with tools consuming the plugin</p></li>
+</ul>
+
+<h3>Example Execution</h3>
+<pre class="highlight plaintext"><code>$ curl https://raw.githubusercontent.com/projectatomic/vagrant-service-manager/master/Vagrantfile &gt; Vagrantfile&#x000A;$ vagrant up&#x000A;&#x000A;# Obtain docker configuration information:&#x000A;&#x000A;$ vagrant service-manager env docker&#x000A;# Copying TLS certificates to /home/bexelbie/Repositories/vagrant-service-manager/.vagrant/machines/default/virtualbox/docker&#x000A;# Set the following environment variables to enable access to the&#x000A;# docker daemon running inside of the vagrant virtual machine:&#x000A;export DOCKER_HOST=tcp://172.28.128.3:2376&#x000A;export DOCKER_CERT_PATH=/home/bexelbie/Repositories/vagrant-service-manager/.vagrant/machines/default/virtualbox/docker&#x000A;export DOCKER_TLS_VERIFY=1&#x000A;export DOCKER_MACHINE_NAME=3cd8ff6&#x000A;# run following command to configure your shell:&#x000A;# eval "$(vagrant service-manager env docker)"&#x000A;&#x000A;# Printing the version of the vagrant box&#x000A;$ vagrant service-manager box version&#x000A;Atomic Developer Bundle (ADB) 1.7.0&#x000A;</code></pre>
+
+<p>Additionally, the information for contributors has been expanded to make
+it even easier to become a contributor.</p>
+
+<p>Users of the previous plugin, vagrant-adbinfo, should know of the
+following significant changes:</p>
+
+<ul>
+<li><p>The docker certificate directory was renamed from <code>.docker</code> to <code>docker</code></p></li>
+<li><p>There is now a sub-command structure in place.  The functionality of
+vagrant-adbinfo is now accessed as follows:</p>
+
+<p><code>vagrant service-manager env docker</code></p></li>
+</ul>
+
+<p>vagrant-service-manager is available via the standard
+method of plugin installation, <code>vagrant plugin install&#x000A;vagrant-service-manager</code>.  You may upgrade from previous versions
+with <code>vagrant plugin update vagrant-service-manager</code>. It
+is also is packaged for Fedora and available from <a href="https://copr.fedorainfracloud.org/coprs/nshaikh/vagrant-service-manager/">COPR</a>.</p>
+
+<p>Please join us by using, testing, and contributing to the
+vagrant-service-manager plugin.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/adb/">ADB</a></li>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+<li><a href="/blog/tag/vagrant/">Vagrant</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2016/03/vagrant-service-manager-0.0.3/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2016/03/vagrant-service-manager-0.0.3/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2016/03/vagrant-service-manager-0.0.3/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Brian (bex) Exelbierd
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/1cf7d9ab78ad3683bca03ab4cad8edf0" /></div>
+<div class='author-blurb with-photo'>
+<p>Software Engineer, Writer and all around really hoopy frood with Red Hat&rsquo;s Open Source and Standards team.</p>
+
+<div class='more-link'>
+<a href="/blog/author/bexelbie/">View all posts by Brian (bex) Exelbierd &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

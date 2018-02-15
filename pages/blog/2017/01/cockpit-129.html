@@ -1,0 +1,106 @@
+{{define "title"}}Cockpit 129 Released{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Cockpit 129 Released
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/stef/">Stef Walter</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-01-23T16:00:00Z'>
+Monday 23 January 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p><a href="http://cockpit-project.org/blog/cockpit-129.html">Cockpit 129 has been released</a></p>
+
+<p>Cockpit is the modern Linux admin interface. We release regularly. Here are the release notes from version 128 and 129</p>
+
+<p></p>
+
+<h3>Manage remotes and rebasing in OSTree</h3>
+
+<p>When working with OSTrees on operating systems like <a href="http://www.projectatomic.io/docs/os-updates/">Atomic Host</a> there will often be multiple branches to choose from. For example there may be a beta version of the operating system. Thanks to Peter’s work, Cockpit can now switch between branches and view and activate OSTrees from those branches. Also, Cockpit supports managing multiple remotes and viewing their branches. Remotes are a way of describing where OSTree should pull updates from. Take a look at the video below for a demo.</p>
+
+<ul>
+<li><a href="https://youtu.be/dF8M3xq9FcI">Demo</a></li>
+<li><a href="https://github.com/cockpit-project/cockpit/pull/5599">Change</a></li>
+</ul>
+
+<h3>The subpackage cockpit-dashboard has been split out</h3>
+
+<p>The new cockpit-dashboard subpackage contains the dashboard itself and the cockpit-ssh process. Eventually this paves the way for more flexibility regarding authentication processes, but for now cockpit-ws unconditionally depends on cockpit-dashboard, and also requires the identical versions. Nothing changes for those who install the cockpit package. But this allows more flexibility when using Cockpit for specific use cases.</p>
+
+<ul>
+<li><a href="https://github.com/cockpit-project/cockpit/pull/5338">Change</a></li>
+</ul>
+
+<h3>Issues upgrading Cockpit on Debian and Fedora have been fixed</h3>
+
+<p>Our packaging changes in recent versions broke upgrading Cockpit on Debian and Fedora. This is fixed now and updates should work properly once again.</p>
+
+<h3>On Atomic, sosreport works again</h3>
+
+<p>A bug that prevented the diagnostic tool sosreport from working on Atomic systems was fixed. Generating and accessing these diagnostic reports can be very helpful when diagnosing or reporting an issue on the system.</p>
+
+<h3>Optionally disable the dependency on libssh</h3>
+
+<p>When configuring Cockpit, the option disable-ssh disables building cockpit-ssh and removes the dependency on libssh. This is useful when building on an operating system where libssh is not available.</p>
+
+<ul>
+<li><a href="https://github.com/cockpit-project/cockpit/pull/5743">Change</a></li>
+</ul>
+
+<h3>Get it</h3>
+
+<p>You can <a href="http://cockpit-project.org/running.html">get Cockpit here</a>.</p>
+
+<p>Cockpit 129 is <a href="https://bodhi.fedoraproject.org/updates/cockpit-129-1.fc25">available in Fedora 25</a>.</p>
+
+<p>Or <a href="https://github.com/cockpit-project/cockpit/releases/tag/129">download the tarball</a>.</p>
+
+<p>Thanks,
+Dominik</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/cockpit/">cockpit</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+<li><a href="/blog/tag/kerberos/">kerberos</a></li>
+<li><a href="/blog/tag/ostree/">ostree</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/01/cockpit-129/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/01/cockpit-129/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/01/cockpit-129/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

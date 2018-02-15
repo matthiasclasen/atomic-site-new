@@ -4,16 +4,15 @@
 {{define "body"}}
 <article>
 <h1>Learning More</h1>
-<p>Read the <a href='/docs/introduction/'>Introduction to Project Atomic</a> for information about the goals and scope of the project.</p>
+<p>Read the <a href='/docs/introduction'>Introduction to Project Atomic</a> for information about the goals and scope of the project.</p>
 <h2>Getting Started</h2>
-<p>The<a href="/docs/quickstart/">Quick Start Guide</a>.will help you get Atomic up and running quickly.</p>
-<p>When Atomic is up and running, read the <a href='/docs/gettingstarted/'>Getting Started Guide</a> to learn more about your new Atomic setup.</p>
+<p>The<a href="/docs/quickstart">Quick Start Guide</a>.will help you get Atomic up and running quickly.</p>
+<p>When Atomic is up and running, read the <a href='/docs/gettingstarted'>Getting Started Guide</a> to learn more about your new Atomic setup.</p>
 <p>
-For more information about Project Atomic's desktop version, check out our temporary documentation about <a href="/docs/fedora-atomic-workstation/">Fedora Atomic Workstation</a>.
+For more information about Project Atomic's desktop version, check out our temporary documentation about <a href="/docs/fedora-atomic-workstation">Fedora Atomic Workstation</a>.
 </p>
 <h2>More In-depth Documentation</h2>
-<div class='row'>
-<div class='col-md-4 col-sm-12'>
+
 <h3>Updating the Atomic Host</h3>
 <p>
 Atomic hosts are
@@ -28,8 +27,6 @@ Using rpm-ostree we can easily update the system in one "atomic"
 transaction, and roll back to the prior system if an update has any
 issues.
 </p>
-</div>
-<div class='col-md-4 col-sm-12'>
 <h3>Managing Storage</h3>
 <p>
 To set up additional storage for /var/lib/docker see
@@ -37,8 +34,6 @@ To set up additional storage for /var/lib/docker see
 and when considering alternative filesystems see
 <a href="/docs/filesystems">Supported Filesystems</a>.
 </p>
-</div>
-<div class='col-md-4 col-sm-12'>
 <h3>Atomic: /usr/bin/atomic</h3>
 <p>
 The Atomic
@@ -52,10 +47,7 @@ The goal of
 is to provide a high-level, coherent entrypoint to the system, and fill
 in gaps that are not filled by Linux container implementations.
 </p>
-</div>
-</div>
-<div class='row'>
-<div class='col-md-4 col-sm-12'>
+
 <h3>Containment and Security</h3>
 <p>
 Beyond the isolation provided by containers, Atomic relies on
@@ -64,8 +56,7 @@ between containers, see
 <a href='/docs/docker-and-selinux'>Docker and SELinux</a>
 for details of the increased protection available.
 </p>
-</div>
-<div class='col-md-4 col-sm-12'>
+
 <h3>Networking</h3>
 <p>
 When an application is composed using multiple containers
@@ -74,8 +65,7 @@ losing flexibility. Learn about
 <a href='/docs/atomic-host-networking'>Atomic host networking</a>
 options for single and multi-host configurations.
 </p>
-</div>
-</div>
+
 <h2>
 <a name='contribute'></a>
 How to Contribute to the Documentation
@@ -116,8 +106,6 @@ for more complex formatting of some pages, check the
 to get started editing some of the haml pages.
 </p>
 
-</div>
-<div class='col-sm-3 hidden-print'>
 <h3>Documentation Index</h3>
 <nav role='navigation'>
 <ul class='docbrowser nav nav-vertical'>
@@ -172,7 +160,5 @@ to get started editing some of the haml pages.
 </ul>
 </nav>
 
-</div>
-</div>
 </article>
 {{end}}

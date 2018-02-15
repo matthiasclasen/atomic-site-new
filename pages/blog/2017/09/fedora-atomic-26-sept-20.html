@@ -1,0 +1,174 @@
+{{define "title"}}Fedora 26 Atomic Host September 20 Release{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Fedora 26 Atomic Host September 20 Release
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jberkus/">Josh Berkus</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-09-25T18:00:00Z'>
+Monday 25 September 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>A new Fedora Atomic Host update is available via an OSTree commit:</p>
+<pre class="highlight plaintext"><code>Commit: 98088cb6ed2a4b3f7e4e7bf6d34f9e137c296bc43640b4c1967631f22fe1802f&#x000A;Version: 26.131&#x000A;</code></pre>
+
+<p>This release mostly includes routine updates to packages.  Highlighted updates include a new kernel, runc, and container-storage-setup.</p>
+
+<p></p>
+
+<p>The diff between this and the previous released version is:</p>
+
+<ul>
+<li>ostree diff commit old: 0b0127864022dd6ffad1a183241fbd5482ef5a1642ff3c8751c2e6cae6070b1a</li>
+<li>ostree diff commit new: 98088cb6ed2a4b3f7e4e7bf6d34f9e137c296bc43640b4c1967631f22fe1802f</li>
+</ul>
+
+<p>Upgraded:</p>
+
+<ul>
+<li>boost-iostreams 1.63.0-6.fc26.x86_64 -&gt; 1.63.0-7.fc26.x86_64</li>
+<li>boost-program-options 1.63.0-6.fc26.x86_64 -&gt; 1.63.0-7.fc26.x86_64</li>
+<li>boost-random 1.63.0-6.fc26.x86_64 -&gt; 1.63.0-7.fc26.x86_64</li>
+<li>boost-regex 1.63.0-6.fc26.x86_64 -&gt; 1.63.0-7.fc26.x86_64</li>
+<li>boost-system 1.63.0-6.fc26.x86_64 -&gt; 1.63.0-7.fc26.x86_64</li>
+<li>boost-thread 1.63.0-6.fc26.x86_64 -&gt; 1.63.0-7.fc26.x86_64</li>
+<li>cockpit-bridge 147-1.fc26.x86_64 -&gt; 150-1.fc26.x86_64</li>
+<li>cockpit-docker 147-1.fc26.x86_64 -&gt; 150-1.fc26.x86_64</li>
+<li>cockpit-networkmanager 147-1.fc26.noarch -&gt; 150-1.fc26.noarch</li>
+<li>cockpit-ostree 147-1.fc26.x86_64 -&gt; 150-1.fc26.x86_64</li>
+<li>cockpit-system 147-1.fc26.noarch -&gt; 150-1.fc26.noarch</li>
+<li>container-selinux 2:2.21-1.fc26.noarch -&gt; 2:2.22-1.fc26.noarch</li>
+<li>container-storage-setup 0.6.0-1.giteb688d4.fc26.noarch -&gt; 0.7.0-1.git4ca59c5.fc26.noarch</li>
+<li>emacs-filesystem 1:25.2-3.fc26.noarch -&gt; 1:25.3-3.fc26.noarch</li>
+<li>file 5.30-10.fc26.x86_64 -&gt; 5.30-11.fc26.x86_64</li>
+<li>file-libs 5.30-10.fc26.x86_64 -&gt; 5.30-11.fc26.x86_64</li>
+<li>gawk 4.1.4-3.fc26.x86_64 -&gt; 4.1.4-5.fc26.x86_64</li>
+<li>gnupg2 2.1.22-1.fc26.x86_64 -&gt; 2.2.0-1.fc26.x86_64</li>
+<li>gnupg2-smime 2.1.22-1.fc26.x86_64 -&gt; 2.2.0-1.fc26.x86_64</li>
+<li>gnutls 3.5.14-1.fc26.x86_64 -&gt; 3.5.15-1.fc26.x86_64</li>
+<li>kernel 4.12.9-300.fc26.x86_64 -&gt; 4.12.13-300.fc26.x86_64</li>
+<li>kernel-core 4.12.9-300.fc26.x86_64 -&gt; 4.12.13-300.fc26.x86_64</li>
+<li>kernel-modules 4.12.9-300.fc26.x86_64 -&gt; 4.12.13-300.fc26.x86_64</li>
+<li>krb5-libs 1.15.1-25.fc26.x86_64 -&gt; 1.15.1-28.fc26.x86_64</li>
+<li>libgcc 7.1.1-3.fc26.x86_64 -&gt; 7.2.1-2.fc26.x86_64</li>
+<li>libgomp 7.1.1-3.fc26.x86_64 -&gt; 7.2.1-2.fc26.x86_64</li>
+<li>libsolv 0.6.28-5.fc26.x86_64 -&gt; 0.6.29-1.fc26.x86_64</li>
+<li>libsss_idmap 1.15.3-1.fc26.x86_64 -&gt; 1.15.3-3.fc26.x86_64</li>
+<li>libsss_nss_idmap 1.15.3-1.fc26.x86_64 -&gt; 1.15.3-3.fc26.x86_64</li>
+<li>libsss_sudo 1.15.3-1.fc26.x86_64 -&gt; 1.15.3-3.fc26.x86_64</li>
+<li>libstdc++ 7.1.1-3.fc26.x86_64 -&gt; 7.2.1-2.fc26.x86_64</li>
+<li>linux-firmware 20170622-75.gita3a26af2.fc26.noarch -&gt; 20170828-76.gitb78acc9.fc26.noarch</li>
+<li>publicsuffix-list-dafsa 20170809-1.fc26.noarch -&gt; 20170828-1.fc26.noarch</li>
+<li>python2 2.7.13-11.fc26.x86_64 -&gt; 2.7.13-12.fc26.x86_64</li>
+<li>python2-libs 2.7.13-11.fc26.x86_64 -&gt; 2.7.13-12.fc26.x86_64</li>
+<li>python2-pyOpenSSL 16.2.0-4.fc26.noarch -&gt; 16.2.0-5.fc26.noarch</li>
+<li>python2-pysocks 1.5.7-4.fc26.noarch -&gt; 1.6.7-1.fc26.noarch</li>
+<li>python3-docker 2.4.2-3.fc26.noarch -&gt; 2.5.1-1.fc26.noarch</li>
+<li>python3-pyOpenSSL 16.2.0-4.fc26.noarch -&gt; 16.2.0-5.fc26.noarch</li>
+<li>python3-pysocks 1.5.7-4.fc26.noarch -&gt; 1.6.7-1.fc26.noarch</li>
+<li>python3-sssdconfig 1.15.3-1.fc26.noarch -&gt; 1.15.3-3.fc26.noarch</li>
+<li>rpcbind 0.2.4-7.rc2.fc26.x86_64 -&gt; 0.2.4-8.rc2.fc26.x86_64</li>
+<li>runc 1:1.0.1-1.gitc5ec254.fc26.x86_64 -&gt; 2:1.0.0-10.rc4.gitaea4f21.fc26.x86_64</li>
+<li>setools-console 4.1.0-3.fc26.x86_64 -&gt; 4.1.0-5.fc26.x86_64</li>
+<li>setools-python 4.1.0-3.fc26.x86_64 -&gt; 4.1.0-5.fc26.x86_64</li>
+<li>setools-python3 4.1.0-3.fc26.x86_64 -&gt; 4.1.0-5.fc26.x86_64</li>
+<li>sssd-client 1.15.3-1.fc26.x86_64 -&gt; 1.15.3-3.fc26.x86_64</li>
+<li>strace 4.18-1.fc26.x86_64 -&gt; 4.19-1.fc26.x86_64</li>
+<li>vim-minimal 2:8.0.1030-1.fc26.x86_64 -&gt; 2:8.0.1097-1.fc26.x86_64</li>
+<li>xkeyboard-config 2.21-1.fc26.noarch -&gt; 2.21-3.fc26.noarch</li>
+</ul>
+
+<p>Existing systems can be upgraded in place via e.g. <code>atomic host upgrade</code> or
+<code>atomic host deploy</code>.  Systems on Fedora Atomic 25 can be upgraded using <code>rpm-ostree rebase</code>.
+Refer to the <a href="http://www.projectatomic.io/blog/2017/08/fedora-atomic-25-to-26-upgrade/">upgrade guide</a>
+for more details.</p>
+
+<p>Corresponding image media for new installations can be
+<a href="https://getfedora.org/en/atomic/download/">downloaded from GetFedora.org</a>.</p>
+
+<p>Respective signed CHECKSUM files can be found here:</p>
+
+<ul>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-26-20170920.0/Atomic/x86_64/iso/Fedora-Atomic-26-20170920.0-x86_64-CHECKSUM">Cloud image checksums</a></li>
+<li><a href="https://alt.fedoraproject.org/pub/alt/atomic/stable/Fedora-Atomic-26-20170920.0/CloudImages/x86_64/images/Fedora-CloudImages-26-20170920.0-x86_64-CHECKSUM">ISO Checksum</a></li>
+</ul>
+
+<p>For direct download, the <q>latest</q> targets are always available at the following URLs:</p>
+
+<ul>
+<li><a href="https://getfedora.org/atomic_iso_latest">Latest ISO</a></li>
+<li><a href="https://getfedora.org/atomic_qcow2_latest">Latest QCOW</a></li>
+<li><a href="https://getfedora.org/atomic_raw_latest">Latest raw image</a></li>
+<li><a href="https://getfedora.org/atomic_vagrant_libvirt_latest">Latest LibVirt VM</a></li>
+<li><a href="https://getfedora.org/atomic_vagrant_virtualbox_latest">Latest VirtualBox VM</a></li>
+</ul>
+
+<p>Filename fetching URLs for downloading to remote systems are available by querying the following links:</p>
+
+<ul>
+<li><a href="https://getfedora.org/atomic_iso_latest_filename">ISO</a></li>
+<li><a href="https://getfedora.org/atomic_qcow2_latest_filename">QCOW</a></li>
+<li><a href="https://getfedora.org/atomic_raw_latest_filename">raw</a></li>
+<li><a href="https://getfedora.org/atomic_vagrant_libvirt_latest_filename">LibVirt</a></li>
+<li><a href="https://getfedora.org/atomic_vagrant_virtualbox_latest_filename">VirtualBox</a></li>
+</ul>
+
+<p>For more information about the latest targets, please reference <a href="https://fedoraproject.org/wiki/Atomic_WG#Fedora_Atomic_Image_Download_Links">the Fedora
+Atomic Wiki space</a>.</p>
+
+<p>The Vagrant Cloud page with the new atomic host:</p>
+
+<ul>
+<li><a href="https://app.vagrantup.com/fedora/">All Fedora boxes</a></li>
+<li><a href="https://app.vagrantup.com/fedora/boxes/26-atomic-host/versions/26.20170905.0">Fedora Atomic Host 26</a></li>
+</ul>
+
+<p>To provision using vagrant:</p>
+<pre class="highlight plaintext"><code>vagrant init fedora/26-atomic-host; vagrant up&#x000A;</code></pre>
+
+<p>or, if you already have the box, to get the new one:</p>
+<pre class="highlight plaintext"><code>vagrant box update --box fedora/26-atomic-host&#x000A;</code></pre>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/09/fedora-atomic-26-sept-20/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/09/fedora-atomic-26-sept-20/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/09/fedora-atomic-26-sept-20/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

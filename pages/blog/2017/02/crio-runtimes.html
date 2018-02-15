@@ -1,0 +1,79 @@
+{{define "title"}}CRI-O and Alternative Runtimes in Kubernetes{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+CRI-O and Alternative Runtimes in Kubernetes
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/runcom/">Antonio Murdaca</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-02-08T12:00:00Z'>
+Wednesday  8 February 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>The introduction of the <a href="https://github.com/kubernetes/kubernetes/blob/master/pkg/kubelet/api/v1alpha1/runtime/api.proto">Container Runtime Interface</a> in Kubernetes 1.5.0 as an alpha feature opens the door for plugging alternative <a href="http://programmableinfrastructure.com/components/container-runtime/">container runtimes</a> in the <a href="https://kubernetes.io/docs/admin/kubelet/">kubelet</a> more easily, instead of relying on the default docker runtime. Those new runtimes may include virtual machines based ones, such as runv and Clear Containers, or standard Linux containers runtimes like rkt.</p>
+
+<p></p>
+
+<p>In stable Kubernetes, you can run your pods with Docker underneath by default, with the option to use rkt if you need to.
+There was no easy way to plug new runtimes other than diving into the Kubernetes source code and hoping your shiny new runtime gets accepted as a patch.
+However, the <a href="https://github.com/opencontainers/runtime-spec">OCI runtime specification</a> helps to standardize how runtimes start and run your containers. That means, as long as your runtime follows the OCI runtime specification, there&rsquo;s a standardized way to run a container. In the Kubernetes land, that means the Container Runtime Interface can take advantage of OCI runtimes and allow to easily swap runtime without ever touching the source code.</p>
+
+<p>Project Atomic contributors who work for Red Hat, together with contributors from many of the top Linux, open source and container companies, started working on <a href="https://github.com/kubernetes-incubator/cri-o">CRI-O</a>.
+<a href="https://www.redhat.com/en/about/blog/running-production-applications-containers-introducing-ocid">Announced in September as &ldquo;ocid&rdquo;</a>, CRI-O is a new Kubernetes incubator project which is meant to provide an integration path between OCI conformant runtimes and the kubelet. Specifically, it implements the Container Runtime Interface (CRI) using OCI conformant runtimes.
+CRI-O uses <a href="https://github.com/opencontainers/runc">runc</a> as its default runtime to run Kubernetes pods.</p>
+
+<p>The good news is you&rsquo;re not locked to runc. CRI-O supports any container runtime as long as it is conformant to the OCI runtime specification. Anyone can plug their favourite runtime according to their needs with little tweaks in CRI-O.</p>
+
+<p>We worked with Intel engineers to give their OCI container runtime, <a href="https://clearlinux.org/features/intel%C2%AE-clear-containers">Clear Containers</a>, the ability to work seamlessly with CRI-O. <a href="https://github.com/kubernetes-incubator/cri-o/issues/332#issuecomment-275256700">In their words</a>:</p>
+
+<p><q>It&rsquo;s been very easy to get the right changes merged into [CRI-O], this is a truly open project.</q>&ldquo;</p>
+
+<p>We&rsquo;re excited to have CRI-O and Clear Containers running together. I have created a small demo of this integration to show how the kubelet is seamlessly running pods with Clear Containers underneath:</p>
+
+<iframe width="915" height="480" src="https://www.youtube.com/embed/gEBSCesjkvA" frameborder="0"></iframe>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/containers/">containers</a></li>
+<li><a href="/blog/tag/cri-o/">cri-o</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+<li><a href="/blog/tag/kubernetes/">kubernetes</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/02/crio-runtimes/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/02/crio-runtimes/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/02/crio-runtimes/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

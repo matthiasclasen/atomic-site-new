@@ -1,0 +1,77 @@
+{{define "title"}}Changes to Kickstarts for Fedora Atomic 26{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Changes to Kickstarts for Fedora Atomic 26
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jberkus/">Josh Berkus</a>
+</span>
+&ndash;
+<time class='published' datetime='2017-07-17T14:00:00Z'>
+Monday 17 July 2017
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>As you know, I&rsquo;m all about <a href="blog/2016/10/install-with-kickstart/">installing Atomic on bare metal using kickstarts</a>.  And one of the things which has changed with Fedora Atomic 26 is some of the tags and locations you need for your kickstarts.  You&rsquo;ll find that your old kickstarts no longer work.</p>
+
+<p></p>
+
+<p>First, your <code>ostreesetup</code> line needs to change. Here&rsquo;s my new one:</p>
+<pre class="highlight plaintext"><code>ostreesetup --osname="fedora-atomic" --remote="fedora-atomic-26" --url="file:///ostree/repo" --ref="fedora/26/x86_64/atomic-host" --nogpg&#x000A;</code></pre>
+
+<p>Three things changed here.  First, the <code>remote</code> is now &ldquo;fedora-atomic-26&rdquo; instead of just &ldquo;fedora-atomic&rdquo; (<code>osname</code> can really be whatever you want). This is a temporary measure until we <a href="https://fedoramagazine.org/upcoming-fedora-atomic-lifecycle-changes/">merge all of the repos for continuous upgrade</a>.  Second, the <code>url</code> to install from local media has changed to the simpler &ldquo;file:///ostree/repo&rdquo;.  Third, the upstream <code>ref</code> is now &ldquo;fedora/26/x86_64/atomic-host&rdquo;, which both removes the reference to a specific container runtime from the edition and makes the urls consistent with other Fedora Editions.</p>
+
+<p>We can also stop disabling cloud-init for Anaconda (bare metal) installs:</p>
+<pre class="highlight plaintext"><code>services --enabled="systemd-timesyncd"&#x000A;</code></pre>
+
+<p>Previously, we&rsquo;d have added <code>--disabled=&quot;cloud-init,cloud-config,cloud-final,cloud-init-local&quot;</code> in that line, but Anaconda now automatically disables cloud-init since it won&rsquo;t be used for a local install, so we don&rsquo;t have to.  </p>
+
+<p>In <code>%post</code> where I add in the final configuration for ostree, I also had to change the <code>url</code> and <code>remote</code>:</p>
+<pre class="highlight plaintext"><code>ostree remote add --if-not-exists --set=gpgkeypath=/etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-26-primary fedora-atomic-26 https://kojipkgs.fedoraproject.org/atomic/26&#x000A;</code></pre>
+
+<p>There&rsquo;s also some other nice improvements there. First, gpg-signing of upgrades and rebases works consistently, so we&rsquo;re adding in gpg checking.  Second, <code>--if-not-exists</code> is a nice ostree feature which lets us add remotes idempotently, to better work with Ansible and other config management software.  It&rsquo;s not actually useful here since we&rsquo;re deleting the prior remote, but it&rsquo;s a good idea to get into using it in general (and naming your remotes uniquely).</p>
+
+<p>Below is a completed example kickstart, with all of the changes, which installs Fedora Atomic with OverlayFS to One Big Volume of 60GB and static networking.  Note that in Fedora Atomic 27, One Big Volume will be the default.</p>
+<pre class="highlight plaintext"><code>install&#x000A;reboot&#x000A;lang en_US.UTF-8&#x000A;keyboard us&#x000A;timezone --utc America/Los_Angeles&#x000A;selinux --enforcing&#x000A;zerombr&#x000A;clearpart --all --initlabel&#x000A;bootloader --location=mbr --boot-drive=sda&#x000A;reqpart --add-boot&#x000A;#part /boot --size=300 --fstype="ext4" --ondisk=sda&#x000A;part pv.01 --grow --ondisk=sda&#x000A;volgroup atomicos pv.01&#x000A;logvol / --size=57000 --fstype="xfs" --name=root --vgname=atomicos&#x000A;logvol swap --fstype swap --name=lv_swap --vgname=atomicos --size=2048&#x000A;services --enabled="systemd-timesyncd"&#x000A;ostreesetup --osname="fedora-atomic" --remote="fedora-atomic-26" --url="file:///ostree/repo" --ref="fedora/26/x86_64/atomic-host" --nogpg&#x000A;&#x000A;network --device=link --bootproto=static --ip=192.168.1.101 --netmask=255.255.255.0 --hostname=node1.projectatomic.rocks --gateway=192.168.1.1 --nameserver=192.168.1.100&#x000A;&#x000A;user --name=atomic --groups=wheel --password=atomic&#x000A;&#x000A;%post --erroronfail&#x000A;rm -f /etc/ostree/remotes.d/fedora-atomic.conf&#x000A;ostree remote add --if-not-exists --set=gpgkeypath=/etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-26-primary fedora-atomic-26 https://kojipkgs.fedoraproject.org/atomic/26&#x000A;echo -e "\nSTORAGE_DRIVER='overlay2'\nCONTAINER_ROOT_LV_MOUNT_PATH=''\n" &gt;&gt; /etc/sysconfig/docker-storage-setup&#x000A;%end&#x000A;</code></pre>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+<li><a href="/blog/tag/fedora-26/">fedora 26</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2017/07/fedora-atomic-26-kickstarts/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2017/07/fedora-atomic-26-kickstarts/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2017/07/fedora-atomic-26-kickstarts/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

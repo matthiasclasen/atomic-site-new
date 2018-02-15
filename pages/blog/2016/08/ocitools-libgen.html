@@ -1,0 +1,123 @@
+{{define "title"}}Creating OCI configurations with the ocitools generate library{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Creating OCI configurations with the ocitools generate library
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/haiyan-meng/">Haiyan Meng</a>
+</span>
+&ndash;
+<time class='published' datetime='2016-08-09T14:00:00Z'>
+Tuesday  9 August 2016
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p><a href="https://github.com/opencontainers/runc">OCI runc</a> is a cool new tool for running containers on Linux machines. It follows the OCI container runtime specification. As of docker-1.11 it is the main mechanism that docker uses for launching containers.</p>
+
+<p>The really cool thing is that you can use runc without even using docker. First you create a rootfs on your disk: a directory that includes all of your software and usually follows the basic layout of <code>/</code>. There are several tools that can create a rootfs, including dnf or the <code>atomic</code> command. Once you have a rootfs, you need to create a <code>config.json</code> file which runc will read. <code>config.json</code> has all of the specifications for running a container, things like which namespaces to use, which capabilities to use in your container, and what is the pid 1 of your container. It is somewhat similar to the output of <code>docker inspect</code>.</p>
+
+<p>Creating and editing the config.json is not for the faint of heart, so we developed a command line tool called <code>ocitools generate</code> that can do the hard work of creating the config.json file.</p>
+
+<h3>Creating OCI Configurations</h3>
+
+<p>This post will guide you through the steps of creating <a href="https://github.com/opencontainers/runtime-spec/">OCI</a> configurations
+using the <a href="https://github.com/opencontainers/ocitools/tree/master/generate">ocitools generate library</a>
+for the go programming language.</p>
+
+<p>There are four steps to create an OCI configuration using the ocitools generate library:</p>
+
+<ol>
+<li>Import the ocitools generate library into your project;</li>
+<li>Create an OCI specification generator;</li>
+<li>Modify the specification by calling different methods of the specification generator;</li>
+<li>Save the specification.</li>
+</ol>
+
+<p></p>
+
+<h3>Overview</h3>
+
+<p>The ocitools generate library defines a struct type, <em>Generator</em>, to enclose a
+pointer to an <a href="https://github.com/opencontainers/runtime-spec/blob/master/specs-go/config.go">OCI
+Spec</a>.
+Different methods are defined on the <em>Generator</em> type to allow the user to
+customize the specification pointed by the Generator.  Once a Generator object
+is created, different fields of the specification can be modified by calling
+the corresponding methods of Generator.  After finishing modifying the
+specification, <em>Generator.Save</em> can be called to save the specification into a
+local file.</p>
+
+<h3>Create an OCI configurations using the ocitools generate library</h3>
+
+<p><strong>Step 1: import the ocitools generate library in your go project:</strong></p>
+<pre class="highlight plaintext"><code>import "github.com/opencontainers/ocitools/generate"&#x000A;</code></pre>
+
+<p><strong>Step 2: create a specification Generator:</strong></p>
+<pre class="highlight plaintext"><code>specgen := generate.New()&#x000A;</code></pre>
+
+<p><em>generate.New</em> creates a spec Generator with the default spec.
+You can also create a spec Generator with the spec from a local file using <em>generate.NewFromFile</em>:</p>
+<pre class="highlight plaintext"><code>specgen := generate.NewFromFile("/data/myspec.json")&#x000A;</code></pre>
+
+<p><strong>Step 3: modify the specification:</strong></p>
+<pre class="highlight plaintext"><code>specgen.SetRootPath("rootfs")&#x000A;specgen.SetProcessGID(1000)&#x000A;specgen.SetProcessTerminal(true)&#x000A;specgen.SetLinuxResourcesCPUShares(512)&#x000A;specgen.SetupPrivileged(false)&#x000A;&#x000A;specgen.ClearAnnotations()&#x000A;specgen.AddAnnotation("owner", "hmeng")&#x000A;specgen.RemoveAnnotation("createdat")&#x000A;&#x000A;specgen.AddLinuxUIDMapping(0, 1000, 50)&#x000A;specgen.AddPreStartHook("/tmp/install.sh", []string{"--mode", "silent"})&#x000A;specgen.AddTmpfsMount("/tmp", "ro")&#x000A;specgen.AddCgroupsMount("rw")&#x000A;specgen.AddBindMount("/home/test/file1", "/file2", "rw")&#x000A;specgen.DropProcessCapability("audit_read")&#x000A;&#x000A;specgen.AddOrReplaceLinuxNamespace("pid", "/proc/28341/ns/pid")&#x000A;</code></pre>
+
+<p>For the fields of the OCI spec which have basic types, such as numbers, strings, and booleans, the methods modifying them are
+named in the format of <em>SetFieldName</em>.
+A good example is <em>SetRootPath</em>.</p>
+
+<p>For the fields whose types are slices and maps, the library provides the following three categories of methods:
+<em>ClearFieldName</em> clears the fields,
+<em>AddFieldName</em> adds a new data object into the field,
+and <em>RemoveFieldName</em> removes an existing data object from the field.
+A good example is <em>ClearAnnotations</em>, <em>AddAnnotation</em>, and <em>RemoveAnnotation</em>.</p>
+
+<p>There are exceptions. For example, <em>Spec.Process.Args</em> is a slice of string, however, the library only provides a single method <em>SetProcessArgs</em>
+to set the process args, because it makes more sense to set the process args in a bundle than adding each argument incrementally.</p>
+
+<p><strong>Step 4: save the specification:</strong></p>
+<pre class="highlight plaintext"><code>specgen.SaveToFile("/data/runc/busybox/config.json")&#x000A;</code></pre>
+
+<p>And you&rsquo;re done!  You now have a generator for creating spec files for your runc containers.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/oci/">OCI</a></li>
+<li><a href="/blog/tag/ocitools/">ocitools</a></li>
+<li><a href="/blog/tag/runc/">runc</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2016/08/ocitools-libgen/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2016/08/ocitools-libgen/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2016/08/ocitools-libgen/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}
