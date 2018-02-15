@@ -1,0 +1,99 @@
+{{define "title"}}Docker, CentOS 6, and You{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Docker, CentOS 6, and You
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jbrooks/">Jason Brooks</a>
+</span>
+&ndash;
+<time class='published' datetime='2015-07-14T16:18:24Z'>
+Tuesday 14 July 2015
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Recently, I blogged about <a href="http://www.projectatomic.io/blog/2015/06/notes-on-fedora-centos-and-docker-storage-drivers/">docker-on-loopback-storage woes and workarounds</a> &ndash; a topic that came up during several conversations I had at last month&rsquo;s Dockercon. Another frequently-discussed item from the conference involved Docker on CentOS 6, and whether and for how long users can count on running this combination.</p>
+
+<p>Docker and CentOS 6 have never been a terrific fit, which shouldn&rsquo;t be surprising considering that the version of the Linux kernel that CentOS ships was first released over three years before Docker&rsquo;s first public release (0.1.0). The OS and kernel version you use matter a great deal, because with Docker, that&rsquo;s where all your contained processes run.</p>
+
+<p>With a hypervisor such as KVM, it&rsquo;s not uncommon or problematic for an elder OS to host, through the magic of virtualization, all manner of bleeding-edge software components. In fact, if you&rsquo;re attached to CentOS 6, virtualization is a solid option for running containers in a more modern, if virtual, host.</p>
+
+<p></p>
+
+<p>If you&rsquo;re set on CentOS 6, and set on hosting your containers on bare metal, you&rsquo;ve had a few options, however. Docker has been available in EPEL, under the name <a href="https://dl.fedoraproject.org/pub/epel/6/x86_64/repoview/docker-io.html"><code>docker-io</code></a>, for some time, although that package version has been sitting at 1.5.0 since February.</p>
+
+<p>The Docker project, for its part, has counted CentOS 6 among its supported OSes, and provided CentOS 6 packages for the <a href="https://get.docker.com/rpm/1.7.0/centos-6/RPMS/x86_64/docker-engine-1.7.0-1.el6.x86_64.rpm">1.7.0</a> release that dropped during the conference. Even then, the project includes this note of kernel-related caution:</p>
+
+<blockquote>
+<p>Docker requires a 64-bit installation regardless of your CentOS version. Also, your kernel must be 3.10 at minimum. CentOS 7 runs the 3.10 kernel, 6.5 does not. We make an exception for CentOS 6.5. To run Docker on CentOS-6.5 or later, you need kernel 2.6.32-431 or higher.</p>
+
+<p><em>from: <a href="https://docs.docker.com/installation/centos/">https://docs.docker.com/installation/centos/</a></em></p>
+</blockquote>
+
+<p>Kernel version exception or no, it didn&rsquo;t take long for users to encounter a <a href="https://github.com/docker/docker/issues/14024">regression</a> in Docker 1.7.0 that prevented the service from starting on hosts running CentOS 6. Soon after, the project announced that beginning with the next major Docker release, CentOS 6 will exit the project&rsquo;s list of supported OSes:</p>
+
+<blockquote>
+<p>Current state of things:</p>
+
+<p>Those distros are supported as per <a href="http://docs.docker.com/installation/rhel/and">http://docs.docker.com/installation/rhel/and</a> <a href="http://docs.docker.com/installation/centos/">http://docs.docker.com/installation/centos/</a></p>
+
+<p>Red Hat themselves only support Docker on RHEL7 (as stated by <a href="https://access.redhat.com/solutions/1378023">https://access.redhat.com/solutions/1378023</a>, and confirmed by several people)</p>
+
+<p>1.7.0 is broken on these (most notably because of libnetwork bridge creation code: <a href="https://github.com/docker/docker/issues/14024">#14024</a>)</p>
+
+<p>We shipped 1.7.0 without mentioning we would break compatibility, so this will be fixed in 1.7.1, but we will drop support in 1.8.0.</p>
+
+<p><em>from: <a href="https://github.com/docker/docker/issues/14365">https://github.com/docker/docker/issues/14365</a></em></p>
+</blockquote>
+
+<p>There are already <a href="https://test.docker.com/rpm/1.7.1-rc1/centos-6/RPMS/x86_64/docker-engine-1.7.1-0.1.rc1.el6.x86_64.rpm">release candidate packages</a> for 1.7.1 available to test now, but a somewhat longer-term solution will require a newer kernel. While the official CentOS 6 kernel won&rsquo;t be making any huge leaps forward, there&rsquo;s a newer kernel maintained by the CentOS <a href="http://wiki.centos.org/SpecialInterestGroup/Virtualization">virtualization Special Interest Group</a> for its <a href="http://wiki.centos.org/Manuals/ReleaseNotes/Xen4-01">Xen4CentOS</a> variant.</p>
+
+<p>I installed this kernel on a CentOS 6 VM, alongside the 1.7.0 package from Docker, and managed to start and use Docker normally:</p>
+<pre class="highlight plaintext"><code># yum install -y centos-release-xen&#x000A;# echo includepkgs=kernel kernel-firmware &gt;&gt; /etc/yum.repos.d/CentOS-Xen.repo&#x000A;# yum update -y kernel&#x000A;# reboot&#x000A;# yum install -y https://get.docker.com/rpm/1.7.0/centos-6/RPMS/x86_64/docker-engine-1.7.0-1.el6.x86_64.rpm&#x000A;# service docker start&#x000A;</code></pre>
+
+<p>Docker worked fine &ndash; I gave it a solid run-through using this slick <a href="https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/docker.md">kubernetes-in-containers walkthrough</a> and it performed as expected. </p>
+
+<p>I couldn&rsquo;t, however, figure out how to switch the default storage driver from loopback to direct-lvm. It&rsquo;s possible that I&rsquo;d need a newer device-mapper package to make this work. </p>
+
+<p>If you&rsquo;re interested in helping figure out what additional dependencies are required to get and keep Docker running well on CentOS 6, check out this <a href="http://lists.centos.org/pipermail/centos-devel/2015-July/013585.html">mailing list thread</a> about getting involved with the effort, or come introduce yourself in #centos-devel on Freenode.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/centos/">centos</a></li>
+<li><a href="/blog/tag/docker/">docker</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2015/07/docker-centos-6-and-you/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2015/07/docker-centos-6-and-you/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2015/07/docker-centos-6-and-you/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

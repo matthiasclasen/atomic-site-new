@@ -1,0 +1,95 @@
+{{define "title"}}New Fedora-based Atomic Image Available with Docker 1.0{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+New Fedora-based Atomic Image Available with Docker 1.0
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jzb/">Joe Brockmeier</a>
+</span>
+&ndash;
+<time class='published' datetime='2014-06-10T13:59:00Z'>
+Tuesday 10 June 2014
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Yesterday at DockerCon, the Docker folks <a href="http://blog.docker.com/2014/06/dockercon-day-1-keynote-highlights/">announced the 1.0 release</a> along with a number of other interesting announcements. To make sure that the Atomic community has the latest and greatest tools to work with, we&rsquo;ve rolled up a new image based on Fedora 20 with Docker 1.0 and a number of other updates.</p>
+
+<p>Note that some of the packages in this image come from updates-testing or Copr builds. A big thanks to Jason Brooks for managing the builds and the Copr packages! </p>
+
+<h3>What&rsquo;s New</h3>
+
+<p>In addition to Docker 1.0 (see the <a href="http://blog.docker.com/2014/06/its-here-docker-1-0/">official Docker post on that</a>), the latest release of the Atomic proof-of-concept image includes:</p>
+
+<ul>
+<li>Cockpit 0.9
+
+<ul>
+<li>Cockpit no longer needs SELinux disabled</li>
+<li>Cockpit runs mostly unprivileged now</li>
+<li>Cockpit listens on port 1001 </li>
+</ul></li>
+<li>Updated GearD</li>
+<li>Additional packages to make working with the image easier (e.g. GNU Screen)</li>
+</ul>
+
+<p>See also <a href="http://www.projectatomic.io/blog/2014/05/what-s-new-in-cockpit/">Stef Walter&rsquo;s post on Cockpit</a>. A number of other packages have also been updated. If you&rsquo;re already testing Atomic, you can update to the latest with <code>rpm-ostree upgrade</code> and then <code>systemctl reboot</code>. </p>
+
+<p>If you haven&rsquo;t tried it yet, you can grab the newest images for KVM <a href="http://rpm-ostree.cloud.fedoraproject.org/project-atomic/images/f20/qemu/">20140609.qcow2.xz</a> or VirtualBox <a href="http://rpm-ostree.cloud.fedoraproject.org/project-atomic/images/f20/vbox/">20140609.vdi.bz2</a>. Be sure to check out the <a href="http://www.projectatomic.io/download/">Get Started with Atomic page</a> as well.</p>
+
+<p>Have questions? Come find us on Freenode in the #atomic channel, or <a href="http://ask.projectatomic.io/en/questions/">ask questions on Ask.ProjectAtomic.io</a>. </p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">Atomic</a></li>
+<li><a href="/blog/tag/cockpit/">Cockpit</a></li>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2014/06/new-fedora-based-atomic-image-available-with-docker-1-0/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2014/06/new-fedora-based-atomic-image-available-with-docker-1-0/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2014/06/new-fedora-based-atomic-image-available-with-docker-1-0/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Joe Brockmeier
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/39606c0c942bb877967b5b54b29a9d66" /></div>
+<div class='author-blurb with-photo'>
+<p>Works on Red Hat&rsquo;s Open Source and Standards team. Music junkie, and artist-in-training. Vim lover. Fan of polar bears and cats. Enjoys beer.</p>
+
+<div class='more-link'>
+<a href="/blog/author/jzb/">View all posts by Joe Brockmeier &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

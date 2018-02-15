@@ -1,0 +1,77 @@
+{{define "title"}}CentOS 7 Alpha Builds for Atomic{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+CentOS 7 Alpha Builds for Atomic
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jzb/">Joe Brockmeier</a>
+</span>
+&ndash;
+<time class='published' datetime='2014-08-28T17:48:00Z'>
+Thursday 28 August 2014
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Yesterday, Karanbir Singh <a href="http://lists.centos.org/pipermail/centos-devel/2014-August/011784.html">announced an alpha-quality build of CentOS 7 Atomic</a> that&rsquo;s suitable for developing rpm-ostree tools and helping the SIG get started.</p>
+
+<p>As KB points out, the images contain unsigned content that&rsquo;s produced outside the CentOS.org build system. You should be able to run Docker containers just fine, but it doesn&rsquo;t yet include Cockpit or Kubernetes packages. </p>
+
+<p>Also, there&rsquo;s not an upstream ostree repo yet, but KB plans to set up a repo set up under cloud.centos.org soon. Even better, he plans to start running builds every two days as the content stabilizes, and eventually get the builds up on CentOS.org.</p>
+
+<p>Please give it a whirl, though, and report any problems found to the <a href="http://lists.centos.org/mailman/listinfo/centos-devel">CentOS-devel</a> mailing list. </p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">Atomic</a></li>
+<li><a href="/blog/tag/centos/">CentOS</a></li>
+<li><a href="/blog/tag/testing/">Testing</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2014/08/centos-7-alpha-builds-for-atomic/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2014/08/centos-7-alpha-builds-for-atomic/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2014/08/centos-7-alpha-builds-for-atomic/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Joe Brockmeier
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/39606c0c942bb877967b5b54b29a9d66" /></div>
+<div class='author-blurb with-photo'>
+<p>Works on Red Hat&rsquo;s Open Source and Standards team. Music junkie, and artist-in-training. Vim lover. Fan of polar bears and cats. Enjoys beer.</p>
+
+<div class='more-link'>
+<a href="/blog/author/jzb/">View all posts by Joe Brockmeier &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

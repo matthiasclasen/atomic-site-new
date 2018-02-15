@@ -1,0 +1,71 @@
+{{define "title"}}CentOS Docker Images updated to 20140902{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+CentOS Docker Images updated to 20140902
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jperrin/">Jim Perrin</a>
+</span>
+&ndash;
+<time class='published' datetime='2014-09-05T19:53:00Z'>
+Friday  5 September 2014
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Some fresh Docker fun as we head into the weekend! The <a href="https://registry.hub.docker.com/_/centos/">CentOS images in the Docker index</a> have been bumped to 20140902.</p>
+
+<h3>Fixes</h3>
+
+<p>These updates bring the following fixes: </p>
+
+<ol>
+<li><p>Add CentOS-5 image, with SELinux patch (thanks to Dan Walsh and Miroslav Grepl!) </p></li>
+<li><p>CentOS-7 image includes a <code>fakesystemd</code> package instead of the distro provided systemd. This should resolve a number of the udev and/or pid-1 errors users were seeing. This package is only useful for docker, and <strong>will</strong> break other installs.</p></li>
+<li><p>Images now contain a new file, <code>/etc/BUILDTIME</code>, to reference when the image was created/published.</p></li>
+<li><p>Includes recent updates current to 20140902.</p></li>
+</ol>
+
+<h3>More info</h3>
+
+<p>For detailed information or to see the code differences used in building the images, please see: <a href="https://github.com/CentOS/sig-cloud-instance-build">https://github.com/CentOS/sig-cloud-instance-build</a>.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/centos/">CentOS</a></li>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2014/09/centos-docker-images-updated-to-20140902/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2014/09/centos-docker-images-updated-to-20140902/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2014/09/centos-docker-images-updated-to-20140902/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

@@ -1,0 +1,96 @@
+{{define "title"}}Using Volumes with Docker can Cause Problems with SELinux{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Using Volumes with Docker can Cause Problems with SELinux
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/dwalsh/">Dan Walsh</a>
+</span>
+&ndash;
+<time class='published' datetime='2015-06-15T17:52:00Z'>
+Monday 15 June 2015
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>When using SELinux for controlling processes within a container, you need to make sure any content that gets volume mounted into the container is readable, and potentially writable, depending on the use case.</p>
+
+<p>By default, Docker container processes run with the <code>system_u:system_r:svirt_lxc_net_t:s0</code> label.  The <code>svirt_lxc_net_t</code> type is allowed to read/execute most content under /usr, but it is not allowed to use most other types on the system. </p>
+
+<p></p>
+
+<p>If you want to volume mount content under <code>/var</code>, for example, into a container you need to set the labels on this content.  In the <code>docker run</code> man page we mention this.</p>
+<pre class="highlight plaintext"><code>man docker-run&#x000A;...&#x000A;When  using  SELinux,  be  aware that the host has no knowledge of container SELinux policy. Therefore, in the above example, if SELinux policy  is enforced,  the /var/db directory is not  writable to the container. A "Permission Denied" message will occur and an avc: message in the host's syslog.&#x000A;&#x000A;To  work  around  this, at time of writing this man page, the following command needs to be run in order for the  proper  SELinux  policy  type label to be attached to the host directory:&#x000A;&#x000A;# chcon -Rt svirt_sandbox_file_t /var/db&#x000A;</code></pre>
+
+<p>This got easier recently since Docker finally merged a patch which will be showing up in docker-1.7 (We have been carrying the patch in docker-1.6 on RHEL, CentOS, and Fedora).</p>
+
+<p>This patch adds support for <q>z</q> and <q>Z</q> as options on the volume mounts (-v).</p>
+
+<p>For example:</p>
+<pre class="highlight plaintext"><code>  docker run -v /var/db:/var/db:z rhel7 /bin/sh&#x000A;</code></pre>
+
+<p>Will automatically do the <code>chcon -Rt svirt_sandbox_file_t /var/db</code> described in the man page.</p>
+
+<p>Even better, you can use <code>Z</code>.</p>
+<pre class="highlight plaintext"><code>  docker run -v /var/db:/var/db:Z rhel7 /bin/sh&#x000A;</code></pre>
+
+<p>This will label the content inside the container with the exact MCS label that the container will run with, basically it runs <code>chcon -Rt svirt_sandbox_file_t -l s0:c1,c2 /var/db</code> where <code>s0:c1,c2</code> differs for each container.</p>
+
+<p>I have a <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1230098">bug</a>
+ that was reported to me, that might become common. The user got AVC&rsquo;s that looked like the following.</p>
+
+<p>Raw Audit Messages</p>
+
+<p><em>type=AVC msg=audit(1433926625.524:1347): avc:  denied  { write } for  pid=29280 comm=<q>launch</q> name=<q>addons</q> dev=<q>dm-2</q> ino=2491404 scontext=system</em>u:system_r:svirt_lxc_net_t:<strong>s0:c147,c266</strong> tcontext=system_u:object_r:svirt_sandbox_file_t:<strong>s0:c372,c410</strong> tclass=dir permissive=0_</p>
+
+<p>Notice the bolded MCS labels. </p>
+
+<p>The problem here was the user created a volume and labeled it from one container with the <q>Z</q> for one container, then attempted to share it in another container.  Which SELinux denied since the Multi-Category Security (MCS) labels differed. </p>
+
+<p>I told the reporter that he needs to mount it using Z or z, since at some point the volume got a different containers labels on it.</p>
+
+<p>Your container processes are running with this label, <code>system_u:system_r:svirt_lxc_net_t:s0:c147,c266</code> Notice the <code>s0:c147,c266</code>
+The volume mount is labeled <code>system_u:object_r:svirt_sandbox_file_t:s0:c372,c410</code> Notice the MCS label <code>s0:c372,c410</code> MCS Security prevents read/write of content with different MCS labels. However it will allow read/write of content labeled with an s0 label.</p>
+
+<p>If you volume mount a image with <code>-v /SOURCE:/DESTINATION:z</code> docker will automatically  relabel the content for you to s0. If you volume mount with a <q>Z</q>, then the label will be specific to the container, and not be able to be shared between containers.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+<li><a href="/blog/tag/selinux/">SELinux</a></li>
+<li><a href="/blog/tag/volumes/">Volumes</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

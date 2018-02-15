@@ -1,0 +1,98 @@
+{{define "title"}}Thoughts on Project Photon{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Thoughts on Project Photon
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jzb/">Joe Brockmeier</a>
+</span>
+&ndash;
+<time class='published' datetime='2015-04-22T21:19:07Z'>
+Wednesday 22 April 2015
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Earlier this week, VMware launched its lightweight operating system tailored for running Linux containers. Naturally, I was interested to see what VMware was cooking up, since that&rsquo;s the same target we have for Project Atomic.</p>
+
+<p>First, it&rsquo;s great to see more interest in solving the problem of running Linux containers at scale. Even better, VMware seems to be interested in doing its work in the open. It&rsquo;s always great to see companies that traditionally lean towards proprietary software taking steps towards doing more open source work. More open source work, even when it&rsquo;s similar to other projects, is almost always a Good Thing&trade;.</p>
+
+<p>That said, I&rsquo;d like to encourage VMware to consider whether they need to start from scratch with Project Photon. Creating an operating system from scratch is not trivial in the least, and there&rsquo;s a lot of work that could be shared between Photon and Atomic.</p>
+
+<p></p>
+
+<h3>A Common Base?</h3>
+
+<p>Naturally, I took Photon for a spin when it was announced Monday. It’s an RPM-based system, which is something we have a lot of experience in delivering &ndash; and we even make all of our tools for Fedora (e.g., Koji) public for folks who want to do it themselves. </p>
+
+<p>Looking at the source on GitHub and a running instance of Photon, it seems that VMware has taken on the task of packaging and maintaining a lot of components that add no value to Photon. What I mean by this is that they probably could re-use upwards of 85% of CentOS or Fedora packages (or even openSUSE packages) and still customize the components that they feel are strategic or have a need to diverge from the rest of the distribution.</p>
+
+<p>They also seem interested in rpm-ostree (judging by the fact it&rsquo;s installed, though not currently used), so why not join in the work we&rsquo;re already doing there? It&rsquo;d be fantastic to have VMware (and others) working with us on rpm-ostree and having it more widely deployed. We can accomplish more together!</p>
+
+<h3>Join Us in Making Atomic Even Better</h3>
+
+<p>I’d like to specifically invite VMware to join forces with us on Atomic. Maybe it&rsquo;s not clear, but we welcome <em>anybody</em> who wants to build on our open source work in Project Atomic, Fedora, CentOS, etc. Whether that consists of working directly with us to improve a shared project that everybody uses as shipped, or whether that consists of taking and making something like a <a href="https://fedoraproject.org/wiki/Remix">Fedora Remix</a> that uses most of the stock Fedora package set with some additional packages and customizations. We consider it a win when another community or company builds on the work we&rsquo;ve done, even if that work winds up in a product that competes with Red Hat&rsquo;s commercial offerings.</p>
+
+<p>Though Red Hat and VMware are competitors, we can (and should) stand shoulder to shoulder when doing work in the community. While we compete, we share a lot of users, and I’m sure they’d like to see us working together.</p>
+
+<p>When it makes sense, we&rsquo;re not shy about adopting excellent open source software being developed in the open &ndash; whether it&rsquo;s something led by a competitor to Red Hat or not. By the same token, we&rsquo;d encourage VMware and others to join us in building Atomic (and other tools) rather than having to wrestle with problems we&rsquo;ve already solved.</p>
+
+<p>One of the core tenets of open source is sharing your work so others don&rsquo;t have to re-do it, freeing people up to tackle new and interesting problems. Building an operating system? That&rsquo;s something we&rsquo;ve spent quite a lot of time getting right. That is why we chose to utilize Fedora, CentOS, and Red Hat Enterprise Linux to build Atomic Hosts instead of starting from scratch. Looking at the beginnings of Project Photon, it seems to me that VMware would be able to do its interesting work on top of a Fedora or CentOS set of packages rather than carrying that set on its own and duplicating our effort.</p>
+
+<p>It might sound crazy if you&rsquo;re used to proprietary development, having a competitor extend a hand and say &ldquo;hey, let&rsquo;s work together!&rdquo; But that&rsquo;s what open source is really about &ndash; being open to collaboration with a diverse community for the greater good, even while knowing the work you&rsquo;re doing will be shipped by other companies.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+<li><a href="/blog/tag/open-source/">Open Source</a></li>
+<li><a href="/blog/tag/rocket/">Rocket</a></li>
+<li><a href="/blog/tag/vmware/">VMware</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2015/04/thoughts-on-project-photon/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2015/04/thoughts-on-project-photon/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2015/04/thoughts-on-project-photon/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Joe Brockmeier
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/39606c0c942bb877967b5b54b29a9d66" /></div>
+<div class='author-blurb with-photo'>
+<p>Works on Red Hat&rsquo;s Open Source and Standards team. Music junkie, and artist-in-training. Vim lover. Fan of polar bears and cats. Enjoys beer.</p>
+
+<div class='more-link'>
+<a href="/blog/author/jzb/">View all posts by Joe Brockmeier &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

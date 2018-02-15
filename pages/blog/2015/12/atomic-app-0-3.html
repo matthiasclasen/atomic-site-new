@@ -1,0 +1,91 @@
+{{define "title"}}Atomic App 0.3.0 release!{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Atomic App 0.3.0 release!
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/cdrage/">Charlie Drage</a>
+</span>
+&ndash;
+<time class='published' datetime='2015-12-17T17:00:00Z'>
+Thursday 17 December 2015
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Today we&rsquo;ve released <a href="https://github.com/projectatomic/atomicapp/releases">0.3.0</a> of <a href="http://www.projectatomic.io/docs/atomicapp/">Atomic App</a>! We&rsquo;ve crossed a few things on our roadmap as well as introduced a brand-new provider; <a href="https://mesosphere.github.io/marathon/"><strong>Marathon!</strong></a> For those new to Marathon, it&rsquo;s a cluster-wide init and control system for services in cgroups or Docker containers, that usually runs on top of Apache Mesos.</p>
+
+<p>The main features of this release are:</p>
+
+<ul>
+<li>Marathon provider (thank you <a href="https://github.com/kadel">@kadel</a> and <a href="https://github.com/dharmit">@dharmit</a>!)</li>
+<li>A complete refactor of our OpenShift provider (using the HTTP API rather than oc command)</li>
+<li>Support for <code>oc new-app</code> deployment</li>
+<li>CLI options (ex. &ndash;answers-conf) may now be used anywhere on the command line</li>
+</ul>
+
+<p></p>
+
+<p>Bug fixes and changes:</p>
+
+<ul>
+<li>A refactor of CLI commands and options</li>
+<li>Fix on deploying multiple inherited applications</li>
+</ul>
+
+<p>For a quick introduction to Marathon, feel free to examine the <a href="https://github.com/projectatomic/nulecule-library/tree/master/helloapache">helloapache</a> Nulecule example with Marathon already built in.</p>
+
+<p>Simply add Marathon as a respective provider within <code>Nulecule</code>:</p>
+<pre class="highlight yaml"><code><span class="nn">---</span>&#x000A;<span class="nn">...</span>&#x000A;    <span class="s">artifacts</span><span class="pi">:</span>&#x000A;      <span class="s">docker</span><span class="pi">:</span>&#x000A;        <span class="pi">-</span> <span class="s">file://artifacts/docker/hello-apache-pod_run</span>&#x000A;      <span class="s">kubernetes</span><span class="pi">:</span>&#x000A;        <span class="pi">-</span> <span class="s">file://artifacts/kubernetes/hello-apache-pod.json</span>&#x000A;      <span class="s">marathon</span><span class="pi">:</span>&#x000A;        <span class="pi">-</span> <span class="s">file://artifacts/marathon/helloapache.json</span>&#x000A;</code></pre>
+
+<p>Then provide the JSON within the artifacts folder:</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">&#x000A;  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"helloapache"</span><span class="p">,</span><span class="w">&#x000A;  </span><span class="s2">"container"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">&#x000A;    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DOCKER"</span><span class="p">,</span><span class="w">&#x000A;    </span><span class="s2">"docker"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">&#x000A;      </span><span class="s2">"network"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BRIDGE"</span><span class="p">,</span><span class="w">&#x000A;      </span><span class="s2">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$image"</span><span class="p">,</span><span class="w">&#x000A;      </span><span class="s2">"portMappings"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">&#x000A;        </span><span class="p">{</span><span class="w">&#x000A;          </span><span class="s2">"containerPort"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w">&#x000A;          </span><span class="s2">"servicePort"</span><span class="p">:</span><span class="w"> </span><span class="err">$hostport</span><span class="p">,</span><span class="w">&#x000A;          </span><span class="s2">"hostPort"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">&#x000A;          </span><span class="s2">"protocol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tcp"</span><span class="w">&#x000A;        </span><span class="p">}</span><span class="w">&#x000A;      </span><span class="p">]</span><span class="w">&#x000A;    </span><span class="p">}</span><span class="w">&#x000A;  </span><span class="p">},</span><span class="w">&#x000A;  </span><span class="s2">"cpus"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w">&#x000A;  </span><span class="s2">"mem"</span><span class="p">:</span><span class="w"> </span><span class="mi">128</span><span class="w">&#x000A;</span><span class="p">}</span><span class="w">&#x000A;&#x000A;</span></code></pre>
+
+<p>Build, and launch!</p>
+<pre class="highlight shell"><code>docker build -t helloapache .&#x000A;atomic run helloapache --provider<span class="o">=</span>marathon&#x000A;</code></pre>
+
+<p>As we continue to push towards a 1.0.0 release we highly appreciate any comments or contributions to the Atomic App <a href="https://github.com/projectatomic/atomicapp">repo</a>. If you have any questions about Atomic App or Nulecule, visit the #nulecule channel on Freenode or ask on the <a href="https://www.redhat.com/mailman/listinfo/container-tools">container-tools</a> mailing list.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/alm/">alm</a></li>
+<li><a href="/blog/tag/application-lifecycle/">application lifecycle</a></li>
+<li><a href="/blog/tag/atomic-app/">atomic app</a></li>
+<li><a href="/blog/tag/composite-apps/">composite apps</a></li>
+<li><a href="/blog/tag/developers/">developers</a></li>
+<li><a href="/blog/tag/nulecule/">nulecule</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2015/12/atomic-app-0-3/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2015/12/atomic-app-0-3/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2015/12/atomic-app-0-3/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

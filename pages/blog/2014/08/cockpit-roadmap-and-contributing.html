@@ -1,0 +1,76 @@
+{{define "title"}}Cockpit Roadmap and Contributing{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Cockpit Roadmap and Contributing
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/stef/">Stef Walter</a>
+</span>
+&ndash;
+<time class='published' datetime='2014-08-14T09:22:00Z'>
+Thursday 14 August 2014
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>These days it&rsquo;s easier than ever to contribute to Cockpit. Here&rsquo;s how.</p>
+
+<p>Make sure you have it installed and running. Then checkout the cockpit sources and link the modules directory into your home directory.</p>
+<pre class="highlight plaintext"><code>$ git clone https://github.com/cockpit-project/cockpit.git&#x000A;$ mkdir -p ~/.local/share&#x000A;$ ln -snf $(pwd)/cockpit/modules ~/.local/share/cockpit&#x000A;</code></pre>
+
+<p>Now log into Cockpit with your own user login. Any changes you make in the modules subdirectory of the cockpit javascript or HTML that you checked out, should be visible immediately after a refresh.</p>
+
+<p>If you want to hack on other parts of Cockpit, such as the backend, there&rsquo;s a handy guide here:</p>
+
+<p><a href="https://github.com/cockpit-project/cockpit/blob/master/HACKING.md">https://github.com/cockpit-project/cockpit/blob/master/HACKING.md</a></p>
+
+<p>You can file issues you run into here:</p>
+
+<p><a href="https://github.com/cockpit-project/cockpit/issues/new">https://github.com/cockpit-project/cockpit/issues/new</a></p>
+
+<p>And finally you can see what we&rsquo;re working on at our Trello board:</p>
+
+<p><a href="https://trello.com/b/mtBhMA1l/cockpit">https://trello.com/b/mtBhMA1l/cockpit</a></p>
+
+<p>Have fun!</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/cockpit/">Cockpit</a></li>
+<li><a href="/blog/tag/community/">Community</a></li>
+<li><a href="/blog/tag/orchestration/">Orchestration</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2014/08/cockpit-roadmap-and-contributing/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2014/08/cockpit-roadmap-and-contributing/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2014/08/cockpit-roadmap-and-contributing/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

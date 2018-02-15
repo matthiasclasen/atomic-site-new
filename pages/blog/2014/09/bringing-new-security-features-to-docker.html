@@ -1,0 +1,77 @@
+{{define "title"}}Bringing new security features to Docker{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Bringing new security features to Docker
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jzb/">Joe Brockmeier</a>
+</span>
+&ndash;
+<time class='published' datetime='2014-09-04T21:44:00Z'>
+Thursday  4 September 2014
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>A great follow-up to my post about <a href="http://www.projectatomic.io/blog/2014/08/is-it-safe-a-look-at-docker-and-security-from-linuxcon/">Jérôme Petazzoni&rsquo;s post on Docker and security</a>, Dan Walsh has a post up on OpenSource.com explaining just what&rsquo;s being done about Docker security.</p>
+
+<p>Says Dan, &ldquo;Docker, Red Hat, and the open source community are working together to make Docker more secure. When I look at security containers, I am looking to protect the host from the processes within the container, and I&rsquo;m also looking to protect containers from each other. With Docker we are using the layered security approach, which is &lsquo;the practice of combining multiple mitigating security controls to protect resources and data.&rsquo;</p>
+
+<p>Basically, we want to put in as many security barriers as possible to prevent a break out. If a privileged process can break out of one containment mechanism, we want to block them with the next. With Docker, we want to take advantage of as many security mechanisms of Linux as possible.&rdquo;</p>
+
+<p><a href="http://opensource.com/business/14/9/security-for-docker">Read the full post over on OpenSource.com. &raquo;</a></p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+<li><a href="/blog/tag/rhel/">RHEL</a></li>
+<li><a href="/blog/tag/selinux/">SELinux</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2014/09/bringing-new-security-features-to-docker/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2014/09/bringing-new-security-features-to-docker/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2014/09/bringing-new-security-features-to-docker/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Joe Brockmeier
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/39606c0c942bb877967b5b54b29a9d66" /></div>
+<div class='author-blurb with-photo'>
+<p>Works on Red Hat&rsquo;s Open Source and Standards team. Music junkie, and artist-in-training. Vim lover. Fan of polar bears and cats. Enjoys beer.</p>
+
+<div class='more-link'>
+<a href="/blog/author/jzb/">View all posts by Joe Brockmeier &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

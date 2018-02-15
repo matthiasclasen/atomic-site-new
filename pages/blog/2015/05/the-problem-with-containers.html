@@ -1,0 +1,97 @@
+{{define "title"}}The Problem with Containers{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+The Problem with Containers
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/johnmark/">John Mark Walker</a>
+</span>
+&ndash;
+<time class='published' datetime='2015-05-08T18:23:25Z'>
+Friday  8 May 2015
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Our own <a href="http://rhelblog.redhat.com/author/danielriek/">Daniel Riek</a> wrote a <a href="http://rhelblog.redhat.com/2015/05/05/rkt-appc-and-docker-a-take-on-the-linux-container-upstream/">great blog post</a> about CoreOS&rsquo;s current efforts around the <a href="https://github.com/appc/">appc specification</a>, rkt, and the significant work that remains. </p>
+
+<p>This is where it gets interesting:</p>
+
+<p></p>
+
+<blockquote>
+<p>As it is today, appc only covers a very small part of what needs to be sorted out for a container-based, application-centric model. The impact of containerization in redefining the enterprise OS is still vastly underestimated by most; it is a departure from the traditional model of a single-instance, monolithic, UNIX user space in favor of a multi-instance, multi-version environment using containers and aggregate packaging. We are talking about nothing less than changing some of the core paradigms on which the software industry has been working for the last 20 – if not 40 – years.</p>
+</blockquote>
+
+<p>In other words: change is hard, and the entire computing world as we know it is turning upside down. This necessarily means re-learning how to do some things that we take for granted. Like, how to build applications that&rsquo;s not a manual construction process involving bailing wire and duct tape. Appc covers important territory around defining how containers are expected to work, but it leaves out a lot about how they&rsquo;re supposed to work in concert.</p>
+
+<blockquote>
+<p>Another important scope issue is primarily induced by the name “Application” - at this point, appc covers individual containers up to a pod. Unfortunately&hellip; there are very few applications that consist of only a single container / single pod. </p>
+</blockquote>
+
+<p>Sure, one can stand up a container, maybe a few at a time, customize some pods, install some software, throw Kubernetes in it, and voila! What do you have? You just hand-crafted a solution that Works For You &trade; but is impossible to manage, won&rsquo;t survive the next technology culling, doesn&rsquo;t integrate with your existing management tooling, and probably cannot be easily repeated. </p>
+
+<p>This is not to downplay the work that is taking place right now on appc. After all, we have to start somewhere, and walking must be perfected before running or flying. However, Daniel brings up one more point that should give us pause when considering the current container landscape:</p>
+
+<blockquote>
+<p>It’s important to note that an even bigger concern than the early stage of appc, is that rkt also introduces its own container package format in addition to supporting a compatibility interface to the docker model&hellip; At the end of the day, it will mean fragmentation of the ecosystem&hellip; </p>
+
+<p>The elephant in the room is that appc does not have the support of Docker, the company that leads in mindshare and controls the format that has quickly become the defacto standard for container packaging. They were not even represented at the panel to share their point of view.</p>
+</blockquote>
+
+<p>This means that those of us who make up the greater container community will have to work extra hard to make sure we don&rsquo;t end up with a fragmented ecosystem where individual companies protect their turf at the expense of the vast expanse of users and developers who just want things to work. The Unix wars have long been cited as <q>how not to do it,</q> so let&rsquo;s not go back to that. </p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/appc/">appc</a></li>
+<li><a href="/blog/tag/composite-applications/">composite applications</a></li>
+<li><a href="/blog/tag/docker/">docker</a></li>
+<li><a href="/blog/tag/rkt/">rkt</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2015/05/the-problem-with-containers/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2015/05/the-problem-with-containers/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2015/05/the-problem-with-containers/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+John Mark Walker
+</h2>
+<div class='author-blurb'>
+<p>Open Source Ecosystems dude for Red Hat&rsquo;s Open Source and Standards team. Worked on SourceForge back in the day.</p>
+
+<div class='more-link'>
+<a href="/blog/author/johnmark/">View all posts by John Mark Walker &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

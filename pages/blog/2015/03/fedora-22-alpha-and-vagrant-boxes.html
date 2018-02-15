@@ -1,0 +1,94 @@
+{{define "title"}}Fedora 22 Alpha and Vagrant Boxes{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Fedora 22 Alpha and Vagrant Boxes
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jzb/">Joe Brockmeier</a>
+</span>
+&ndash;
+<time class='published' datetime='2015-03-12T00:00:00Z'>
+Thursday 12 March 2015
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>A couple of interesting Atomic releases to take a look at this week. The <a href="http://fedoraproject.org/">Fedora Project</a> has <a href="http://fedoramagazine.org/fedora-22-alpha-released/">released Fedora 22 alpha</a>, which includes the <a href="https://getfedora.org/en/cloud/prerelease/">Cloud edition Atomic Host</a> images, as well as the Server and Workstation editions. We also have a few new test images from the CentOS Atomic SIG to check out &ndash; including Vagrant boxes.</p>
+
+<h3>Fedora Images</h3>
+
+<p>The Fedora release includes the standard <a href="http://download-i2.fedoraproject.org/pub/fedora/linux/releases/test/22_Alpha/Cloud/x86_64/Images/Fedora-Cloud-Atomic-22_Alpha-20150305.x86_64.raw.xz">raw</a> and <a href="http://download-i2.fedoraproject.org/pub/fedora/linux/releases/test/22_Alpha/Cloud/x86_64/Images/Fedora-Cloud-Atomic-22_Alpha-20150305.x86_64.qcow2">qcow2</a> images, as well as new Vagrant boxes for <a href="http://download-i2.fedoraproject.org/pub/fedora/linux/releases/test/22_Alpha/Cloud/x86_64/Images/Fedora-Cloud-Atomic-Vagrant-22_Alpha-20150305.x86_64.vsphere.ova">VirtualBox</a> and <a href="http://download-i2.fedoraproject.org/pub/fedora/linux/releases/test/22_Alpha/Cloud/x86_64/Images/Fedora-Cloud-Atomic-Vagrant-22_Alpha-20150305.x86_64.rhevm.ova">libvirt/KVM</a>. </p>
+
+<p>As an alpha release, this should give an excellent preview of the Fedora 22 release but it&rsquo;s entirely possible it will have some interesting bugs as well. Please do give it a spin and let us know if you run into any problems! If you have questions, feel free to ask on <a href="mailto:cloud@lists.fedoraproject.org">cloud@lists.fedoraproject.org</a> or <a href="http://fedoraproject.org/wiki/Bugzilla">report any bugs you might find</a>.</p>
+
+<h3>New CentOS Atomic SIG Images</h3>
+
+<p>We also have some news on the CentOS front, with new images and Vagrant boxes for libvirt and VirtualBox:</p>
+
+<ul>
+<li><a href="http://buildlogs.centos.org/rolling/7/isos/x86_64/CentOS-7-x86_64-AtomicHost-20150228_01.qcow2">qcow2 image</a></li>
+<li><a href="http://buildlogs.centos.org/rolling/7/isos/x86_64/CentOS-7-x86_64-AtomicHost-20150228_01.qcow2.xz">xz compressed qcow2 image</a></li>
+<li><a href="http://buildlogs.centos.org/rolling/7/isos/x86_64/CentOS-7-x86_64-AtomicHost-Vagrant-VirtualBox-20150228_01.box">Vagrant VirtualBox image</a></li>
+<li><a href="http://buildlogs.centos.org/rolling/7/isos/x86_64/CentOS-7-x86_64-AtomicHost-Vagrant-LibVirt-20150228_01.box">Vagrant libvirt image</a></li>
+</ul>
+
+<p>Note that the most recent CentOS qcow2 images do not include the LVM backing storage, but that is included in the Vagrant boxes. </p>
+
+<p>Also worth noting, the CentOS SIG images are <strong>not</strong> rebuilds of <a href="http://www.redhat.com/en/resources/red-hat-enterprise-linux-atomic-host">Red Hat Enterprise Linux Atomic Host</a> which was <a href="http://www.projectatomic.io/blog/2015/03/red-hat-enterprise-linux-atomic-host-released/">released last week</a>. The CentOS SIG products are still work-in-progress, and should be treated as such. </p>
+
+<p>Questions or comments on the CentOS Atomic work? Ping us on <a href="http://lists.centos.org/mailman/listinfo/centos-devel">centos-devel</a> or <a href="https://lists.projectatomic.io/mailman/listinfo/atomic-devel">atomic-devel</a>, or ask in #atomic on Freenode.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/centos/">CentOS</a></li>
+<li><a href="/blog/tag/fedora/">Fedora</a></li>
+<li><a href="/blog/tag/vagrant/">Vagrant</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2015/03/fedora-22-alpha-and-vagrant-boxes/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2015/03/fedora-22-alpha-and-vagrant-boxes/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2015/03/fedora-22-alpha-and-vagrant-boxes/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Joe Brockmeier
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/39606c0c942bb877967b5b54b29a9d66" /></div>
+<div class='author-blurb with-photo'>
+<p>Works on Red Hat&rsquo;s Open Source and Standards team. Music junkie, and artist-in-training. Vim lover. Fan of polar bears and cats. Enjoys beer.</p>
+
+<div class='more-link'>
+<a href="/blog/author/jzb/">View all posts by Joe Brockmeier &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

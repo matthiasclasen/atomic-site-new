@@ -1,0 +1,84 @@
+{{define "title"}}Yet Another Reason Containers Don't Contain: Kernel Keyrings{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Yet Another Reason Containers Don't Contain: Kernel Keyrings
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/dwalsh/">Dan Walsh</a>
+</span>
+&ndash;
+<time class='published' datetime='2014-09-15T17:39:00Z'>
+Monday 15 September 2014
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>I see people rushing to set up Web sites and PaaS Servers that allow random people to upload Docker container images, and I feel like I am the voice in the wilderness. Remember, containers do not contain!</p>
+
+<h3>Containers Do Not Contain</h3>
+
+<p>As I stated in <a href="http://opensource.com/business/14/7/docker-security-selinux">my posts</a> <a href="https://opensource.com/business/14/9/security-for-docker">on OpenSource.com</a>, not all of the operating system is namespaced. Parts that are not namespaced can potentially allow containers to attack each other, or the host, or at the very least will allow leakage of information into the containers.</p>
+
+<p></p>
+
+<h3>Another Example</h3>
+
+<p>I got a <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1138601">Bugzilla report on an SELinux issue</a> about one container attempting to use the kernel keyring of another container. Kernel keyrings are separated based on UID. That means there is one kernel keyring for root.  </p>
+
+<p>The kernel&rsquo;s keyring is <strong>not</strong> namespaced.</p>
+
+<p>By Default in RHEL7 and Fedora 20/21 Kerberos is storing the credential cache, KEYS, in the kernel keyring.</p>
+
+<p>This means that if root in one container attempts to contact Kerberos and stores its keys in the kernel keyring, the other containers can look at the content, <strong>only</strong> if you have disabled SELinux. (And I have heard that some of you do!)</p>
+
+<p>If you have not disabled SELinux, the second container will not be allowed to use the keyring, meaning that Kerberos will break in the second container.</p>
+
+<p>Sadly if you create a keyring as root on the host then this will leak into any container you have running on in the future.  And this keyring potentially would not be blocked by SELinux.</p>
+
+<p>This is a bigger problem than just root using containers.  If you wanted to set up multiple Apache services each running within a container, they would run as UID=60, but only one UID=60 kernel keyring would exist.  This means these would have all of the same problems.  </p>
+
+<p>What other parts of the kernel are we going to see this problem?  I don&rsquo;t know, but I figure they&rsquo;re out there. Abstract namespaces would be my guess at a probable problem.</p>
+
+<p>Remember, we are just in our infancy of building these container environments. Let&rsquo;s crawl before we walk.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+<li><a href="/blog/tag/kernel/">Kernel</a></li>
+<li><a href="/blog/tag/security/">Security</a></li>
+<li><a href="/blog/tag/selinux/">SELinux</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2014/09/yet-another-reason-containers-don-t-contain-kernel-keyrings/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2014/09/yet-another-reason-containers-don-t-contain-kernel-keyrings/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2014/09/yet-another-reason-containers-don-t-contain-kernel-keyrings/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

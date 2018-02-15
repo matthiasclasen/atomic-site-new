@@ -1,0 +1,111 @@
+{{define "title"}}CentOS Atomic SIG Image Ready for Testing{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+CentOS Atomic SIG Image Ready for Testing
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jzb/">Joe Brockmeier</a>
+</span>
+&ndash;
+<time class='published' datetime='2014-11-06T00:00:00Z'>
+Thursday  6 November 2014
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>The CentOS Atomic SIG is pleased to announce that <a href="http://buildlogs.centos.org/rolling/7/">we have a CentOS Atomic Host image ready for testing</a>. The image is currently being built in CentOS infrastructure, but not yet fully integrated into CentOS build systems.</p>
+
+<p>The image should be considered <strong>alpha</strong> quality, ready for testing, patches, and feedback. It&rsquo;s more or less package-complete but we still have a ways to go before calling the CentOS Atomic Host ready for any production workloads:</p>
+
+<p></p>
+
+<ul>
+<li>Image signing.</li>
+<li>Final package set (may remove non-essential packages to reduce image size, add packages that make Atomic easier to use, etc.). </li>
+<li>Other ways we can slim down the image to the bare essentials.</li>
+<li>Much more testing of the images and a regular release cadence for stable updates.</li>
+<li>Bare metal installer. </li>
+<li>Additional image formats.</li>
+<li>Documentation.</li>
+<li>Slice, dice, and make Julienne fries.</li>
+</ul>
+
+<p>You get the idea. We want to get a lot of hands-on testing and feedback from folks who are putting containers into production. For ideas about what to test/try out, see the Project Atomic <a href="http://www.projectatomic.io/download/">download</a> and <a href="http://www.projectatomic.io/docs/quickstart/">quick start</a> pages.</p>
+
+<p>We actually have two downloads: the <a href="http://buildlogs.centos.org/rolling/7/CentOS-7-x86_64-AtomicHost-20141029_02.qcow2">qcow2</a> with no compression (for direct import into OpenStack, <em>etc.</em>) and the <a href="http://buildlogs.centos.org/rolling/7/CentOS-7-x86_64-AtomicHost-20141029_02.qcow2.gz">gzipped image</a> for faster downloads if you don&rsquo;t need to import the image directly. The <a href="http://buildlogs.centos.org/rolling/7/">directory also has sha256 sums</a> so you can verify the images.</p>
+
+<p>The image comes pre-configured with an atomic update repository, but if you&rsquo;re interested in building your own updates for the image, check out <a href="http://www.projectatomic.io/blog/2014/11/build-your-own-atomic-updates/">this howto</a> on the Project Atomic blog.</p>
+
+<h3>Updates</h3>
+
+<p>The goal right now is to produce new images on a monthly basis, and update tress on a daily basis. This means you should be getting the SIG&rsquo;s latest work very quickly if you&rsquo;re using this SIG image and using <code>rpm-ostree upgrade</code>. If you hit a snag, of course, it&rsquo;s dead easy to revert to the previous known-good image.</p>
+
+<p>Ultimately, we plan to have multiple trees that you can follow for updates depending on your needs. That means an alpha or experimental tree for folks who are doing work on CentOS Atomic itself, a beta tree for updates that are about to land in the stable tree, and a stable tree.</p>
+
+<h3>What&rsquo;s in this release</h3>
+
+<p>This release is based on packages from CentOS 7, plus an updated Docker 1.3., Cockpit, and Kubernetes with additional dependencies that may not be in CentOS 7, and (of course) rpm-ostree.
+You&rsquo;ll need to use <a href="http://cloudinit.readthedocs.org/en/latest/">cloud-init</a> to log in to the image. If you&rsquo;re testing with a service or tool that does not provide cloud-init, you can directions for creating a local cloud-init provider in this <a href="https://www.technovelty.org/linux/running-cloud-images-locally.html">blog entry</a>.</p>
+
+<h3>Working with the CentOS Atomic SIG</h3>
+
+<p>We&rsquo;ve still got a ways to go, and would love more input from the larger community on what the final CentOS Atomic Host should be. See the <a href="https://gist.github.com/jzb/0f336c6f23a0ba145b0a">Atomic Host Definition</a> for an outline of the base definition of the Atomic Host, and <a href="http://wiki.centos.org/SpecialInterestGroup/Atomic">the SIG Workgroup charter</a>. </p>
+
+<p>Questions about this release? Speak up on the centos-devel mailing list! We look forward to hearing your thoughts and working with the CentOS community to make Atomic the best way to deploy Docker containers.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/alpha/">alpha</a></li>
+<li><a href="/blog/tag/centos/">CentOS</a></li>
+<li><a href="/blog/tag/cockpit/">Cockpit</a></li>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+<li><a href="/blog/tag/release/">Release</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2014/11/centos-atomic-sig-image-ready-for-testing/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2014/11/centos-atomic-sig-image-ready-for-testing/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2014/11/centos-atomic-sig-image-ready-for-testing/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Joe Brockmeier
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/39606c0c942bb877967b5b54b29a9d66" /></div>
+<div class='author-blurb with-photo'>
+<p>Works on Red Hat&rsquo;s Open Source and Standards team. Music junkie, and artist-in-training. Vim lover. Fan of polar bears and cats. Enjoys beer.</p>
+
+<div class='more-link'>
+<a href="/blog/author/jzb/">View all posts by Joe Brockmeier &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

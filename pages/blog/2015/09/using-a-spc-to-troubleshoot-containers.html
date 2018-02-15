@@ -1,0 +1,93 @@
+{{define "title"}}Using a Super Privileged Container to Troubleshoot Container Problems{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Using a Super Privileged Container to Troubleshoot Container Problems
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/mmicene/">Matthew Micene</a>
+</span>
+&ndash;
+<time class='published' datetime='2015-09-01T04:00:00Z'>
+Tuesday  1 September 2015
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>One of the issues with containers built <q>The Right Way</q> &trade; (e.g., minimal containers that only provide the application code) is figuring out what&rsquo;s going on inside the container.  If you ship just application code, you run the risk of turning your container into a proverbial black box.  Atomic hosts can provide a one way view of all of the operations inside a container, if you can find the right tool.  Rather than adding more tools to your application container, folks like <a href="https://twitter.com/rhatdan">Dan Walsh</a> have been working on <a href="https://developerblog.redhat.com/2014/11/06/introducing-a-super-privileged-container-concept/">super privileged containers</a> to manage the host, such as <a href="http://www.projectatomic.io/blog/2015/06/running-cockpit-as-a-service/">the Cockpit container</a>.</p>
+
+<p>I was recently introduced to <a href="http://www.sysdig.org/">Sysdig</a> for inspecting running process and activity on a Linux system.  It&rsquo;s a fairly nifty tool that understands Docker containers, and the authors have made sure that sysdig can be run in a container.  This made it very simple to install on my laptop and start investigating.</p>
+
+<p></p>
+
+<p>The existing sysdig container works without an issue on my Fedora 22 Workstation install as is.  You can follow the general container install instructions on the website and start poking around on your system.  I was able to see I/O and network data, running process information, file access, and all sorts of other interesting data.</p>
+
+<p>Looking to move this to an Atomic host, I found a few things that need some work.</p>
+
+<p>First, the <code>docker run</code> command line:</p>
+<pre class="highlight plaintext"><code>docker run -i -t --name sysdig --privileged -v /var/run/docker.sock:/host/var/run/docker.sock -v /dev:/host/dev -v /proc:/host/proc:ro -v /boot:/host/boot:ro -v /lib/modules:/host/lib/modules:ro -v /usr:/host/usr:ro sysdig/sysdig&#x000A;</code></pre>
+
+<p>Lots of volumes to mount read-only that present an opportunity for typos for this super privileged container.  This is exactly where <a href="http://www.projectatomic.io/blog/2015/04/using-environment-substitution-with-the-atomic-command/"><code>atomic</code> LABEL support</a> is useful.</p>
+
+<p>Secondly, sysdig needs kernel headers in order to build the probe module it uses.  Fedora 22 Atomic host doesn&rsquo;t ship with <code>kernel-headers</code> installed in the base tree, so my container will have to provide that package.</p>
+
+<p>So I set out to build a new Dockerfile aimed at providing a Fedora Atomic host friendly environment.  I started with <a href="https://github.com/draios/sysdig/tree/dev/docker/stable">the upstream sysdig Dockerfile</a>.  I changed the source to match the Fedora version we build Atomic hosts from, in this case 22.  I added the kernel-headers package, trimmed down the other packages being installed, and set up the <code>docker run</code> command in the <code>RUN</code> label.</p>
+<pre class="highlight plaintext"><code>FROM fedora:22&#x000A;&#x000A;MAINTAINER nzwulfin&#x000A;&#x000A;LABEL RUN="docker run -i -t -v /var/run/docker.sock:/host/var/run/docker.sock -v /dev:/host/dev -v /proc:/host/proc:ro -v /boot:/host/boot:ro -v /lib/modules:/host/lib/modules:ro -v /usr:/host/usr:ro --name NAME IMAGE"&#x000A;&#x000A;ENV SYSDIG_HOST_ROOT /host&#x000A;&#x000A;ENV HOME /root&#x000A;&#x000A;RUN dnf -y update --setopt=deltarpm=0 \&#x000A; &amp;&amp; dnf install -y kernel-headers gcc --setopt=deltarpm=0&#x000A;&#x000A;RUN rpm --import https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public \&#x000A; &amp;&amp; curl -s -o /etc/yum.repos.d/draios.repo http://download.draios.com/stable/rpm/draios.repo \&#x000A; &amp;&amp; dnf install -y sysdig --setopt=deltarpm=0&#x000A;&#x000A;COPY ./docker-entrypoint.sh /&#x000A;&#x000A;ENTRYPOINT ["/docker-entrypoint.sh"]&#x000A;&#x000A;CMD ["bash"]&#x000A;</code></pre>
+
+<p>Since updates to the kernel would come as a new Atomic tree, I decided to use a tag to the container that tracked the Atomic version number.  This allows me to rebuild the container when the kernel version updates and know what the first version of Atomic hosts that use that kernel.  So sysdig-spc:22.99 will support any Atomic host of that version or later.  The next time a kernel update comes to an Atomic version, I can simply rebuild the container and add a new tag.</p>
+
+<p>I&rsquo;m not specifying a kernel version in this Dockerfile, but I did test that as well if you&rsquo;d like tighter coupling between the Atomic versions and the Docker Hub tag.</p>
+
+<p>Once the container is pushed to the Docker Hub, <code>atomic run</code> will be able to launch the sysdig-spc container and give you the ability to inspect your running containers.  The container will open a shell as root, you can run <code>csysdig</code> to get the TUI version, or <code>sysdig -l</code> to see what modules you can run from the command line.  You can also check out the sysdig website for examples.</p>
+
+<p>If you&rsquo;d like to try out the container I built try:</p>
+
+<p><code>atomic run --spc nzwulfin/sysdig-spc</code></p>
+
+<p>Or if you want to run a specific tagged container:</p>
+
+<p><code>atomic run --spc nzwulfin/sysdig-spc:22.99</code></p>
+
+<p>Once you have sysdig running on your host, check out the project&rsquo;s <a href="http://www.sysdig.org/wiki/sysdig-examples/">examples page</a> to see what you can do with the utility. </p>
+
+<p>Building your own tools SPC can make inspecting and troubleshooting Docker and Kubernetes environments simpler.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/docker/">docker</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2015/09/using-a-spc-to-troubleshoot-containers/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2015/09/using-a-spc-to-troubleshoot-containers/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2015/09/using-a-spc-to-troubleshoot-containers/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

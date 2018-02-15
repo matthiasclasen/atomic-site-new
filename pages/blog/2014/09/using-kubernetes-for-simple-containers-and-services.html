@@ -1,0 +1,95 @@
+{{define "title"}}Using Kubernetes for Simple Containers and Services{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Using Kubernetes for Simple Containers and Services
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jzb/">Joe Brockmeier</a>
+</span>
+&ndash;
+<time class='published' datetime='2014-09-11T18:47:00Z'>
+Thursday 11 September 2014
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Mark Lamourine is working on an excellent series of posts that demonstrate how you&rsquo;d use <a href="https://github.com/GoogleCloudPlatform/kubernetes">Kubernetes</a> to run services using Docker containers. The latest is <a href="http://cloud-mechanic.blogspot.com/2014/09/kubernetes-simple-containers-and.html">Kubernetes: Simple Containers and Services</a>.</p>
+
+<p>The most recent post explores creating the subsidiary services for a <a href="http://www.pulpproject.org/">Pulp</a> service within a Kubernetes cluster:</p>
+
+<p></p>
+
+<blockquote>
+<p>As mentioned elsewhere, Kubernetes is a service which is designed to bind together a cluster of container hosts, which can be regular hosts running the etcd and kubelet daemons or they can be specialized images like Atomic or CoreOS.  They can be private or public services such as Google Cloud</p>
+
+<p>For Pulp, I need to place a MongoDB and a QPID container within a Kubernetes cluster and create the infrastructure so that clients can find it and connect to it.  For each of these I need to create a Kubernetes Service and a Pod (group of related containers).</p>
+</blockquote>
+
+<p>Note that the latest post builds on this series:</p>
+
+<ul>
+<li><a href="http://cloud-mechanic.blogspot.com/2014/08/intro-to-containerized-applications.html">Intro to Containerized Applications: Docker and Kubernetes</a></li>
+<li><a href="http://cloud-mechanic.blogspot.com/2014/08/docker-simple-service-container-example.html">Docker: A simple service container example with MongoDB</a></li>
+<li><a href="http://cloud-mechanic.blogspot.com/2014/09/docker-qpid-message-broker-container.html">Docker: A QPID Message Broker Container</a></li>
+</ul>
+
+<p>Keep an eye on Mark&rsquo;s blog &ldquo;<a href="http://cloud-mechanic.blogspot.com/">Under the Hood of Cloud Computing</a> for future installments. </p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/amqp-broker/">AMQP Broker</a></li>
+<li><a href="/blog/tag/cluster/">Cluster</a></li>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+<li><a href="/blog/tag/kubernetes/">Kubernetes</a></li>
+<li><a href="/blog/tag/mongodb/">MongoDB</a></li>
+<li><a href="/blog/tag/pulp/">Pulp</a></li>
+<li><a href="/blog/tag/qpid/">QPID</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2014/09/using-kubernetes-for-simple-containers-and-services/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2014/09/using-kubernetes-for-simple-containers-and-services/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2014/09/using-kubernetes-for-simple-containers-and-services/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Joe Brockmeier
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/39606c0c942bb877967b5b54b29a9d66" /></div>
+<div class='author-blurb with-photo'>
+<p>Works on Red Hat&rsquo;s Open Source and Standards team. Music junkie, and artist-in-training. Vim lover. Fan of polar bears and cats. Enjoys beer.</p>
+
+<div class='more-link'>
+<a href="/blog/author/jzb/">View all posts by Joe Brockmeier &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

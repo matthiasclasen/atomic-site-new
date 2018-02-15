@@ -1,0 +1,84 @@
+{{define "title"}}Updated CentOS Containers Available via Docker Hub{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Updated CentOS Containers Available via Docker Hub
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jzb/">Joe Brockmeier</a>
+</span>
+&ndash;
+<time class='published' datetime='2014-11-05T17:08:00Z'>
+Wednesday  5 November 2014
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>The CentOS project <a href="http://lists.centos.org/pipermail/centos-announce/2014-November/020735.html">has updated its Docker Images</a> on the Docker Hub for CentOS 5, CentOS 6, and CentOS 7.</p>
+
+<p>If you&rsquo;re using CentOS containers, you can quickly update the image with <code>docker pull centos:centos6</code> (to get CentOS 6.6). This will grab the image if you don&rsquo;t have it locally, or update the image if you have it and just need to catch up to the latest release. </p>
+
+<p>The latest releases are:
+ * CentOS 5.11
+ * CentOS 6.6
+ * CentOS 7.0.1406</p>
+
+<p>Note that this updates the fakesystemd package to properly include dependencies for the lsb-base container, and has fixed some broken symlinks in the CentOS 7 container.</p>
+
+<p>The CentOS Project also makes a number of pre-packaged container applications available on the <a href="https://registry.hub.docker.com/u/centos/">Docker Hub</a>. Currently you can choose from MariaDB, FreeIPA, Nginx, Apache httpd, and Wildfly. </p>
+
+<p>If you have any questions or have an interest in helping to package additional container applications, see the <a href="http://lists.centos.org/mailman/listinfo/centos-devel">centos-devel</a> mailing list or join the conversation in #centos-devel on Freenode.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/centos/">CentOS</a></li>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+<li><a href="/blog/tag/updates/">Updates</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2014/11/updated-centos-containers-available-via-docker-hub/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2014/11/updated-centos-containers-available-via-docker-hub/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2014/11/updated-centos-containers-available-via-docker-hub/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Joe Brockmeier
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/39606c0c942bb877967b5b54b29a9d66" /></div>
+<div class='author-blurb with-photo'>
+<p>Works on Red Hat&rsquo;s Open Source and Standards team. Music junkie, and artist-in-training. Vim lover. Fan of polar bears and cats. Enjoys beer.</p>
+
+<div class='more-link'>
+<a href="/blog/author/jzb/">View all posts by Joe Brockmeier &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

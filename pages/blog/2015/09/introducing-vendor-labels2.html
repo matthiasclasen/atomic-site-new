@@ -1,0 +1,69 @@
+{{define "title"}}Introducing Image Metadata Labels for Software Vendors{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Introducing Image Metadata Labels for Software Vendors
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/aweiteka/">Aaron Weitekamp</a>
+</span>
+&ndash;
+<time class='published' datetime='2015-09-23T14:12:22Z'>
+Wednesday 23 September 2015
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Docker image metadata can be arbitrarily extended using the LABEL directive in a Dockerfile. This is a great way to annotate an image and enable automation:</p>
+
+<ul>
+<li>How to run or install an image</li>
+<li>Who built an image</li>
+<li>URLs for documentation or other support information</li>
+</ul>
+
+<p>We&rsquo;ve been encouraging the docker community to standardize these LABELs in an open source way through the <a href="https://github.com/projectatomic/ContainerApplicationGenericLabels/">Container Application Generic Labels repository</a>. Recent <a href="https://github.com/projectatomic/ContainerApplicationGenericLabels/pulls?utf8=%E2%9C%93&amp;q=is%3Apr+is%3Aclosed+author%3Aaweiteka+vendor">pull requests</a> added a new vendor directory for software companies (or FOSS projects) to document metadata that is specific to their particular needs. </p>
+
+<p>As a point of reference, Red Hat released their <a href="https://github.com/projectatomic/ContainerApplicationGenericLabels/blob/master/vendor/redhat/labels.md">LABEL metadata</a> and <a href="https://github.com/projectatomic/ContainerApplicationGenericLabels/blob/master/vendor/redhat/names.md">image naming policy</a> to the community. This might be a useful reference for other folks building their own metadata.</p>
+
+<p>Have metadata for your project? Just submit a pull request to help create documentation about metadata your tooling or application depends on. Have questions? Ask on the <a href="http://lists.projectatomic.io/mailman/listinfo/atomic-devel">atomic-devel</a> mailing list, or create an issue in the GitHub repository.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/docker/">docker</a></li>
+<li><a href="/blog/tag/labels/">labels</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2015/09/introducing-vendor-labels2/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2015/09/introducing-vendor-labels2/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2015/09/introducing-vendor-labels2/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

@@ -2,7 +2,304 @@
 {{define "title"}}Project Atomic Download{{end}}
 
 {{define "body"}}
+  <article class='post hentry'>
+  <header class='post-header'>
+  <h2 class='post-title entry-title'>
+  <a href="/blog/2018/02/fedora-atomic-workstation/">An Introduction to Fedora Atomic Workstation</a>
+  </h2>
+  <p class='post-meta'>
+  <span class='byline'>
+  by
+  </span>
+  <span class='author vcard'>
+  <a href="/blog/author/jlebon/">Jonathan Lebon</a>
+  </span>
+  &ndash;
+  <time class='published' datetime='2018-02-06T00:00:00Z'>
+  Tuesday  6 February
+  </time>
+  </p>
+  </header>
+  <section class='post-content entry-content'>
+  <p>For the last few Fedora releases, the Workstation WG has been working on
+  combining the best of the Project Atomic pattern with the Fedora Workstation
+  Edition into a deliverable dubbed &ldquo;Fedora Atomic Workstation&rdquo;. In
+  Fedora 27, we have reached a point where we feel comfortable inviting other
+  developers and enthusiasts to try it out and even make it their daily driver.</p>
+
+  <p>Read on to discover what Fedora Atomic Workstation is, what its benefits are,
+  and how you can get started today!</p>
+
+  <p>Note: this blog post is based on a talk I gave at
+  <a href="https://devconf.cz/cz/2018">DevConf.cz 2018</a>. Head over to
+  <a href="https://www.youtube.com/watch?v=7c3GdfhWzcc">YouTube</a> if you&rsquo;d prefer listening
+  to it.</p>
+
+  <p>
+  <a class="more-link read-more" href="/blog/2018/02/fedora-atomic-workstation">Read More &raquo;</a>
+  </section>
+  <footer class='post-meta'>
+  <div class='tags'>
+  Tags:
+  <ul class='taglist'>
+  <li><a href="/blog/tag/atomic/">atomic</a></li>
+  <li><a href="/blog/tag/desktop/">desktop</a></li>
+  <li><a href="/blog/tag/fedora/">fedora</a></li>
+  <li><a href="/blog/tag/workstation/">workstation</a></li>
+  </ul>
+  </div>
+  </footer>
+  </article>
+
+  <article class='post hentry'>
+  <header class='post-header'>
+  <h2 class='post-title entry-title'>
+  <a href="/blog/2018/02/fedora-atomic-2-feb-18/">Fedora 27 Atomic Host February 2nd Release</a>
+  </h2>
+  <p class='post-meta'>
+  <span class='byline'>
+  by
+  </span>
+  <span class='author vcard'>
+  <a href="/blog/author/dustymabe/">Dusty Mabe</a>
+  </span>
+  &ndash;
+  <time class='published' datetime='2018-02-02T00:00:00Z'>
+  Friday  2 February
+  </time>
+  </p>
+  </header>
+  <section class='post-content entry-content'>
+  <p>In this week&rsquo;s release of Fedora Atomic Host we have a new kernel,
+  ostree/rpm-ostree, glibc, and cloud-utils-growpart (fixes for aarch64
+  <a href="https://pagure.io/atomic-wg/issue/382">partition resize issues</a>).</p>
+
+  <p>The new Fedora Atomic Host update is available via an OSTree update:</p>
+
+  <p><strong>Version: 27.72</strong></p>
+
+  <ul>
+  <li>Commit(x86_64): 39848372585a65dc63fb3052f997139b8b30d6b55ce378337db3664177489d28</li>
+  <li>Commit(aarch64): 8048d384f231f90a7479cf94bfe94053970fb9a0f196ba4485d779696db81fa1</li>
+  <li>Commit(ppc64le): 3fce2908406e41e2ffe533908e840f44311576befe7e49396d1894407341aef9</li>
+  </ul>
+
+  <p>We are releasing images from multiple architectures but please note that x86_64 architecture is the only one that undergoes automated testing at this time.</p>
+
+  <p>Existing systems can be upgraded in place via e.g. <code>atomic host upgrade</code> or <code>atomic host deploy</code>.</p>
+
+  <p>
+  <a class="more-link read-more" href="/blog/2018/02/fedora-atomic-2-feb-18">Read More &raquo;</a>
+  </section>
+  <footer class='post-meta'>
+  <div class='tags'>
+  Tags:
+  <ul class='taglist'>
+  <li><a href="/blog/tag/atomic/">atomic</a></li>
+  <li><a href="/blog/tag/fedora/">fedora</a></li>
+  </ul>
+  </div>
+  </footer>
+  </article>
+
+  <article class='post hentry'>
+  <header class='post-header'>
+  <h2 class='post-title entry-title'>
+  <a href="/blog/2018/02/firewalld-in-atomic-host/">Firewalld in Atomic Host</a>
+  </h2>
+  <p class='post-meta'>
+  <span class='byline'>
+  by
+  </span>
+  <span class='author vcard'>
+  <a href="/blog/author/dustymabe/">Dusty Mabe</a>
+  </span>
+  &ndash;
+  <time class='published' datetime='2018-02-01T18:00:00Z'>
+  Thursday  1 February
+  </time>
+  </p>
+  </header>
+  <section class='post-content entry-content'>
+  <h3>TL;DR</h3>
+
+  <p>Fedora Atomic Host (and derivatives) will now include the <code>firewalld</code>
+  package in the base OSTree that is tested, delivered, and released
+  every two weeks. Existing users should observe no change as it won&rsquo;t
+  be enabled by default.</p>
+
+  <h3>Firewalld in Atomic Host</h3>
+
+  <p>In the past we have had requests to have <code>firewalld</code> in Atomic Host
+  to enable a better interface into firewall management for
+  administrators and management software. It turns out that if you have
+  lots of rules to manage, or even multiple pieces of software trying to
+  manage different sets of rules on a single system, then <code>iptables</code>
+  becomes a limitation pretty quickly.</p>
+
+  <p>Atomic Host users do have the ability to package layer <code>firewalld</code>,
+  but <a href="https://www.projectatomic.io/blog/2017/06/rpm-ostree-v2017.6-released/">live changes to the host</a>
+  are currently experimental. Since rebooting during system provisioning
+  in certain environments is not desirable, and <code>firewalld</code> is
+  relatively small, the <a href="https://pagure.io/atomic-wg">Fedora Atomic Working Group</a>
+  <a href="https://pagure.io/atomic-wg/issue/372">decided</a> to include <code>firewalld</code> in the
+  base OSTree. </p>
+
+  <p>In order to not affect existing users the <code>firewalld</code> service will be
+  disabled by default. Existing users should observe no change in behavior.
+  Users who want to use <code>firewalld</code> can enable/start the service and start
+  using it immediately.</p>
+
+  <p>
+  <a class="more-link read-more" href="/blog/2018/02/firewalld-in-atomic-host">Read More &raquo;</a>
+  </section>
+  <footer class='post-meta'>
+  <div class='tags'>
+  Tags:
+  <ul class='taglist'>
+  <li><a href="/blog/tag/atomic/">atomic</a></li>
+  <li><a href="/blog/tag/fedora/">fedora</a></li>
+  </ul>
+  </div>
+  </footer>
+  </article>
+
+  <article class='post hentry'>
+  <header class='post-header'>
+  <h2 class='post-title entry-title'>
+  <a href="/blog/2018/01/using-image-registries-with-buildah/">Using OCI Image Registries with Buildah</a>
+  </h2>
+  <p class='post-meta'>
+  <span class='byline'>
+  by
+  </span>
+  <span class='author vcard'>
+  <a href="/blog/author/ipbabble/">ipbabble</a>
+  </span>
+  &ndash;
+  <time class='published' datetime='2018-01-26T00:00:00Z'>
+  Friday 26 January
+  </time>
+  </p>
+  </header>
+  <section class='post-content entry-content'>
+  <p><img alt="Buildah" src="/images/buildah-logo.png?1517062481" /></p>
+
+  <h3>Using Buildah with container registries</h3>
+
+  <p><em>Prerequisite: Buildah version 0.9 or greater.</em></p>
+
+  <p>First some terminology. In the container image space, Docker popularized two terms: </p>
+
+  <ul>
+  <li>Container image registry</li>
+  <li>Container image repository</li>
+  </ul>
+
+  <p>The container image registry, or registry, is a shared data store for pushing and pulling container images. It has a well-known API for such requests. Docker Hub is an example of a public registry. Various vendors and developers store their images on Docker Hub. Most organizations I&rsquo;ve dealt with don&rsquo;t wish to pull images from a public registry for reasons such as security or network bandwidth usage. Instead they would prefer to use a local private registry.  </p>
+
+  <p>
+  <a class="more-link read-more" href="/blog/2018/01/using-image-registries-with-buildah">Read More &raquo;</a>
+  </section>
+  <footer class='post-meta'>
+  <div class='tags'>
+  Tags:
+  <ul class='taglist'>
+  <li><a href="/blog/tag/buildah/">buildah</a></li>
+  <li><a href="/blog/tag/containers/">containers</a></li>
+  <li><a href="/blog/tag/oci/">oci</a></li>
+  <li><a href="/blog/tag/registry/">registry</a></li>
+  </ul>
+  </div>
+  </footer>
+  </article>
+
+  <article class='post hentry'>
+  <header class='post-header'>
+  <h2 class='post-title entry-title'>
+  <a href="/blog/2018/01/fedora-atomic-18-jan-18/">Fedora 27 Atomic Host January 18th Release</a>
+  </h2>
+  <p class='post-meta'>
+  <span class='byline'>
+  by
+  </span>
+  <span class='author vcard'>
+  <a href="/blog/author/dustymabe/">Dusty Mabe</a>
+  </span>
+  &ndash;
+  <time class='published' datetime='2018-01-18T16:00:00Z'>
+  Thursday 18 January
+  </time>
+  </p>
+  </header>
+  <section class='post-content entry-content'>
+  <p>In this week&rsquo;s release of Fedora Atomic Host we have an updated kernel (the <a href="https://fedoramagazine.org/update-ongoing-meltdown-spectre-work/">spectre patches</a> are slowly working their way out), and an <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1510351">updated docker with a security fix</a>. We also are <em>including</em> <a href="https://pagure.io/atomic-wg/issue/372">firewalld in the ostree</a> now, but we are <em>not</em> enabling it by default. I&rsquo;ll post a follow up blog post on this topic in the next day or two.</p>
+
+  <p>The new Fedora Atomic Host update is available via an OSTree update:</p>
+
+  <p><strong><em>Version: 27.61</em></strong></p>
+
+  <ul>
+  <li>Commit(x86_64): 772ab185b0752b0d6bc8b2096d08955660d80ed95579e13e136e6a54e3559ca9</li>
+  <li>Commit(aarch64): 598626fd61dc6ed4b702159e50b6029ee70a527e855fce7d8e61a870b141f893</li>
+  <li>Commit(ppc64le): 16ce78ee689066f582dbfc0672dab1706051fefab496fcebd8109d58738eb8fe</li>
+  </ul>
+
+  <p>We are releasing images from multiple architectures but please note that x86_64 architecture is the only one that undergoes automated testing at this time.</p>
+
+  <p>Existing systems can be upgraded in place via e.g. <code>atomic host upgrade</code> or <code>atomic host deploy</code>. Systems on Fedora Atomic 26 can be upgraded using <code>rpm-ostree rebase</code>. Refer to the <a href="/blog/2017/11/fedora-atomic-26-to-27-upgrade/">upgrade guide</a> for more details.</p>
+
+  <p>
+  <a class="more-link read-more" href="/blog/2018/01/fedora-atomic-18-jan-18">Read More &raquo;</a>
+  </section>
+  <footer class='post-meta'>
+  <div class='tags'>
+  Tags:
+  <ul class='taglist'>
+  <li><a href="/blog/tag/atomic/">atomic</a></li>
+  <li><a href="/blog/tag/fedora/">fedora</a></li>
+  </ul>
+  </div>
+  </footer>
+  </article>
+  <article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+<a href="/blog/2018/01/buildah-blocks/">Buildah Blocks - OCI Shell Game</a>
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/tsweeney/">Tom Sweeney</a>
+</span>
+&ndash;
+<time class='published' datetime='2018-01-16T00:00:00Z'>
+Tuesday 16 January
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>I’ve always been fascinated by the <a href="https://en.wikipedia.org/wiki/Shell_game">three shells and a pea game</a> that street hustlers have used for years to make a bit of coin. I love watching a talented person running the game, but I know better than to bet on it! However, playing the game with <a href="https://github.com/projectatomic/buildah">Buildah</a> leads to everyone being a winner.</p>
+
+<p>I had a bit of time to play, so I tried out a variant of the shell game with Open Containers Initiative (OCI) containers. I made a quick example showing how you can create an OCI image with Buildah, saved the image to a repository on Docker Hub and then used both Docker and Buildah to run that  image from Docker Hub. Nothing terribly fancy, but the video does illustrate that Buildah is OCI-compliant and the images it creates can be used by other OCI-compliant technologies.</p>
+
+<p>
+<a class="more-link read-more" href="/blog/2018/01/buildah-blocks/">Read More &raquo;</a>
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/buildah/">buildah</a></li>
+<li><a href="/blog/tag/containers/">containers</a></li>
+</ul>
+</div>
+</footer>
+</article>
 <article>
-blog stuff here
+<p class="center"><a class="nosymbol" href="/blog/archive"><span class="fas fa-chevron-circle-left"></span> Previous Posts</a></p>
 </article>
 {{end}}

@@ -1,0 +1,86 @@
+{{define "title"}}Docker 1.4, Cockpit 0.27 (stable) added to CentOS 7 Atomic{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Docker 1.4, Cockpit 0.27 (stable) added to CentOS 7 Atomic
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jzb/">Joe Brockmeier</a>
+</span>
+&ndash;
+<time class='published' datetime='2014-12-18T22:08:00Z'>
+Thursday 18 December 2014
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>If you&rsquo;re running the <a href="http://buildlogs.centos.org/monthly/7/">CentOS Atomic Host</a> images, you&rsquo;ll want to do an <code>atomic upgrade</code> right about now. The update includes a bump for Docker to 1.4, and brings Cockpit to 0.27, and pulls in a few additional package updates. </p>
+
+<p>As you&rsquo;ve probably read, Docker 1.4 <a href="http://docs.docker.com/release-notes/">includes a few bug fixes</a>, security fixes, and several new features. </p>
+
+<p>Cockpit 0.27 is the most recent <em>stable</em> release from the Cockpit Project. This release of the <a href="http://cockpit-project.org/">Cockpit server manager</a> is the same used for Fedora 21 Atomic Host, and includes a lot of stability and feature improvements since 0.24.</p>
+
+<h3>What&rsquo;s in that update?!</h3>
+
+<p>You can see all the packages updated by using <code>atomic db diff commit1 commit2</code>. (And you can see the commit hashes for the two trees with <code>atomic status</code>.) </p>
+
+<h3>Cockpit Hackfest ahead of DevConf.cz</h3>
+
+<p>Going to <a href="http://www.devconf.cz/">DevConf.cz</a>? Or just happen to be close to the Czech Republic and have a strong interest in Cockpit? You can learn how to hack on Cockpit, build plugins or prototypes, and much more! </p>
+
+<p>The Hackfest will be held in Room A113, Brno University of Technology, on <a href="http://community.redhat.com/events/#devconfcz">Friday 6 February from 2:10 to 5:10 CET</a>. Of course, you should check out DevConf.cz too, it&rsquo;s free to attend and you&rsquo;ll have dozens of fantastic presentations to choose from related to free software. Also, keep an eye on <a href="http://community.redhat.com/events/">Red Hat&rsquo;s Community Calendar</a> for other free and open source related events that may be of interest.</p>
+
+<p>Hope to see you there! </p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/cockpit/">Cockpit</a></li>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2014/12/cockpit-0-27-stable-added-to-centos-7-atomic-image/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2014/12/cockpit-0-27-stable-added-to-centos-7-atomic-image/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2014/12/cockpit-0-27-stable-added-to-centos-7-atomic-image/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Joe Brockmeier
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/39606c0c942bb877967b5b54b29a9d66" /></div>
+<div class='author-blurb with-photo'>
+<p>Works on Red Hat&rsquo;s Open Source and Standards team. Music junkie, and artist-in-training. Vim lover. Fan of polar bears and cats. Enjoys beer.</p>
+
+<div class='more-link'>
+<a href="/blog/author/jzb/">View all posts by Joe Brockmeier &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

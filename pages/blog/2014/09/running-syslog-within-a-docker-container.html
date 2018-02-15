@@ -1,0 +1,84 @@
+{{define "title"}}Running Syslog Within a Docker Container{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Running Syslog Within a Docker Container
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/dwalsh/">Dan Walsh</a>
+</span>
+&ndash;
+<time class='published' datetime='2014-09-11T20:06:00Z'>
+Thursday 11 September 2014
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Recently I received a <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1139734">bug report</a> on Docker complaining about using rsyslogd within a container.  </p>
+
+<p>The user ran a RHEL7 container, installed rsyslog, started the daemon, and then sent a logger message, and nothing happened.</p>
+<pre class="highlight plaintext"><code># docker run -it --rm rhel /bin/bash&#x000A;# yum -y install rsyslog&#x000A;# /usr/sbin/rsyslogd&#x000A;# logger "this is a test"&#x000A;</code></pre>
+
+<p>No message showed up in <code>/var/log/messages</code> within the container, or on the host machine for that matter.</p>
+
+<p>The user then looked and noticed that <code>/dev/log</code> did not exist and this was where logger was writing the message. The user thought this was a bug.</p>
+
+<p>The problem was that in RHEL7 and Fedora we now use journald, which listens on <code>/dev/log</code> for incoming messages. In RHEL7 and Fedora, rsyslog actually reads messages from the journal via its API by default.</p>
+
+<p>But not all docker containers run systemd and journald. (Most don&rsquo;t). In order to get the rsyslogd to work the way the user wanted, he would have to modify the configuration file, <code>/etc/rsyslogd.conf</code>:</p>
+
+<ul>
+<li>In <code>/etc/rsyslog.conf</code> remove <code>$ModLoad imjournal</code>.</li>
+<li>Set <code>$OmitLocalLogging</code> to <code>off</code>.</li>
+<li>Make sure <code>$ModLoad imuxsock</code> is present.</li>
+<li>Also comment out: <code>$IMJournalStateFile imjournal.state</code>.</li>
+</ul>
+
+<p>After making these changes rsyslogd will start listening on <code>/dev/log</code> within the container and the logger messages will get accepted by rsyslogd and written to <code>/var/log/messages</code> within the container.</p>
+
+<p>If you wanted to logging messages to go to the host logger, you could <q>volume</q> mount <code>/dev/log</code> into the container.</p>
+<pre class="highlight plaintext"><code># docker run -v /dev/log:/dev/log -it --rm rhel /bin/bash&#x000A;# logger "this is a test"&#x000A;</code></pre>
+
+<p>The message should show up in the host&rsquo;s journalct log, and if you are running rsyslog on the host, the message should end up in <code>/var/log/messages</code>.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+<li><a href="/blog/tag/journald/">journald</a></li>
+<li><a href="/blog/tag/rhel/">RHEL</a></li>
+<li><a href="/blog/tag/syslog/">Syslog</a></li>
+<li><a href="/blog/tag/systemd/">systemd</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2014/09/running-syslog-within-a-docker-container/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2014/09/running-syslog-within-a-docker-container/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2014/09/running-syslog-within-a-docker-container/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

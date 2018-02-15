@@ -1,0 +1,81 @@
+{{define "title"}}Running systemd in a Docker Container{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Running systemd in a Docker Container
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jzb/">Joe Brockmeier</a>
+</span>
+&ndash;
+<time class='published' datetime='2014-05-06T19:50:00Z'>
+Tuesday  6 May 2014
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>Ever wondered if you can get <code>systemd</code> running in a Docker container? Apparently Dan Walsh did, <a href="http://rhatdan.wordpress.com/2014/04/30/running-systemd-within-a-docker-container/">and spent some time getting it to work</a>.</p>
+
+<blockquote>
+<p>While working with Docker, I looked at the great work that Scott Collier was doing for getting services to run within a container.  Scott provides the fedora-dockerfiles package in docker with lots of “Dockerfile” examples. You can build Docker images by running “docker build” on these examples.</p>
+
+<p>It seemed a little difficult, and wondered if getting systemd to run within a docker container, as I did with virt-sandbox-service, might make this simpler.</p>
+
+<p>The Docker Model suggests that it is better to run a single service within a container.  If you wanted to build an application that required an Apache service and a MariaDB database, you should generate two different containers.   Some people insist on running multiple services within a container, and for this Docker suggested using the supervisord tool.  In RHEL we do not want to support supervisord, since it is written in Python, and do not want to pull a Python requirement into containers, and it is just a package used to monitor multiple services.  We already have a tool for monitoring multiple services called systemd.</p>
+</blockquote>
+
+<p>After a little trial and error, Dan got <code>systemd</code> working within a container on Fedora Rawhide, and expects it will work on Fedora 20 or RHEL 7 (when it&rsquo;s released). Give it a spin and <a href="http://rhatdan.wordpress.com/2014/04/30/running-systemd-within-a-docker-container/">let Dan know</a> how it works out for you.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/cgroups/">cgroups</a></li>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+<li><a href="/blog/tag/systemd/">systemd</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2014/05/running-systemd-in-a-docker-container/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2014/05/running-systemd-in-a-docker-container/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2014/05/running-systemd-in-a-docker-container/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Joe Brockmeier
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/39606c0c942bb877967b5b54b29a9d66" /></div>
+<div class='author-blurb with-photo'>
+<p>Works on Red Hat&rsquo;s Open Source and Standards team. Music junkie, and artist-in-training. Vim lover. Fan of polar bears and cats. Enjoys beer.</p>
+
+<div class='more-link'>
+<a href="/blog/author/jzb/">View all posts by Joe Brockmeier &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}

@@ -1,0 +1,90 @@
+{{define "title"}}Using Environment Substitution with the Atomic Command{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Using Environment Substitution with the Atomic Command
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/dwalsh/">Dan Walsh</a>
+</span>
+&ndash;
+<time class='published' datetime='2015-04-22T11:00:00Z'>
+Wednesday 22 April 2015
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>I recently published a <a href="http://developerblog.redhat.com/2015/04/21/introducing-the-atomic-command">post on the Red Hat Developer Blog</a> about the Atomic command that we&rsquo;ve been working on for the last few months. </p>
+
+<p>The <a href="http://www.projectatomic.io/docs/usr-bin-atomic/">Atomic</a> command (/usr/bin/atomic) is a high-level, coherent entrypoint for Atomic Host systems, and aims to fill in the gaps in Linux container implementations. </p>
+
+<p></p>
+
+<p>One of the first questions I received was about environment substitution. The user wanted to have standard Bash substitutions working with /usr/bin/atomic. Specifically, he wanted to allow substitutions like <code>$PWD/.foobar</code> and <code>--user=$(id -u)</code>.</p>
+
+<p>I decided to try this out by creating a simple Dockerfile.</p>
+<pre class="highlight plaintext"><code>from rhel7&#x000A;LABEL RUN echo $PWD/.foobar --user=$(id -u)&#x000A;</code></pre>
+
+<p>Then I build the container</p>
+<pre class="highlight plaintext"><code>docker build -t test .&#x000A;</code></pre>
+
+<p>Then, I&rsquo;ll execute atomic run test</p>
+<pre class="highlight plaintext"><code>atomic run test&#x000A;echo &#x000A;</code></pre>
+
+<p>Looking at the label using <code>docker inspect</code>, I see that building the container dropped the $() content.</p>
+
+<p>So, I&rsquo;ll change the Dockerfile to quote it.</p>
+<pre class="highlight plaintext"><code>from rhel7&#x000A;LABEL RUN echo '$PWD/.foobar' '--user=$(id -u)'&#x000A;</code></pre>
+
+<p>Build the container</p>
+<pre class="highlight plaintext"><code>docker build -t test .&#x000A;</code></pre>
+
+<p>Let&rsquo;s run it again:</p>
+<pre class="highlight plaintext"><code>atomic run test&#x000A;echo $PWD/.foobar --user=$(id -u)&#x000A;/root/test1/.foobar --user=0&#x000A;</code></pre>
+
+<h3>Success</h3>
+
+<p>Woohoo, it works! If you want to take advantage of environment variables in your <code>LABEL RUN</code> statements, make sure to quote them so they&rsquo;re passed through appropriately.</p>
+
+<p>Have more questions about the <code>atomic</code> command? Leave a comment here, or ask on the <a href="https://lists.projectatomic.io/mailman/listinfo/atomic">atomic@projectatomic.io</a>.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">Atomic</a></li>
+<li><a href="/blog/tag/bash/">Bash</a></li>
+<li><a href="/blog/tag/cli/">CLI</a></li>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2015/04/using-environment-substitution-with-the-atomic-command/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2015/04/using-environment-substitution-with-the-atomic-command/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2015/04/using-environment-substitution-with-the-atomic-command/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

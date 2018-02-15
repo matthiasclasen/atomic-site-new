@@ -1,0 +1,73 @@
+{{define "title"}}Updates to running a sysdig SPC to troubleshoot containers{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Updates to running a sysdig SPC to troubleshoot containers
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/mmicene/">Matthew Micene</a>
+</span>
+&ndash;
+<time class='published' datetime='2015-10-13T14:19:21Z'>
+Tuesday 13 October 2015
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>In a interesting coincidence, the same day we posted <a href="http://www.projectatomic.io/blog/2015/09/using-a-spc-to-troubleshoot-containers/">the super privileged containers post</a> using <a href="www.sysdig.org/">Sysdig</a>, the Sysdig team announced <a href="https://sysdig.com/dig-into-atomic-host/">support for Atomic hosts</a>.  You can take a look at that announcement for how sysdig does it&rsquo;s magic on an Atomic host and which Atomic hosts are supported.</p>
+
+<p>So no more need to build your own sysdig container for your Atomic clusters, you can use the official builds.  Here&rsquo;s what that looks like now.</p>
+
+<p></p>
+
+<p>I exchanged email with the Sysdig team after they noticed the coinciding posts.  After a few exchanges, Gianluca from the Sysdig team not only had solid sets of kernel support for Atomic, but had merged the docker LABEL to get <code>atomic run</code> functional for their upstream container.</p>
+
+<p>Getting a sysdig super privileged container running on an Atomic host is as simple as:</p>
+
+<p><code># atomic run --spc -n sysdig-spc sysdig/sysdig</code></p>
+
+<p>This will give you a container named <code>sysdig-spc</code> and a bash shell as root in the container.  You can run <code>csysdig -pc</code> and start your inspections.  I like to add the <code>-spc</code> to the name of the container, that way I can tell that it has escalated privileges at a glance.</p>
+
+<p>One thing you&rsquo;ll see in the output is that sysdig is checking for the kernel headers–and when it doesn&rsquo;t find them, checks for a precompiled module matching the kernel version.  Those modules get built for each kernel that gets pushed out to the official repos for Fedora, Red Hat, and CentOS.  </p>
+
+<p>Open source for the win!</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic/">atomic</a></li>
+<li><a href="/blog/tag/docker/">docker</a></li>
+<li><a href="/blog/tag/fedora/">fedora</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2015/10/updated-spc-sysdig-container/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2015/10/updated-spc-sysdig-container/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2015/10/updated-spc-sysdig-container/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+</footer>
+</article>
+
+{{end}}

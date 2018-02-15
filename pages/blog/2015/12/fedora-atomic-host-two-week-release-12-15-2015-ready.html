@@ -1,0 +1,87 @@
+{{define "title"}}Fedora Atomic Host Two-Week Release (12-15-2015) Ready!{{end}}
+{{define "body"}}
+
+<article class='post hentry'>
+<header class='post-header'>
+<h2 class='post-title entry-title'>
+Fedora Atomic Host Two-Week Release (12-15-2015) Ready!
+</h2>
+<p class='post-meta'>
+<span class='byline'>
+by
+</span>
+<span class='author vcard'>
+<a href="/blog/author/jzb/">Joe Brockmeier</a>
+</span>
+&ndash;
+<time class='published' datetime='2015-12-17T14:20:54Z'>
+Thursday 17 December 2015
+</time>
+</p>
+</header>
+<section class='post-content entry-content'>
+<p>The Fedora Project&rsquo;s Cloud Working Group is pleased to announce the December 15 two-week Fedora Atomic Host is <a href="https://getfedora.org/en/cloud/download/atomic.html">ready to download</a>. Fedora Atomic Host is optimized to run Docker containers and is on a rapid-release cycle to match the pace of Linux container technology. Note that there will be no release on December 29 due to the holiday.</p>
+
+<p>We release the Fedora Atomic Host builds approximately every two weeks in all the supported formats (installable ISO, qcow2, Vagrant Boxes, and EC2 images), with the most up-to-date snapshot of our stack to work with Linux containers.</p>
+
+<p></p>
+
+<p>The 15 December 2015 release includes updates for <a href="https://bodhi.fedoraproject.org/updates/FEDORA-2015-5917f166c6">Docker</a>, RPM-ostree, and fixes a few <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1290257">filesystem issues with the bare metal install</a>. Changed packages include:</p>
+
+<ul>
+<li>docker-1.9.1-4.git6ec29ef.fc23.x86_64</li>
+<li>ostree-2015.11-2.fc23.x86_64</li>
+</ul>
+
+<p>If you&rsquo;re new to Atomic and want to give it a try, the easiest way is to use Vagrant. You can grab the Vagrant boxes with <code>vagrant init fedora/23-atomic-host</code> and then use <code>vagrant up</code>. If you&rsquo;re already using the two-week releases with Vagrant, just start your box and do <code>sudo atomic host upgrade</code> to grab the latest bits. (Note that there are already newer bits in the Fedora Atomic Host tree, so you should probably do an upgrade anyway!)</p>
+
+<p>The Atomic release is produced by the Fedora Cloud Working Group. We are always looking for additional contributors and folks to help test the releases. If you have questions about the Fedora Atomic release, find us on Freenode in #fedora-cloud or on <a href="https://admin.fedoraproject.org/mailman/listinfo/cloud">cloud@lists.fedoraproject.org</a>.</p>
+
+</section>
+<footer class='post-meta'>
+<div class='tags'>
+Tags:
+<ul class='taglist'>
+<li><a href="/blog/tag/atomic-host/">Atomic Host</a></li>
+<li><a href="/blog/tag/docker/">Docker</a></li>
+<li><a href="/blog/tag/fedora/">Fedora</a></li>
+<li><a href="/blog/tag/fedora-cloud/">Fedora Cloud</a></li>
+</ul>
+</div>
+
+<p>
+<small>Share this post:</small>
+<span class='btn-group' id='social_share'>
+<a class='btn btn-default btn-xs' href='http://twitter.com/share?text=yourtext&amp;url=http://www.projectatomic.io/blog/2015/12/fedora-atomic-host-two-week-release-12-15-2015-ready/' role='button' title='Twitter'>
+<i class='fa fa-twitter'></i>
+Twitter
+</a>
+<a class='btn btn-default btn-xs' href='http://www.facebook.com/sharer.php?u=http://www.projectatomic.io/blog/2015/12/fedora-atomic-host-two-week-release-12-15-2015-ready/' role='button' title='Facebook'>
+<i class='fa fa-facebook'></i>
+Facebook
+</a>
+<a class='btn btn-default btn-xs' href='https://plus.google.com/share?url=http://www.projectatomic.io/blog/2015/12/fedora-atomic-host-two-week-release-12-15-2015-ready/' role='button' title='Google'>
+<i class='fa fa-google-plus'></i>
+Google+
+</a>
+</span>
+</p>
+
+<div class='author-info' id='author-info'>
+<h2>
+About
+Joe Brockmeier
+</h2>
+<div class='author-photo'><img src="https://secure.gravatar.com/avatar/39606c0c942bb877967b5b54b29a9d66" /></div>
+<div class='author-blurb with-photo'>
+<p>Works on Red Hat&rsquo;s Open Source and Standards team. Music junkie, and artist-in-training. Vim lover. Fan of polar bears and cats. Enjoys beer.</p>
+
+<div class='more-link'>
+<a href="/blog/author/jzb/">View all posts by Joe Brockmeier &raquo;</a>
+</div>
+</div>
+</div>
+</footer>
+</article>
+
+{{end}}
