@@ -2,13 +2,40 @@ some ideas for the atomic workstation section
 
 * anatomy of the system
 
-  * filesytem: what is readonly, what isn't: /etc, /var, /home
+  * filesystem: what is readonly, what isn't: /etc, /var, /home
 
-  TBD
+  The root filesystem has the immutable attribute set on OSTree installations,
+  so /, /usr and everything below it is readonly. /var is where all the runtime
+  state is kept. There are some symlinks that put the state-carrying directories
+  in their traditional, expected place:
+
+  /home -> /var/home
+  /etc -> /var/etc
+  /mnt -> /var/mnt
+  /opt -> /var/opt
+
+  and so on. If you have a separate home partition on your system, it should be
+  mounted on /var/home.
 
   * packaging: ostree (base image), rpms (layering), flatpaks (desktop apps), containers (anything else)
 
-  TBD 
+  ostree (and its sibling, rpm-ostree) are responsible for deploying and updating
+  the OS image (ie everything below / that is not symlinked into /var). ostree also
+  contains the necessary logic to update grub.cfg entries to point to the current
+  image.
+
+  rpm-ostree builds on top of ostree, and makes it possible to install rpms as a
+  'layer' on top of an ostree image. In practice, that means you can install rpms
+  as usual, just use rpm-ostree install instead of dnf install. What happens under
+  the covers is that rpm-ostree will compose a new OS image by adding the rpm payload
+  to the existing OS image, and creating a new, combined image. To see the newly
+  installed rpms, you have to reboot into the new image. rpm-ostree also takes care
+  of recreating the layered image whenever you update the base OS image.
+
+  flatpak uses container technologies to deploy and run desktop applications isolated
+  from the underlying OS.
+
+   buildah is a convenient commandline tool for creating and running general containers.
 
 * first steps: how do I...
 
@@ -31,6 +58,12 @@ some ideas for the atomic workstation section
   of the OS, you will have to reboot into the new image to
   have the updates take effect.
  
+  * check for system updates ?
+
+  This command will let you check if updates are available: rpm-ostree upgrade --check.
+  Starting with Fedora 28, gnome-software will also notify you about OS updates, just
+  like it does on the normal workstation.
+
   * update my applications ?
 
   To update your flatpak applications, you can run: flatpak update.
@@ -38,6 +71,26 @@ some ideas for the atomic workstation section
   Note that flatpaks are independent of the base system, so you
   can install updates without a reboot, and just restart affected
   applications afterwards to get the new version.
+
+  * check for application updates ?
+
+  This command will let you check if updates are available: flatpak remote-ls --updates.
+  if you add the -d option, it will generate detailed information about the available
+  updates:
+
+$ flatpak remote-ls --updates -d
+Ref                                                     Origin             Commit       Installed size Download size
+app/com.valvesoftware.Steam/x86_64/stable               flathub            effe21b05e42   6.3 MB         4.1 MB     
+app/org.blender.Blender/x86_64/stable                   flathub            ac90294a1cc3 225.4 MB        79.6 MB     
+runtime/org.freedesktop.Platform.VAAPI.Intel/x86_64/1.6 flathub            818a1504fad1   8.7 MB         2.7 MB     
+runtime/org.gnome.Platform/x86_64/3.24                  flathub            6132154b089b 739.5 MB       281.4 MB     
+runtime/org.gnome.Platform/x86_64/3.26                  flathub            be9fe7b43711 782.5 MB       296.8 MB     
+runtime/org.gnome.Sdk/x86_64/3.26                       flathub            c62d5ddf669a   1.6 GB       582.9 MB     
+runtime/org.kde.Platform/x86_64/5.9                     flathub            ea891f4a918f   1.1 GB       391.0 MB     
+app/org.gnome.Builder/x86_64/master                     gnome-apps-nightly b14e6c0fc6c3 105.0 MB        35.4 MB    
+
+  gnome-software will also notify you about application updates, just like it does
+  on the normal workstation.
 
   * get onto a new OS release ? Do I have to reinstall ?
 
