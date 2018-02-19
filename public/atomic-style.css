@@ -25,7 +25,7 @@ header#baseheader nav a:hover {background: #46d200; transition: background-color
 
 article {margin: 0% 25%; background: #fff; width: 60%; padding: 2%; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;}
 
-article section.boxes {display: inline-grid; grid-template-columns: repeat(2, 1fr); grid-gap: 2.5em; padding: 0.5em;}
+article section.boxes {display: inline-grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); grid-gap: 2.5em; padding: 0.5em;}
 article section.boxes section {padding: 1em;}
 article section.boxes section h2 {background: #1b202a; color: #fff; padding: 0.5em 0 0.5em 0; text-align: center;}
 
@@ -59,7 +59,7 @@ article h4 {font-size: 110%; font-weight: bold; margin: 2% 0 2% 0; color: #1b202
 .post-meta {font-size: 80%; text-align: center; margin: 0% 0% 2% 0%;}
 
 article a {text-decoration: none; color: #1b202a; font-weight: bold; font-size: 95%; border-bottom: 2px solid #46d200;}
-article a::before {content: "\2b8a"; vertical-align: middle; color: #46d200; margin: 0% 0.2em 0% 0%;}
+article a::before {content: "\25a0"; vertical-align: middle; color: #46d200; margin: 0% 0.2em 0% 0%;}
 article a:hover {border-bottom: 2px solid #1b202a;}
 article a:hover::before {color: #1b202a; transition: color 300ms ease-in;}
 
