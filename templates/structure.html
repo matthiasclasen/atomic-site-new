@@ -1,42 +1,59 @@
 {{define "structure"}}
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en" >
+
 <head>
-<meta charset="utf-8">
-<meta name="description" content="{{template `title`}}" />
-<meta name="viewport" content="width=device-width, user-scalable=yes" />
-<link rel="shortcut icon" href="/public/images/favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Overpass|Overpass+Mono" rel="stylesheet">
-<link rel="stylesheet" href="/public/atomic-style.css">
-<title>{{template "title"}}</title>
-<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes, minimal-ui">
+  <meta name="theme-color" content="#1b202a" />
+  <meta name="description" content="{{template `title`}}" />
+  
+  
+  <link rel="shortcut icon" href="/public/images/favicon.ico">
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Overpass|Overpass+Mono'>
+  <link rel="stylesheet" href="/public/atomic-style.css">
+
+  <title>{{template "title"}}</title>
 </head>
+
 <body>
-<header id="baseheader">
-  <p class="center"><a href="/"><img alt="Project Atomic logo" width=200 height=200 src="/public/images/atomic.svg"></a></p>
-  <nav>
-    <a href="/"><span class="fas fa-question fa-fw"></span>&nbsp;&nbsp;Project Atomic</a>
-    <a href="/download/"><span class="fas fa-download fa-fw"></span>&nbsp;&nbsp;Download</a>
-    <hr>
-    <a href="/blog/"><span class="fas fa-newspaper fa-fw"></span>&nbsp;&nbsp;Blog</a>
-    <a href="/docs/"><span class="fas fa-book fa-fw"></span>&nbsp;&nbsp;Documentation</a>
-    <a href="/talks/"><span class="fas fa-video fa-fw"></span>&nbsp;&nbsp;Talks</a>
-    <hr>
-    <a href="/community/"><span class="fas fa-users fa-fw"></span>&nbsp;&nbsp;Community</a>
-    <a href="/contribute/"><span class="fas fa-gift fa-fw"></span>&nbsp;&nbsp;Contribute</a>
-  </nav>
-</header>
+  <div class="wrapper">
+  <header>
+    <div id="atomic-logo">
+      <a href="/">
+        <img alt="Project Atomic logo" src="/public/images/atomic.svg" width="200" height="200">
+      </a>
+    </div>
+    <nav>
+      <a href="/">Project Atomic</a>
+      <a href="/download">Download</a>
+      <hr>
+      <a href="/blog">Blog</a>
+      <a href="/docs">Documentation</a>
+      <a href="/talks">Talks</a>
+      <hr>
+      <a href="/community">Community</a>
+      <a href="/contribute">Contribute</a>
+    </nav>
+  </header>
 
-{{template "body" .}}
+  <main>
+  {{template "body" .}}
+  </main>
 
-<footer id="basefooter">
-<nav>
-  <a href="https://twitter.com/projectatomic"><span class="fab fa-twitter"></span> Twitter</a>
-  <a href="irc://irc.freenode.org:6667/#atomic"><span class="fas fa-comments"></span> IRC</a>
-  <a href="https://github.com/projectatomic/atomic-site"><span class="fab fa-github"></span> GitHub</a>
-  <a href="http://www.projectatomic.io/blog/feed.xml"><span class="fas fa-rss"></span> RSS</a>
-</nav>
-<p>&copy; 2014&ndash;2018 Project Atomic. Sponsored by Red Hat, Inc.<p>
-</footer>
+  <footer>
+    <nav>
+      <a href="https://twitter.com/projectatomic">Twitter</a>
+      <a href="irc://irc.freenode.org:6667/#atomic">IRC</a>
+      <a href="https://github.com/projectatomic/atomic-site">Github</a>
+      <a href="http://www.projectatomic.io/public/feed.xml">RSS</a>
+    </nav>
+    <p id="copywrite">
+      &copy; 2014&ndash;2018 Project Atomic.<br>Sponsored by Red Hat, Inc.
+    </p>
+  </footer>
+</div>
+
 </body>
 </html>
 {{end}}
