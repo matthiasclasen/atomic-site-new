@@ -121,6 +121,17 @@ main article a:hover::before {
   transition: color 300ms ease-in;
 }
 
+main article.archive a {
+  display: block;
+  line-height: 1.5rem;
+  border: 0;
+  text-decoration: #46d200 underline;
+}
+
+main article.archive a:hover {
+  text-decoration-color: #1b202a;
+}
+
 main article section.boxes {
   display: inline-grid;
   grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
